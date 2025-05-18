@@ -1,0 +1,88 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\jphil\\Medieval_Idle\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|C:\\Users\\jphil\\Medieval_Idle\\assets\\scripts\\ui\\camp_resource_slot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\camp_resource_slot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|C:\\Users\\jphil\\Medieval_Idle\\assets\\scripts\\ui\\populate_camp_slots.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\populate_camp_slots.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|c:\\users\\jphil\\medieval_idle\\assets\\scripts\\core\\actioncamphandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\core\\actioncamphandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|c:\\users\\jphil\\medieval_idle\\assets\\scripts\\ui\\required_resource_slot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\required_resource_slot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 2,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "ActionCampHandler.cs",
+              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\Core\\ActionCampHandler.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Core\\ActionCampHandler.cs",
+              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\Core\\ActionCampHandler.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Core\\ActionCampHandler.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAAA0AAAA1AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-18T19:12:37.149Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Required_Resource_Slot.cs",
+              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\Required_Resource_Slot.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Required_Resource_Slot.cs",
+              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\Required_Resource_Slot.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\Required_Resource_Slot.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-18T18:59:22.826Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "Camp_Resource_Slot.cs",
+              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\Camp_Resource_Slot.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Camp_Resource_Slot.cs",
+              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\Camp_Resource_Slot.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\Camp_Resource_Slot.cs",
+              "ViewState": "AQIAABYAAAAAAAAAAAAgwC4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-18T18:12:08.177Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "Populate_Camp_Slots.cs",
+              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\Populate_Camp_Slots.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Populate_Camp_Slots.cs",
+              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\Populate_Camp_Slots.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\Populate_Camp_Slots.cs",
+              "ViewState": "AQIAACUAAAAAAAAAAAAawEMAAAANAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-18T18:10:19.676Z",
+              "EditorCaption": ""
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

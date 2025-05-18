@@ -1,0 +1,40 @@
+# Unity generated files
+[Ll]ibrary/
+[Tt]emp/
+[Oo]bj/
+[Bb]uild/
+[Bb]uilds/
+[Ll]ogs/
+UserSettings/
+MemoryCaptures/
+
+# Auto-generated VS/VSCode files
+*.csproj
+*.sln
+*.user
+*.pidb
+*.suo
+*.userprefs
+*.unityproj
+
+# Crash reports
+sysinfo.txt
+
+# Gradle files
+.gradle/
+*.apk
+*.aab
+
+# Unity Cloud Build
+[Uu]ser[Aa]ssets/
+
+# Backup and cache files
+*.bak
+*.tmp
+*.cache
+
+# Other
+*.swp
+.DS_Store
+.vscode/
+.idea/
