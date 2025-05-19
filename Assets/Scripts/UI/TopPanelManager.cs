@@ -19,7 +19,13 @@ public class TopPanelManager : MonoBehaviour
 
     }
 
+    public void UpdateTownPopulation()
+    {
+        playerPopText.text = DataGameManager.instance.CurrentVillagerCount.ToString() + "/" + DataGameManager.instance.MaxVillagerCapacity;
+
+    }
 
 
-   
+
+
 }

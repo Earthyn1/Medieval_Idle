@@ -6022,8 +6022,8 @@ MonoBehaviour:
   currentActiveCamp: 0
   MaxInventorySlots: 12
   PlayerGold: 0
-  MaxVillagerCapacity: 5
-  CurrentVillagerCount: 5
+  MaxVillagerCapacity: 6
+  CurrentVillagerCount: 6
   tierShield: {fileID: 0}
   FishingCampCsv: {fileID: 4900000, guid: 65bef5909b5d9484bb465e40cf2ae667, type: 3}
   BlacksmithCsv: {fileID: 4900000, guid: ee8e44d3532711246aad955861655889, type: 3}

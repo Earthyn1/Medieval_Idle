@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class ActionCampHandler : MonoBehaviour
 {
+
+
     void Update()
     {
         foreach (var entry in DataGameManager.instance.activeCamps.ToList())
@@ -64,6 +66,5 @@ public class ActionCampHandler : MonoBehaviour
         // Fallback if no item matched (edge case)
         Debug.Log("No item acquired. Drop chances may not sum up to 100.");
     }
-
 
 }

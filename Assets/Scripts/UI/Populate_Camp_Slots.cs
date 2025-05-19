@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using static UnityEngine.EventSystems.EventTrigger;
 using System;
 using Unity.VisualScripting;
+using System.Linq;
+using static UnityEditor.Progress;
 
 
 public class Populate_Camp_Slots : MonoBehaviour
@@ -21,9 +23,6 @@ public class Populate_Camp_Slots : MonoBehaviour
         ScrollRect scrollRect = scrollWindow.GetComponentInParent<ScrollRect>();
         scrollRect.verticalNormalizedPosition = 1f;  // Top
 
-        
-
-
 
         foreach (Transform child in parentContainer) // Clear existing slots
         {
@@ -35,9 +34,6 @@ public class Populate_Camp_Slots : MonoBehaviour
             Destroy(child.gameObject);
         }
 
-   
-
-
 
         foreach (var slot in campData)
         {
@@ -47,7 +43,7 @@ public class Populate_Camp_Slots : MonoBehaviour
             slotScript.actionName.text = slot.Value.resourceName;
             slotScript.FGImage.sprite = slot.Value.image2D;
             slotScript.BGImage.sprite = slot.Value.bgImage;
-            slotScript.popCount.text = slot.Value.populationCost.ToString();   
+            slotScript.popCount.text = slot.Value.populationCost.ToString();
             newSlot.name = $"Slot_{slot.Key}";
 
             // Check if the slot has required items
@@ -63,15 +59,20 @@ public class Populate_Camp_Slots : MonoBehaviour
 
                     required_Resource_SlotScript.itemimage.sprite = requireditem_Data.ItemImage;
                     required_Resource_SlotScript.itemimage_2.sprite = requireditem_Data.ItemImage;
+                    required_Resource_SlotScript.itemqty.text = item.qty.ToString();
+                    required_Resource_SlotScript.itemID = item.item;
 
+                    required_Resource_SlotScript.itemqty.color =
+                    DataGameManager.instance.TownStorage_List.Any(slot =>
+                    slot.ItemID == item.item && slot.Quantity >= item.qty)
+                    ? Color.green
+                    : Color.red;
                 }
             }
             else
             {
-                Debug.LogWarning("No required items found for slot: " + slot.Key);
+                // Debug.LogWarning("No required items found for slot: " + slot.Key);
             }
-
-
 
             // Create a new CampActionData for this slot
             CampActionData campActionData = new CampActionData(
@@ -85,7 +86,7 @@ public class Populate_Camp_Slots : MonoBehaviour
                 slot.Value.bgImage,
                 slot.Value.campType,
                 slot.Value.ProducedItems,
-                slot.Value.RequiredItems                                      
+                slot.Value.RequiredItems
                 );
 
             // Try to find existing active entry by matching resourceName or other unique key
@@ -120,6 +121,46 @@ public class Populate_Camp_Slots : MonoBehaviour
         }
 
     }
+
+    public void UpdateRequiredResource_Colors()
+    {
+        foreach (Transform slot in parentContainer)
+        {
+            Camp_Resource_Slot slotScript = slot.GetComponent<Camp_Resource_Slot>();
+            CampActionData slotcampData = slotScript.campActionData.CampData;
+
+            // Check for required resource slots
+            if (slotScript.requiredResource_Parent.transform.childCount > 0)
+            {
+                foreach (Transform child in slotScript.requiredResource_Parent.transform)
+                {
+                    
+                    // Get the script from each child slot
+                    Required_Resource_Slot childScript = child.GetComponent<Required_Resource_Slot>();
+
+                    if (childScript != null) // Check if the script exists
+                    {
+                        // Find the matching item from the required items list
+                        var requiredItem = slotcampData.RequiredItems
+                            .FirstOrDefault(item => item.item == childScript.itemID);
+
+                        if (requiredItem != null)
+                        {
+                            // Update the item quantity text
+                            childScript.itemqty.text = requiredItem.qty.ToString();
+
+                            // Check if the player has enough items and update the text color
+                            bool hasEnough = DataGameManager.instance.TownStorage_List.Any(slot =>
+                                slot.ItemID == requiredItem.item && slot.Quantity >= requiredItem.qty);
+
+                            childScript.itemqty.color = hasEnough ? Color.green : Color.red;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
 }
 
 

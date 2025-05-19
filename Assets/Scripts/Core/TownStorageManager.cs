@@ -166,6 +166,8 @@ public static class TownStorageManager
 
     public static void RefreshAllSlotsUI()
     {
+        DataGameManager.instance.populate_Camp_Slots.UpdateRequiredResource_Colors();
+
         if (DataGameManager.instance.currentActiveCamp != CampType.TownStorage) return;
 
         var storageList = DataGameManager.instance.TownStorage_List;
@@ -200,6 +202,8 @@ public static class TownStorageManager
         int occupiedCount = storageList.Count(s => !string.IsNullOrEmpty(s.ItemID) && s.Quantity > 0);
         storageQtyText.text = $"{occupiedCount}/{DataGameManager.instance.MaxInventorySlots}";
         storageSellManager.UpdateUI();
+
+        
     }
 
 
