@@ -1,0 +1,7 @@
+,Item ID,Item Name,Description,Item Image,Item Sell Price,Stack Size Sold,Item Locked?
+Apple,Apple,Apple,"A vibrant red apple, I bet you can eat this!",Apple_Item,6,1,FALSE
+RoughLeather,RoughLeather,Rough Leather,Leather Scraps,RoughLeather_Item,10,1,FALSE
+MapleLog,MapleLog,Maple Log,A simple birch log,MapleLog_Item,8,1,FALSE
+Stone,Stone,Stone,Just stone,Stone_Item,3,1,FALSE
+CopperNails,CopperNails,Copper Nails,"Whilst weaker, copper nails are still durable for everyday construction",Copper_Nails,7,5,FALSE
+Thornhopper,Thornhopper,Thornhopper,Bait,Thornhopper_Item,20,5,TRUE

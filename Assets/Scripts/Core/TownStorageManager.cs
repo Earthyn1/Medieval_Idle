@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
-using static UnityEditor.Progress;
 
 
 
@@ -15,7 +14,7 @@ public static class TownStorageManager
     public static GameObject currentlySelectedInventorySlot;
     private static Coroutine uiRefreshCoroutine;
 
-    public static void AddItem(string itemID, int amount)
+    public static void AddItem(string itemID, int amount, CampType campType)
     {
         if (!DataGameManager.instance.itemData_Array.TryGetValue(itemID, out ItemData_Struc item))
         {
@@ -74,7 +73,8 @@ public static class TownStorageManager
         {
             Debug.LogWarning("Inventory full! Could not add all items.");
         }
-                
+
+        DataGameManager.instance.item_XP_FeedManager.AddItemFeedSlot(itemID, amount, campType); //Add item to itemFeed
         RefreshAllSlotsUI();
     }
 
@@ -166,6 +166,7 @@ public static class TownStorageManager
 
     public static void RefreshAllSlotsUI()
     {
+        UpdateTownStorage_Count();
         DataGameManager.instance.populate_Camp_Slots.UpdateRequiredResource_Colors();
 
         if (DataGameManager.instance.currentActiveCamp != CampType.TownStorage) return;
@@ -196,14 +197,31 @@ public static class TownStorageManager
             {
                 slotUI.SetAsEmpty();
             }
+        }  
+    }
+
+    public static int GetCurrentQuantity(string itemID)
+    {
+        int total = 0;
+
+        for (int i = 0; i < DataGameManager.instance.TownStorage_List.Count; i++)
+        {
+            if (DataGameManager.instance.TownStorage_List[i].ItemID == itemID)
+            {
+                total += DataGameManager.instance.TownStorage_List[i].Quantity;
+            }
         }
 
-        // Update the storage count text showing occupied slots count or total slots (your choice)
-        int occupiedCount = storageList.Count(s => !string.IsNullOrEmpty(s.ItemID) && s.Quantity > 0);
+        return total;
+    }
+
+    public static void UpdateTownStorage_Count()
+
+    {
+        var storageList = DataGameManager.instance.TownStorage_List;
+        int occupiedCount = storageList.Count(s => !string.IsNullOrEmpty(s.ItemID) && s.Quantity > 0); // Update the storage count text 
         storageQtyText.text = $"{occupiedCount}/{DataGameManager.instance.MaxInventorySlots}";
         storageSellManager.UpdateUI();
-
-        
     }
 
 

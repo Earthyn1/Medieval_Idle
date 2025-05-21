@@ -1,5 +1,8 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
+using JetBrains.Annotations;
+
 
 public class XPSystem : MonoBehaviour
 {
@@ -39,6 +42,7 @@ public static class XPManager
 {
     public static CampButtonUpdater campverticalLayout;
     public static CampProgressBar campProgressBar;
+    public static LevelUpNotification_Manager levelUpNotification;
 
 
 
@@ -122,13 +126,17 @@ public static class XPManager
             // Add XP to the current camp's XP
             campData.currentXP += xpToAdd;
 
-            if(campType == DataGameManager.instance.currentActiveCamp)
+            // Add the XP as a feed
+            CampTypeData match = DataGameManager.instance.campTypeDataList.FirstOrDefault(c => c.campType == campType);
+
+            Debug.Log($"CampType: {match.campType}, CampImage: {match.campImage}");
+
+            DataGameManager.instance.item_XP_FeedManager.AddXPFeedSlot(xpToAdd.ToString(), match.campImage, match.campType);
+
+            if (campType == DataGameManager.instance.currentActiveCamp)
             {
                 campProgressBar.UpdateProgressBar(campType);
             }
-
-           
-
 
             // Check if the camp can level up d
             if (CanLevelUp(campType))
@@ -142,6 +150,13 @@ public static class XPManager
                     campData.currentLevel = newLevel;
                     campverticalLayout.UpdateCampButtonLevel(campType); //update the side button xp aswell!
                     campProgressBar.UpdateProgressBar(campType);
+                    levelUpNotification.LevelUpNotificationSetup(campType);
+
+                    if (campType == DataGameManager.instance.currentActiveCamp) //only refresh if we are on that camp panel.
+                    {
+                        var campDataDict = DataGameManager.instance.GetCampData(campType); //update the camps visuals to reflect unlocked camps!
+                        DataGameManager.instance.populate_Camp_Slots.PopulateSlots(campDataDict);
+                    }
 
                     Debug.Log($"{campType} leveled up to {campData.currentLevel}!");
                     return true;  // Indicates that the camp leveled up
@@ -152,10 +167,10 @@ public static class XPManager
         {
             Debug.LogWarning($"CampType {campType} not found in campXP dictionary.");
         }
-
         return false;  // No level up
     }
 
+   
 
 
 }

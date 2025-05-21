@@ -15,3 +15,4 @@ MonoBehaviour:
   campType: 2
   campImage: {fileID: 21300000, guid: 769f86bffb5afda42a2079ff3e708805, type: 3}
   campName: Construction Camp
+  campTierImage: {fileID: 21300000, guid: ea6435cd9dae67b4fada8c215f27ac69, type: 3}

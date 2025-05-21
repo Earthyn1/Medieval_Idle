@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: FishingCamp_Enum
   m_EditorClassIdentifier: 
   campType: 3
-  campImage: {fileID: 3539517282536894737, guid: bf0d05ac63cb6ca4eb48caae58766c7b, type: 3}
+  campImage: {fileID: 21300000, guid: bf0d05ac63cb6ca4eb48caae58766c7b, type: 3}
   campName: Fishing Camp
+  campTierImage: {fileID: 21300000, guid: 64db666b157a4fc48851e366231d842b, type: 3}

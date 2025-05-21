@@ -19,4 +19,5 @@ public class CampTypeData : ScriptableObject
     public CampType campType;
     public Sprite campImage;
     public string campName;
+    public Sprite campTierImage;
 }

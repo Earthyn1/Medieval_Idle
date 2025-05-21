@@ -40,7 +40,8 @@ public class BaseCVSLoader : MonoBehaviour
             float completeTime = TryGetFloat(fields, 6);
             string image2DName = TryGetString(fields, 7);
             string bgImageName = TryGetString(fields, 8);
-            CampType campType = Enum.TryParse(TryGetString(fields, 12), out CampType result) ? result : default;
+            CampCategorys campCategory = Enum.TryParse(TryGetString(fields, 9), out CampCategorys categoryResult) ? categoryResult : default;
+            CampType campType = Enum.TryParse(TryGetString(fields, 12), out CampType typeResult) ? typeResult : default;
 
             // Extract optional fields
             string producedItemsString = fields.Length > 10 ? fields[10].Trim('"') : "";
@@ -59,7 +60,7 @@ public class BaseCVSLoader : MonoBehaviour
             List<SimpleItemData> requiredItems = ParseItemList(requiredItemsString);
 
             // Create IdleSlot with the complete data
-            CampActionData slot = new CampActionData(resourceName, description, populationCost, levelUnlocked, xpGiven, completeTime, image2D, bgImage, campType, producedItems, requiredItems);
+            CampActionData slot = new CampActionData(resourceName, description, populationCost, levelUnlocked, xpGiven, completeTime, image2D, bgImage, campType, campCategory,  producedItems, requiredItems);
 
             // Add the slot to the dictionary
             campActionData.Add(resourceName, slot);

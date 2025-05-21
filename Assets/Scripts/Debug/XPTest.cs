@@ -33,13 +33,13 @@ public class XPTest : MonoBehaviour
         // Check if the "F" key is pressed
         if (Input.GetKeyDown(KeyCode.F))
         {
-            TownStorageManager.AddItem("BirchBeam", 4);
+            TownStorageManager.AddItem("MapleLog", 2, CampType.ConstructionCamp);
         }
 
         // Check if the "R" key is pressed
         if (Input.GetKeyDown(KeyCode.R))
         {
-            TownStorageManager.RemoveItem("BirchBeam", 5);
+            DataGameManager.instance.tutorialManager.NextStep();
 
 
         }

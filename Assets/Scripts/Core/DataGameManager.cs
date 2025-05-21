@@ -13,6 +13,8 @@ public class DataGameManager : MonoBehaviour
     [HideInInspector]
     public Populate_Storage_Slots populate_Storage_Slots;
     [HideInInspector]
+    public Populate_Local_Market_Slots populate_Local_Market_Slots;
+    [HideInInspector]
     public GameObject SelectedButton;
     [HideInInspector]
     public CampType currentActiveCamp;
@@ -21,7 +23,17 @@ public class DataGameManager : MonoBehaviour
     public int PlayerGold = 0;
     public int MaxVillagerCapacity =5;
     public int CurrentVillagerCount = 5;
+    [HideInInspector]
     public GameObject tierShield;
+    public int CurrentContentLevelAvailable = 30;
+    [HideInInspector]
+    public CampCategorys currentCampCategory;
+    [HideInInspector]
+    public GameObject CurrentCategoryUISelected;
+    [HideInInspector]
+    public Item_XP_FeedManager item_XP_FeedManager;
+    [HideInInspector]
+    public TutorialManager tutorialManager;
 
 
     public Dictionary<int, int> levelXp; //levelXp is the 1-99 xp amounts
@@ -54,6 +66,12 @@ public class DataGameManager : MonoBehaviour
     public  Dictionary<string, ItemData_Struc> itemData_Array;
     //Current Town Storage dictionary
     public List<StorageSlot> TownStorage_List = new List<StorageSlot>();
+    //Local Market dictionary
+    public Dictionary<string, LocalMarket_Items> localMarket_Items_List;
+   
+    //List of the CampTypeData Struc
+    public List<CampTypeData> campTypeDataList;
+
 
 
     public static DataGameManager instance;
@@ -63,6 +81,7 @@ public class DataGameManager : MonoBehaviour
         BaseCSVLoader = GetComponent<BaseCVSLoader>();
         populate_Camp_Slots = GetComponent<Populate_Camp_Slots>();
         populate_Storage_Slots = GetComponent<Populate_Storage_Slots>();
+        populate_Local_Market_Slots = GetComponent<Populate_Local_Market_Slots>();  
 
         for (int i = 0; i < MaxInventorySlots; i++)
         {

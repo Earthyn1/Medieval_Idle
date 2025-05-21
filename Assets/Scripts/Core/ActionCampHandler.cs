@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class ActionCampHandler : MonoBehaviour
 {
@@ -19,7 +20,27 @@ public class ActionCampHandler : MonoBehaviour
             if (entry.IsCompleted())
             {
                 CompleteCampAction(entry);
-                entry.RestartTimer();  // Automatically restart the timer
+
+                if (HasEnoughResources(entry))
+                {
+                    entry.RestartTimer();  // Automatically restart the timer
+                }
+                else
+                {
+                    Debug.Log("Not enough resource to restart action");
+
+                    if (entry.Slot == null)
+                    {
+                        DataGameManager.instance.activeCamps.Remove(entry);
+                        DataGameManager.instance.CurrentVillagerCount = DataGameManager.instance.CurrentVillagerCount + entry.CampData.populationCost;
+                        DataGameManager.instance.topPanelManager.UpdateTownPopulation();
+                       
+                    }
+                    else
+                    {
+                        entry.Slot.DeactivateActionSlot();
+                    }
+                }
             }
         }
     }
@@ -56,9 +77,9 @@ public class ActionCampHandler : MonoBehaviour
             if (roll <= accumulatedChance)
             {
                 Debug.Log($"Item acquired: {producedItem.item}, Qty: {producedItem.qty}");
-
+    
                 // Add item to inventory
-                TownStorageManager.AddItem(producedItem.item, producedItem.qty);
+                TownStorageManager.AddItem(producedItem.item, producedItem.qty, campData.CampData.campType);
                 return;
             }
         }
@@ -66,5 +87,32 @@ public class ActionCampHandler : MonoBehaviour
         // Fallback if no item matched (edge case)
         Debug.Log("No item acquired. Drop chances may not sum up to 100.");
     }
+
+    public void CheckforRequiredResourceRemoval(CampActionEntry entry)
+    {
+        if (entry.CampData.RequiredItems.Count > 0)
+        {
+            foreach (SimpleItemData item in entry.CampData.RequiredItems)
+            {
+                TownStorageManager.RemoveItem(item.item, item.qty);
+            }
+        }
+    }
+
+    public bool HasEnoughResources(CampActionEntry campData)
+    {
+        bool hasEnough = campData.CampData.RequiredItems.All(item =>
+            DataGameManager.instance.TownStorage_List.Any(slot =>
+                slot.ItemID == item.item && slot.Quantity >= item.qty));
+
+        if (hasEnough)
+        {
+            CheckforRequiredResourceRemoval(campData);
+        }
+
+        return hasEnough;
+    }
+
+
 
 }

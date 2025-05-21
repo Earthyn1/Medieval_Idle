@@ -15,3 +15,4 @@ MonoBehaviour:
   campType: 1
   campImage: {fileID: 21300000, guid: f97dd665cefd165469588dfa8efa156b, type: 3}
   campName: Blacksmith
+  campTierImage: {fileID: 21300000, guid: cf08cf42100a88f428804b42335bfe46, type: 3}

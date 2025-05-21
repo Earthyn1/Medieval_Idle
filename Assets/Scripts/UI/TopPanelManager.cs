@@ -6,6 +6,7 @@ public class TopPanelManager : MonoBehaviour
     public Text campName;
     public Text goldText;
     public Text playerPopText;
+    public GameObject campNameParent;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()

@@ -13,8 +13,15 @@ public class StorageSellManager : MonoBehaviour
     public Text finalPrice;
     public Slider slider;
     public GameObject parentBox;
-    
-    
+    public Text singleCostText;
+    public Text buySellText;
+    public Text buySellText_2;
+    public CanvasGroup SellBuyButtonCanvasGroup;
+    public Texture2D StorageBGImage;
+    public Texture2D MarketBGImage;
+    public Image BG_Banner;
+
+
 
     private ItemData_Struc currentItemSelected;
 
@@ -30,10 +37,31 @@ public class StorageSellManager : MonoBehaviour
             var slotTransform = TownStorageManager.currentlySelectedInventorySlot.transform;
             int slotIndex = slotTransform.GetSiblingIndex();
 
-            TownStorageManager.RemoveItemFromSlot(slotIndex, (int)slider.value);
-            Debug.Log("Removed item");
-            DataGameManager.instance.PlayerGold += int.Parse(finalPrice.text);
-            DataGameManager.instance.topPanelManager.UpdateGold();
+            Item_Slot_Base script = TownStorageManager.currentlySelectedInventorySlot.GetComponent<Item_Slot_Base>();
+
+            if (!script.isLocalMarketSlot)
+            {
+                TownStorageManager.RemoveItemFromSlot(slotIndex, (int)slider.value); //If selling from storage code
+                Debug.Log("Removed item");
+                DataGameManager.instance.PlayerGold += int.Parse(finalPrice.text);
+                DataGameManager.instance.topPanelManager.UpdateGold();
+            }
+            else
+            {
+                if(DataGameManager.instance.PlayerGold >= int.Parse(finalPrice.text)) //Buying stuff from market
+                {
+                    Item_Slot_Base itemscript = TownStorageManager.currentlySelectedInventorySlot.GetComponent<Item_Slot_Base>();
+                    TownStorageManager.AddItem(itemscript.LocalMarketItemData.itemID, int.Parse(currentQtySelected.text), CampType.LocalMarket); //If selling from storage code
+                    DataGameManager.instance.PlayerGold -= int.Parse(finalPrice.text);
+                    DataGameManager.instance.topPanelManager.UpdateGold();
+                    UpdateUI();
+                    Debug.Log("updatedGold");
+                }
+                else
+                {
+
+                }
+            }
         }
         else
         {
@@ -42,8 +70,7 @@ public class StorageSellManager : MonoBehaviour
     }
 
     public void SetupUpUI(string itemID)
-    {
-        
+        { 
             parentBox.SetActive(true);
             DataGameManager.instance.itemData_Array.TryGetValue(itemID, out var data);
             Item_Slot_Base script = TownStorageManager.currentlySelectedInventorySlot.GetComponent<Item_Slot_Base>();
@@ -54,12 +81,57 @@ public class StorageSellManager : MonoBehaviour
             itemSinglePrice.text = data.ItemSellPrice.ToString();
             itemType.text = data.ItemType;
             itemMaxQty.text = script.itemDataBasic.Quantity.ToString();
-
+            singleCostText.text = "Single sell cost";
+            buySellText.text = "Sell";
+            buySellText_2.text = "Sell";
+            SellBuyButtonCanvasGroup.alpha = 1f;
             slider.maxValue = script.itemDataBasic.Quantity;
             slider.minValue = 1f;
             slider.value = (1 + float.Parse(itemMaxQty.text)) / 2;
+        }
 
+    public void SetupBanner(Texture2D texture)
+    {
+        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+        BG_Banner.sprite = sprite;
+    }
 
+    public void SetupUpUI_Market(string itemID)
+    {
+       
+        parentBox.SetActive(true);
+        DataGameManager.instance.itemData_Array.TryGetValue(itemID, out var data);
+        Item_Slot_Base script = TownStorageManager.currentlySelectedInventorySlot.GetComponent<Item_Slot_Base>();
+        currentItemSelected = data;
+        itemName.text = data.ItemName;
+        itemDescription.text = data.Description;
+        itemImage.sprite = data.ItemImage;
+        itemType.text = data.ItemType;
+        singleCostText.text = "Single buy cost";
+        buySellText.text = "Buy";
+        buySellText_2.text = "Buy";
+        DataGameManager.instance.localMarket_Items_List.TryGetValue(itemID, out var localmarketItemData);
+        itemSinglePrice.text = localmarketItemData.itemSellPrice.ToString();
+
+        int itemMaxpurchaseqty = DataGameManager.instance.PlayerGold / localmarketItemData.itemSellPrice;
+
+        if (DataGameManager.instance.PlayerGold >= int.Parse(finalPrice.text))
+        {
+            SellBuyButtonCanvasGroup.alpha = 1f;
+        }
+        else
+        {
+
+            SellBuyButtonCanvasGroup.alpha = 0.5f;
+
+        }
+
+        itemMaxpurchaseqty = Mathf.Max(1, itemMaxpurchaseqty);
+        itemMaxQty.text = itemMaxpurchaseqty.ToString();
+        slider.maxValue = itemMaxpurchaseqty;
+
+        slider.minValue = 1f;
+        slider.value = (1 + itemMaxpurchaseqty) / 2f;
     }
 
     public void SetasNothingSelected()
@@ -75,26 +147,60 @@ public class StorageSellManager : MonoBehaviour
 
     public void UpdateUI()
     {
-  
         if (TownStorageManager.currentlySelectedInventorySlot != null)
         {
             Item_Slot_Base script = TownStorageManager.currentlySelectedInventorySlot.GetComponent<Item_Slot_Base>(); //get ref to itemslot
-            if (script.itemDataBasic.Quantity == 0) 
+
+            if (!script.isLocalMarketSlot) 
             {
-                SetasNothingSelected();
+                if (script.itemDataBasic.Quantity == 0)
+                {
+                    SetasNothingSelected();
+                }
+                else //First area for inventory
+                {
+                    itemMaxQty.text = script.itemDataBasic.Quantity.ToString();
+                    slider.maxValue = script.itemDataBasic.Quantity; //setup slider and the values.
+                    slider.minValue = 1f;
+                    slider.value = Mathf.Clamp(slider.value, 1f, slider.maxValue = script.itemDataBasic.Quantity);
+                    currentQtySelected.text = slider.value.ToString();
+                    finalPrice.text = ((int)slider.value * int.Parse(itemSinglePrice.text)).ToString();
+
+                }
+                SellBuyButtonCanvasGroup.alpha = 1f;
+
             }
-            else
+            else //This is for local market
             {
-                itemMaxQty.text = script.itemDataBasic.Quantity.ToString();
-                slider.maxValue = script.itemDataBasic.Quantity; //setup slider and the values.
+                // Calculate max stacks the player can afford
+                int maxStacks = DataGameManager.instance.PlayerGold / script.LocalMarketItemData.itemSellPrice;
+                maxStacks = Mathf.Max(1, maxStacks); // Ensure it's at least 1
+
                 slider.minValue = 1f;
-                slider.value = Mathf.Clamp(slider.value, 1f, slider.maxValue = script.itemDataBasic.Quantity);
-                currentQtySelected.text = slider.value.ToString();
-                finalPrice.text = ((int)slider.value * int.Parse(itemSinglePrice.text)).ToString();
+                slider.maxValue = maxStacks;
+
+                slider.value = Mathf.Clamp(slider.value, slider.minValue, slider.maxValue);
+
+                int totalQuantity = (int)slider.value * script.LocalMarketItemData.itemStackSizeSold;
+
+                itemMaxQty.text = (maxStacks * script.LocalMarketItemData.itemStackSizeSold).ToString();
+                currentQtySelected.text = totalQuantity.ToString();
+                finalPrice.text = ((int)slider.value * script.LocalMarketItemData.itemSellPrice).ToString();
+
+                if (DataGameManager.instance.PlayerGold >= int.Parse(finalPrice.text))
+                {
+                    SellBuyButtonCanvasGroup.alpha = 1f;
+                }
+                else
+                {
+                    
+                    SellBuyButtonCanvasGroup.alpha = 0.5f;
+                    
+                }
+
+
+
             }
-
-        }
-
-     
+        } 
     }
 }

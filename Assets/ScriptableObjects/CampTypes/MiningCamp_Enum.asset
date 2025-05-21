@@ -13,5 +13,6 @@ MonoBehaviour:
   m_Name: MiningCamp_Enum
   m_EditorClassIdentifier: 
   campType: 4
-  campImage: {fileID: -6943612609481543559, guid: 7fde46cd0064d94478f4fc3026da1aef, type: 3}
+  campImage: {fileID: 21300000, guid: 7fde46cd0064d94478f4fc3026da1aef, type: 3}
   campName: Mining Camp
+  campTierImage: {fileID: 21300000, guid: d31c8b264847d7d4897ed28aee274d92, type: 3}

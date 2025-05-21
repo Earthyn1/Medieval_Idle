@@ -10,11 +10,14 @@ public class Item_Slot_Base : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     public float fadeDuration = 1.0f;
     public CanvasGroup ItemTextCanvasGroup;
     public StorageSlot itemDataBasic;
+    public LocalMarket_Items LocalMarketItemData;
     public GameObject itemImageBox;
     public Image itemImage;
     public Text itemName;
     public Text itemQty;
     public Image boxOutline;
+    public Text itemSalePrice;
+    public bool isLocalMarketSlot = false;
 
     private GameObject dragIcon;
     private Canvas canvas; // reference to UI canvas for proper dragging position
@@ -58,6 +61,43 @@ public class Item_Slot_Base : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnClick()
     {
+        if (isLocalMarketSlot) 
+        {
+            LocakMarketSlotSlicked();
+        }
+        else
+        {
+            StorageSlotClicked();
+        }
+    }
+
+    public void LocakMarketSlotSlicked()
+    {
+        if (LocalMarketItemData.itemID != null)
+        {
+            if (TownStorageManager.currentlySelectedInventorySlot != null) //Already has a ref
+            {
+                Item_Slot_Base script = TownStorageManager.currentlySelectedInventorySlot.GetComponent<Item_Slot_Base>();
+                script.boxOutline.color = new Color(117f / 255f, 229f / 255f, 101f / 255f, 0f / 255f);
+            }
+
+            boxOutline.color = new Color(117f / 255f, 229f / 255f, 101f / 255f, 130f / 255f);
+            TownStorageManager.currentlySelectedInventorySlot = gameObject; //set self as new ref  
+            TownStorageManager.storageSellManager.SetupUpUI_Market(LocalMarketItemData.itemID);
+        }
+        else
+        {
+            if (TownStorageManager.currentlySelectedInventorySlot != null)
+            {
+                Item_Slot_Base script = TownStorageManager.currentlySelectedInventorySlot.GetComponent<Item_Slot_Base>();
+                script.boxOutline.color = new Color(117f / 255f, 229f / 255f, 101f / 255f, 0f / 255f);
+                TownStorageManager.storageSellManager.SetasNothingSelected();
+                Debug.Log("Are we setting nothingh here");
+            }
+        }
+    }
+    public void StorageSlotClicked()
+    {
         if (itemDataBasic.ItemID != null)
         {
             if (TownStorageManager.currentlySelectedInventorySlot != null) //Already has a ref
@@ -79,8 +119,6 @@ public class Item_Slot_Base : MonoBehaviour, IPointerEnterHandler, IPointerExitH
                 TownStorageManager.storageSellManager.SetasNothingSelected();
             }
         }
-
-        
     }
 
     public void OnPointerEnter(PointerEventData eventData)
@@ -108,7 +146,17 @@ public class Item_Slot_Base : MonoBehaviour, IPointerEnterHandler, IPointerExitH
     {
         isActive = false;
         itemImageBox.SetActive(false);
-        itemDataBasic = new StorageSlot();
+
+        if (isLocalMarketSlot)
+        {
+            LocalMarketItemData = new LocalMarket_Items();
+            Debug.Log("Setting marketslot as empty why?");
+        }
+        else
+        {
+            itemDataBasic = new StorageSlot();
+        }
+       
     }
 
     public void SetupAsActive()
@@ -134,6 +182,48 @@ public class Item_Slot_Base : MonoBehaviour, IPointerEnterHandler, IPointerExitH
             Debug.LogWarning("Item not found for ID: " + itemDataBasic.ItemID);
             SetAsEmpty();
         }
+    }
+
+    public void SetupLocalMarketSlot()
+    {
+        // Check if the ItemID is null or empty
+        if (string.IsNullOrEmpty(LocalMarketItemData.itemID))
+        {
+            Debug.LogWarning("SetupAsActive called with an empty or null ItemID.");
+            SetAsEmpty();
+            return;
+        }
+
+        if (DataGameManager.instance.localMarket_Items_List.TryGetValue(LocalMarketItemData.itemID, out LocalMarket_Items item))
+        {
+            ItemData_Struc founditem;
+            if (DataGameManager.instance.itemData_Array.TryGetValue(item.itemID, out founditem))
+            {
+                itemName.text = founditem.ItemName;
+                itemImage.sprite = founditem.ItemImage;
+                itemSalePrice.text = LocalMarketItemData.itemSellPrice.ToString();
+                if (LocalMarketItemData.itemStackSizeSold > 1)
+                {
+                    itemQty.text = LocalMarketItemData.itemStackSizeSold + "x".ToString();
+                    itemQty.gameObject.SetActive(true);
+                }
+
+                itemImageBox.SetActive(true);
+                isActive = true;
+            }
+            else
+            {
+                Debug.LogWarning($"Item with ID {item.itemID} not found in itemData_Array.");
+            }           
+        }
+        else
+        {
+            Debug.LogWarning("Item not found for ID: " + itemDataBasic.ItemID);
+            SetAsEmpty();
+        }
+
+
+
     }
 
     public void UpdateQty()
@@ -168,9 +258,13 @@ public class Item_Slot_Base : MonoBehaviour, IPointerEnterHandler, IPointerExitH
 
     public void OnDrag(PointerEventData eventData)
     {
-        if (dragIcon != null)
+        if (!isLocalMarketSlot)
         {
-            UpdateDragIconPosition(eventData);
+
+            if (dragIcon != null)
+            {
+                UpdateDragIconPosition(eventData);
+            }
         }
     }
 

@@ -4,8 +4,8 @@ using System.Data.SqlTypes;
 using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.Rendering.Universal;
-using static UnityEditor.Progress;
+
+
 
 public class ItemListCSVLoader : MonoBehaviour
 {
@@ -60,8 +60,6 @@ public class ItemListCSVLoader : MonoBehaviour
             int storedQty = TryGetInt(fields, 12);
             int maxstack = TryGetInt(fields, 13);
 
-           
-
             // Load images from the entire Resources folder
             Sprite image2D = LoadImageFromResources(itemImage);
 
@@ -69,18 +67,14 @@ public class ItemListCSVLoader : MonoBehaviour
             ItemData_Struc slot = new ItemData_Struc(itemID, itemName, description, image2D, itemType, itemCategory, itemReplaces, storageSpace, restoreHealthAmount, fuelAmount, itemSellPrice, storedQty, maxstack);
 
             if (SafeAddItem(itemData_Array, slot))
-            {
-                
+            {       
                 itemData_Array.Add(itemID, slot);
-             //   Debug.Log("Item added successfully."); // Add the slot to the dictionary
             }
             else
             {
-             //   Debug.Log("Failed to add item.");
+          
             }
-
-            
-            
+  
         }
     }
 
@@ -166,18 +160,15 @@ public class ItemListCSVLoader : MonoBehaviour
     {
         if (string.IsNullOrEmpty(item.ItemID))
         {
-          //  Debug.LogError("Cannot add item: ItemID is null or empty.");
             return false;
         }
 
         if (itemDataDict.ContainsKey(item.ItemID))
-        {
-          //  Debug.LogWarning($"Item with ID '{item.ItemID}' already exists. Skipping add.");
+        { 
             return false;
         }
 
-      //  itemDataDict.Add(item.ItemID, item);
-       // Debug.Log($"Successfully added item with ID: {item.ItemID}");
+    
         return true;
     }
 }

@@ -3,20 +3,52 @@
   "WorkspaceRootPath": "C:\\Users\\jphil\\Medieval_Idle\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|C:\\Users\\jphil\\Medieval_Idle\\assets\\scripts\\ui\\camp_resource_slot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\camp_resource_slot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|c:\\users\\jphil\\medieval_idle\\assets\\scripts\\core\\tutorialmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\core\\tutorialmanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|c:\\users\\jphil\\medieval_idle\\assets\\scripts\\debug\\xptest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\debug\\xptest.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|C:\\Users\\jphil\\Medieval_Idle\\assets\\scripts\\core\\datagamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\core\\datagamemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|C:\\Users\\jphil\\Medieval_Idle\\assets\\scripts\\structures_enums\\tutorialstepdata_struc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\structures_enums\\tutorialstepdata_struc.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|C:\\Users\\jphil\\Medieval_Idle\\assets\\scripts\\ui\\levelupnotification_manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\levelupnotification_manager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|C:\\Users\\jphil\\Medieval_Idle\\assets\\scripts\\core\\xpsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\core\\xpsystem.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|C:\\Users\\jphil\\Medieval_Idle\\assets\\scripts\\ui\\xp_item_feed\\item_feed_slot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\xp_item_feed\\item_feed_slot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|C:\\Users\\jphil\\Medieval_Idle\\assets\\scripts\\core\\townstoragemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\core\\townstoragemanager.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|C:\\Users\\jphil\\Medieval_Idle\\assets\\scripts\\ui\\campsidebuttonsetup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\campsidebuttonsetup.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|C:\\Users\\jphil\\Medieval_Idle\\assets\\scripts\\ui\\campprogressbar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\campprogressbar.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|C:\\Users\\jphil\\Medieval_Idle\\assets\\scripts\\ui\\xp_item_feed\\xp_feed_slot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\xp_item_feed\\xp_feed_slot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|C:\\Users\\jphil\\Medieval_Idle\\assets\\scripts\\ui\\populate_camp_slots.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\populate_camp_slots.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|c:\\users\\jphil\\medieval_idle\\assets\\scripts\\core\\actioncamphandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\core\\actioncamphandler.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|c:\\users\\jphil\\medieval_idle\\assets\\scripts\\ui\\required_resource_slot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{D7EDC3EE-29C3-98DF-04FA-80424B4DAA4A}|Assembly-CSharp.csproj|solutionrelative:assets\\scripts\\ui\\required_resource_slot.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -26,59 +58,153 @@
       "DocumentGroups": [
         {
           "DockedWidth": 200,
-          "SelectedChildIndex": 2,
+          "SelectedChildIndex": 1,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "ActionCampHandler.cs",
-              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\Core\\ActionCampHandler.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\Core\\ActionCampHandler.cs",
-              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\Core\\ActionCampHandler.cs",
-              "RelativeToolTip": "Assets\\Scripts\\Core\\ActionCampHandler.cs",
-              "ViewState": "AQIAAAMAAAAAAAAAAAAAAA0AAAA1AAAA",
+              "DocumentIndex": 1,
+              "Title": "XPTest.cs",
+              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\Debug\\XPTest.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Debug\\XPTest.cs",
+              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\Debug\\XPTest.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Debug\\XPTest.cs",
+              "ViewState": "AQIAAAMAAAAAAAAAAAAAACkAAABAAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-18T19:12:37.149Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "Required_Resource_Slot.cs",
-              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\Required_Resource_Slot.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Required_Resource_Slot.cs",
-              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\Required_Resource_Slot.cs",
-              "RelativeToolTip": "Assets\\Scripts\\UI\\Required_Resource_Slot.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAwAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-18T18:59:22.826Z",
+              "WhenOpened": "2025-05-21T20:38:34.607Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "Camp_Resource_Slot.cs",
-              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\Camp_Resource_Slot.cs",
-              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Camp_Resource_Slot.cs",
-              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\Camp_Resource_Slot.cs",
-              "RelativeToolTip": "Assets\\Scripts\\UI\\Camp_Resource_Slot.cs",
-              "ViewState": "AQIAABYAAAAAAAAAAAAgwC4AAAAAAAAA",
+              "Title": "TutorialManager.cs",
+              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\Core\\TutorialManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Core\\TutorialManager.cs",
+              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\Core\\TutorialManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Core\\TutorialManager.cs",
+              "ViewState": "AQIAADsAAAAAAAAAAAAwwEoAAAArAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-18T18:12:08.177Z",
+              "WhenOpened": "2025-05-21T20:08:27.361Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 3,
+              "Title": "TutorialStepData_Struc.cs",
+              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\Structures_Enums\\TutorialStepData_Struc.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Structures_Enums\\TutorialStepData_Struc.cs",
+              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\Structures_Enums\\TutorialStepData_Struc.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Structures_Enums\\TutorialStepData_Struc.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA0AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T20:06:08.889Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "LevelUpNotification_Manager.cs",
+              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\LevelUpNotification_Manager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\LevelUpNotification_Manager.cs",
+              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\LevelUpNotification_Manager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\LevelUpNotification_Manager.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAABkAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T19:15:12.182Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "TownStorageManager.cs",
+              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\Core\\TownStorageManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Core\\TownStorageManager.cs",
+              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\Core\\TownStorageManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Core\\TownStorageManager.cs",
+              "ViewState": "AQIAADoAAAAAAAAAAAAawEwAAAB2AAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T18:39:33.496Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 8,
+              "Title": "CampSideButtonSetup.cs",
+              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\CampSideButtonSetup.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\CampSideButtonSetup.cs",
+              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\CampSideButtonSetup.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\CampSideButtonSetup.cs",
+              "ViewState": "AQIAAD0AAAAAAAAAAAAIwE8AAABGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T18:36:46.362Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 9,
+              "Title": "CampProgressBar.cs",
+              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\CampProgressBar.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\CampProgressBar.cs",
+              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\CampProgressBar.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\CampProgressBar.cs",
+              "ViewState": "AQIAAA8AAAAAAAAAAAAvwCsAAAAFAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T18:15:59.507Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 10,
+              "Title": "XP_Feed_Slot.cs",
+              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\XP_Item_Feed\\XP_Feed_Slot.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\XP_Item_Feed\\XP_Feed_Slot.cs",
+              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\XP_Item_Feed\\XP_Feed_Slot.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\XP_Item_Feed\\XP_Feed_Slot.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAqwBUAAAAGAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T16:55:06.947Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "DataGameManager.cs",
+              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\Core\\DataGameManager.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Core\\DataGameManager.cs",
+              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\Core\\DataGameManager.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Core\\DataGameManager.cs",
+              "ViewState": "AQIAABcAAAAAAAAAAAAQwCAAAAAVAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T16:33:04.284Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 11,
               "Title": "Populate_Camp_Slots.cs",
               "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\Populate_Camp_Slots.cs",
               "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\Populate_Camp_Slots.cs",
               "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\Populate_Camp_Slots.cs",
               "RelativeToolTip": "Assets\\Scripts\\UI\\Populate_Camp_Slots.cs",
-              "ViewState": "AQIAACUAAAAAAAAAAAAawEMAAAANAAAA",
+              "ViewState": "AQIAAKQAAAAAAAAAAAAawLYAAABTAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2025-05-18T18:10:19.676Z",
-              "EditorCaption": ""
+              "WhenOpened": "2025-05-21T16:23:45.694Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "XPSystem.cs",
+              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\Core\\XPSystem.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\Core\\XPSystem.cs",
+              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\Core\\XPSystem.cs",
+              "RelativeToolTip": "Assets\\Scripts\\Core\\XPSystem.cs",
+              "ViewState": "AQIAAJAAAAAAAAAAAAAAAJgAAABLAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T16:21:15.058Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "Item_Feed_Slot.cs",
+              "DocumentMoniker": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\XP_Item_Feed\\Item_Feed_Slot.cs",
+              "RelativeDocumentMoniker": "Assets\\Scripts\\UI\\XP_Item_Feed\\Item_Feed_Slot.cs",
+              "ToolTip": "C:\\Users\\jphil\\Medieval_Idle\\Assets\\Scripts\\UI\\XP_Item_Feed\\Item_Feed_Slot.cs",
+              "RelativeToolTip": "Assets\\Scripts\\UI\\XP_Item_Feed\\Item_Feed_Slot.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-05-21T16:20:26.612Z"
             }
           ]
         }
