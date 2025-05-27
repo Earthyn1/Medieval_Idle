@@ -19,6 +19,9 @@ public class DataGameManager : MonoBehaviour
     [HideInInspector]
     public CampType currentActiveCamp;
 
+    public int CurrentLandDeedsOwned = 0;
+    public int landDeedsbrought = 0;
+
     public int MaxInventorySlots = 12;  // Default capacity
     public int PlayerGold = 0;
     public int MaxVillagerCapacity =5;
@@ -34,17 +37,29 @@ public class DataGameManager : MonoBehaviour
     public Item_XP_FeedManager item_XP_FeedManager;
     [HideInInspector]
     public TutorialManager tutorialManager;
+    [HideInInspector]
+    public CampSpecific_CSV_Loaders CampSpecific_CSV_Loaders;
+    [HideInInspector]
+    public UpperPanel_Manager upperPanelManager;
+    [HideInInspector]
+    public CampBehaviorManager campBehaviorManager;
+    [HideInInspector]
+    public ActionCampHandler actionCampHandler;
+    [HideInInspector]
+    public CampButtonUpdater campButtonUpdater;
+    [HideInInspector]
+    public Tutorial_Lists Tutorial_Lists;
 
 
     public Dictionary<int, int> levelXp; //levelXp is the 1-99 xp amounts
     public Dictionary<CampType, CampXPData> campXPDictionaries = new Dictionary<CampType, CampXPData>();
 
-    public TextAsset FishingCampCsv;
-    public TextAsset BlacksmithCsv;
-    public TextAsset LumberCampCsv;
-    public TextAsset ConstructionCampCsv;
-    public TextAsset MiningCampCsv;   
+    //Dictionary of the camps and if they are locked or not.
+    public Dictionary<CampType, bool> campLockedDict = new Dictionary<CampType, bool>(); 
 
+
+    //list of camp CSV
+    public List<CampCsvEntry> campCsvFiles;
 
     // Separate dictionaries for each camp
     public Dictionary<string, CampActionData> lumberCampActions = new Dictionary<string, CampActionData>();
@@ -55,6 +70,11 @@ public class DataGameManager : MonoBehaviour
     public Dictionary<string, CampActionData> constructionCampActions = new Dictionary<string, CampActionData>();
     public Dictionary<string, CampActionData> hunterCampActions = new Dictionary<string, CampActionData>();
     public Dictionary<string, CampActionData> farmsteadActions = new Dictionary<string, CampActionData>();
+
+    //Seperate dictionaries for each camp specific module
+
+    public Dictionary<string, ConstructionCampModule> constructionCampModuleData;
+
 
     //combined into 1 dictionary by Camp Type
     public Dictionary<CampType, Dictionary<string, CampActionData>> campDictionaries = new Dictionary<CampType, Dictionary<string, CampActionData>>();
@@ -72,54 +92,14 @@ public class DataGameManager : MonoBehaviour
     //List of the CampTypeData Struc
     public List<CampTypeData> campTypeDataList;
 
+    public List<ObjectiveInstance> ActiveObjectives = new List<ObjectiveInstance>();
+
+
 
 
     public static DataGameManager instance;
 
-    public void Start()
-    {
-        BaseCSVLoader = GetComponent<BaseCVSLoader>();
-        populate_Camp_Slots = GetComponent<Populate_Camp_Slots>();
-        populate_Storage_Slots = GetComponent<Populate_Storage_Slots>();
-        populate_Local_Market_Slots = GetComponent<Populate_Local_Market_Slots>();  
-
-        for (int i = 0; i < MaxInventorySlots; i++)
-        {
-            TownStorage_List.Add(new StorageSlot { ItemID = null, Quantity = 0 }); //initialize the slots
-        }
-
-
-        // Load all camp dictionaries and add them to the campDictionaries map
-        campDictionaries[CampType.FishingCamp] = BaseCSVLoader.LoadCSV(FishingCampCsv);
-        campDictionaries[CampType.LumberCamp] = BaseCSVLoader.LoadCSV(LumberCampCsv);
-        campDictionaries[CampType.MiningCamp] = BaseCSVLoader.LoadCSV(MiningCampCsv);
-        campDictionaries[CampType.Blacksmith] = BaseCSVLoader.LoadCSV(BlacksmithCsv);
-        campDictionaries[CampType.ConstructionCamp] = BaseCSVLoader.LoadCSV(ConstructionCampCsv);   
-        
-        PlayerXPManager();  // Initialize the dictionary with all camps and default XP data
-
-    }
-
-    public Dictionary<string, CampActionData> GetCampData(CampType campType) // Function to retrieve the dictionary for a specific camp type
-    {
-        if (campDictionaries.TryGetValue(campType, out var campData))
-        {
-            return campData;
-        }
-        Debug.LogWarning($"No data found for camp type: {campType}");
-        return null;
-    }    
-
-    public void PlayerXPManager()  // Initialize the dictionary with all camps and default XP data
-    {       
-        foreach (CampType campType in Enum.GetValues(typeof(CampType)))
-        {
-            campXPDictionaries[campType] = new CampXPData { currentXP = 0, currentLevel = 1 };
-        }
-    }
-
-
-    private void Awake()
+    public void Awake()
     {
         // Check if an instance already exists
         if (instance == null)
@@ -132,7 +112,91 @@ public class DataGameManager : MonoBehaviour
             Destroy(gameObject); // Destroy duplicate
             return;
         }
+
+        BaseCSVLoader = GetComponent<BaseCVSLoader>();
+        populate_Camp_Slots = GetComponent<Populate_Camp_Slots>();
+        populate_Storage_Slots = GetComponent<Populate_Storage_Slots>();
+        populate_Local_Market_Slots = GetComponent<Populate_Local_Market_Slots>();  
+        campBehaviorManager = GetComponent<CampBehaviorManager>();
+
+        foreach (CampType type in Enum.GetValues(typeof(CampType)))
+        {
+            campLockedDict[type] = true; //setting all camps to locked on setup
+        }
+
+        for (int i = 0; i < MaxInventorySlots; i++)
+        {
+            TownStorage_List.Add(new StorageSlot { ItemID = null, Quantity = 0 }); //initialize the slots
+        }
+
+
+        // Load all camp dictionaries and add them to the campDictionaries map
+        campDictionaries = new Dictionary<CampType, Dictionary<string, CampActionData>>();
+
+        foreach (var entry in campCsvFiles)
+        {
+            if (entry.csvFile == null)
+            {
+                Debug.LogWarning($"CSV for {entry.campType} is null – make sure you assigned it in the inspector!");
+                continue;
+            }
+
+            var data = BaseCSVLoader.LoadCSV(entry.csvFile); // This must return Dictionary<string, CampActionData>
+            campDictionaries[entry.campType] = data;
+        }
+
+        campBehaviorManager.AssignCampBehaviors(campDictionaries); //Assign the Camp Behaviours!
+
+        PlayerXPManager();  // Initialize the dictionary with all camps and default XP data
+
     }
+
+    public Dictionary<string, CampActionData> GetCampData(CampType campType) // Function to retrieve the dictionary for a specific camp type
+    {
+        if (campDictionaries.TryGetValue(campType, out var campData))
+        {
+            return campData;
+        }
+        Debug.LogWarning($"No data found for camp type: {campType}");
+        return null;
+    }
+
+    public CampActionData GetCampActionData(CampType campType, string resourceName)
+    {
+        if (campDictionaries.TryGetValue(campType, out var campDict))
+        {
+            if (campDict.TryGetValue(resourceName, out var campActionData))
+            {
+                return campActionData;
+            }
+        }
+        return null; // or throw or handle missing case as needed
+    }
+
+    public void PlayerXPManager()  // Initialize the dictionary with all camps and default XP data
+    {       
+        foreach (CampType campType in Enum.GetValues(typeof(CampType)))
+        {
+            campXPDictionaries[campType] = new CampXPData { currentXP = 0, currentLevel = 1 };
+        }
+    }
+
+    public void SetCampLockedStatus(CampType campType, bool isLocked)
+    {
+        if (campLockedDict.ContainsKey(campType))
+        {
+            campLockedDict[campType] = isLocked;
+        }
+        else
+        {
+            campLockedDict.Add(campType, isLocked);
+        }
+    }
+
+
+
+
+
 }
 
 

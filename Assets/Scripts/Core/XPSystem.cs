@@ -8,7 +8,7 @@ public class XPSystem : MonoBehaviour
 {
     private Dictionary<int, int> levelXp = new Dictionary<int, int>();   
 
-    void Start()
+    void Awake()
     {
         int[] xpTable = {
             0, 83, 174, 276, 388, 512, 650, 801, 969, 1154,
@@ -40,7 +40,7 @@ public class XPSystem : MonoBehaviour
 
 public static class XPManager
 {
-    public static CampButtonUpdater campverticalLayout;
+    
     public static CampProgressBar campProgressBar;
     public static LevelUpNotification_Manager levelUpNotification;
 
@@ -61,6 +61,17 @@ public static class XPManager
             level = kvp.Key;
         }
         return level;
+    }
+
+    public static CampXPData GetCampXP(CampType campType)
+    {
+        if (DataGameManager.instance.campXPDictionaries.TryGetValue(campType, out CampXPData xpData))
+        {
+            return xpData;
+        }
+
+        Debug.LogWarning($"XP data not found for camp type: {campType}");
+        return null;
     }
 
     public static bool CanLevelUp(CampType campType)
@@ -148,14 +159,15 @@ public static class XPManager
                 if (newLevel > campData.currentLevel)
                 {
                     campData.currentLevel = newLevel;
-                    campverticalLayout.UpdateCampButtonLevel(campType); //update the side button xp aswell!
-                    campProgressBar.UpdateProgressBar(campType);
+                    DataGameManager.instance.campButtonUpdater.UpdateCampButtonLevel(campType); //update the side button xp aswell!
+                    
                     levelUpNotification.LevelUpNotificationSetup(campType);
 
                     if (campType == DataGameManager.instance.currentActiveCamp) //only refresh if we are on that camp panel.
                     {
                         var campDataDict = DataGameManager.instance.GetCampData(campType); //update the camps visuals to reflect unlocked camps!
                         DataGameManager.instance.populate_Camp_Slots.PopulateSlots(campDataDict);
+                        campProgressBar.UpdateProgressBar(campType);
                     }
 
                     Debug.Log($"{campType} leveled up to {campData.currentLevel}!");

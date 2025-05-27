@@ -13,9 +13,9 @@ MonoBehaviour:
   m_Name: Step_3
   m_EditorClassIdentifier: 
   stepID: Step_1
-  instructionText: 'Wonderful!
+  instructionText: 'Wonderful! Now listen to my words please
 
 '
-  focusObjectName: MiningCamp_Button
-  waitForClick: 1
+  focusObjectName: 
+  clickFocusedObject: 0
   autoAdvanceDelay: 0

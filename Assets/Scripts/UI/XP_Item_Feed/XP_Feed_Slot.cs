@@ -17,7 +17,7 @@ public class XP_Feed_Slot : MonoBehaviour
 
     public void OnAnimationFinished()
     {
-        Debug.Log("are we shrinking!");
+        
         Item_XP_Feed_Slot parentscript = item_xp_feed_Slot.GetComponent<Item_XP_Feed_Slot>();
       
 

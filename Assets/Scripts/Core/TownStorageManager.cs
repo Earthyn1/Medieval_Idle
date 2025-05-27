@@ -76,6 +76,8 @@ public static class TownStorageManager
 
         DataGameManager.instance.item_XP_FeedManager.AddItemFeedSlot(itemID, amount, campType); //Add item to itemFeed
         RefreshAllSlotsUI();
+
+        Objective_Manager.UpdateObjectives(itemID, amount); //Update Objectives 
     }
 
 

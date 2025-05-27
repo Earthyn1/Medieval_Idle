@@ -16,6 +16,6 @@ MonoBehaviour:
   instructionText: 'Hi there!
 
     Lets focus on the LumberCamp'
-  focusObjectName: Inventory_Slot (4)
-  waitForClick: 1
-  autoAdvanceDelay: 2
+  focusObjectName: Slot_1
+  clickFocusedObject: 1
+  autoAdvanceDelay: 0

@@ -43,6 +43,28 @@ public class CampProgressBar : MonoBehaviour
         
     }
 
+    public void UpdateProgressBarInstant(CampType campType)
+    {
+        float progress = XPManager.GetLevelProgress(campType);
+        int camplevel = DataGameManager.instance.campXPDictionaries[campType].currentLevel;
+
+        level.text = "Level: " + camplevel;
+        percent.text = (progress * 100).ToString("F1") + "%";
+
+        int currentxp = DataGameManager.instance.campXPDictionaries[campType].currentXP;
+        int campnextlevelxp = XPManager.GetXPForLevel(camplevel + 1);
+        xpLeft.text = currentxp + "/" + campnextlevelxp;
+
+        // Stop previous fill animation if running
+        if (fillCoroutine != null)
+            StopCoroutine(fillCoroutine);
+
+        // Set fill amount instantly
+        progressbar.fillAmount = progress;
+    }
+
+
+
     private IEnumerator AnimateFill(float targetFill)
     {
         float startFill = progressbar.fillAmount;

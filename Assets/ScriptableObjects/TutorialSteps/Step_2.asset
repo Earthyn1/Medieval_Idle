@@ -15,5 +15,5 @@ MonoBehaviour:
   stepID: Step_2
   instructionText: Great! Now lets click over here
   focusObjectName: ConstructionCamp_Button
-  waitForClick: 1
+  clickFocusedObject: 1
   autoAdvanceDelay: 0

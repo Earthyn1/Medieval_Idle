@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using UnityEngine.Rendering.Universal;
 
 
 public class CampButtonSetup : MonoBehaviour
@@ -11,16 +12,58 @@ public class CampButtonSetup : MonoBehaviour
     public Image CampImage_1;
     public Image CampImage_2;
     public Image Selected_Fade;
+    public GameObject ImageContainer;
    
 
     private void Start()
     {
-        EditorUpdateButton();
+      
 
-        if (campData.campType == CampType.TownStorage)
+        //Here we are manually setting town storage and lumber to not locked.
+        switch (campData.campType)
         {
-            TownStorageManager.storageQtyText = campXPText; // set the townstorage inv ref
+            case CampType.TownStorage:
+                DataGameManager.instance.SetCampLockedStatus(campData.campType, false);
+                TownStorageManager.storageQtyText = campXPText; // set the townstorage inv ref
+                campXPText.text = "0/12";
+                break;
+
+            case CampType.LumberCamp:
+                DataGameManager.instance.SetCampLockedStatus(campData.campType, false);
+                int currentxp = XPManager.GetCampXP(campData.campType)?.currentXP ?? 0;
+                campXPText.text = "Lvl: " + XPManager.GetLevelForXP(currentxp).ToString();
+
+                break;
+
+            case CampType.ConstructionCamp:
+                DataGameManager.instance.SetCampLockedStatus(campData.campType, false);
+                int currentxp2 = XPManager.GetCampXP(campData.campType)?.currentXP ?? 0;
+                campXPText.text = "Lvl: " + XPManager.GetLevelForXP(currentxp2).ToString();
+                break;
+
+
+            case CampType.TownOverview:
+
+                ImageContainer.SetActive(false);
+
+                break;
+
+            default:
+                SetAsLocked();
+
+                break;
         }
+
+        if (campData.campType == CampType.TownStorage) //Select town storage just so everything is loaded
+        {
+            StartCoroutine(DelayedButtonPress());
+        }
+    }
+
+    private IEnumerator DelayedButtonPress()
+    {
+        yield return new WaitForSeconds(0.5f);
+        ButtonHasBeenPressed();
     }
 
     private void OnValidate()
@@ -32,6 +75,7 @@ public class CampButtonSetup : MonoBehaviour
     {
         if (campData != null)
         {
+           
             if (CampNameText != null)
             {
                 CampNameText.text = campData.campName.ToString();
@@ -41,9 +85,30 @@ public class CampButtonSetup : MonoBehaviour
                 CampImage_1.sprite = campData.campImage;
                 CampImage_2.sprite = campData.campImage;
             }
+
+            
+            campXPText.text = "Lvl:40"; 
         }
     }
 
+    public void SetSlotAsUnlocked()
+    {
+        ImageContainer.SetActive(true);
+        CampNameText.text = campData.campName.ToString();
+        CampImage_1.sprite = campData.campImage;
+        CampImage_2.sprite = campData.campImage;
+
+        int currentxp = XPManager.GetCampXP(campData.campType)?.currentXP ?? 0;
+        campXPText.text = "Lvl: " + XPManager.GetLevelForXP(currentxp).ToString();
+
+        switch (campData.campType)
+        {
+            case CampType.LocalMarket:
+                campXPText.text = "";
+
+                break;
+        }
+    }
     public IEnumerator StartLoadCamp()
     {
         CampType campType = campData.campType;
@@ -54,6 +119,8 @@ public class CampButtonSetup : MonoBehaviour
 
         // Set camp name and update progress bar
         DataGameManager.instance.topPanelManager.campName.text = campData.campName.ToString();
+
+        DataGameManager.instance.upperPanelManager.EnableCampSpecificPanels(campType); //Setup the camp specific Panels
       
 
         // Switch on camp type to determine setup behavior
@@ -68,16 +135,21 @@ public class CampButtonSetup : MonoBehaviour
                 HandleLocalMarket();
                 break;
 
+            case CampType.TownOverview:
+
+                HandleTownOverview();
+                break;       
+
             default:
                 // Setup for all regular camps
                 yield return StartCoroutine(DataGameManager.instance.populate_Camp_Slots.SetupCampCategorys(campType));
 
                 XPManager.campProgressBar.gameObject.SetActive(true);
                 DataGameManager.instance.tierShield.SetActive(true);
-                DataGameManager.instance.topPanelManager.campNameParent.SetActive(true);
+                DataGameManager.instance.topPanelManager.campNameParent.SetActive(false);
                 Tier_Shield tiershieldScript = DataGameManager.instance.tierShield.GetComponent<Tier_Shield>(); //Handle shield icon
                 tiershieldScript.campImage.sprite = campData.campTierImage;
-                XPManager.campProgressBar.UpdateProgressBar(campType);
+                XPManager.campProgressBar.UpdateProgressBarInstant(campType);
 
                 // Get first camp category, if any
                 Transform parent = DataGameManager.instance.populate_Camp_Slots.Camp_Categorys_Parent.transform;
@@ -120,11 +192,22 @@ public class CampButtonSetup : MonoBehaviour
 
     public void ButtonHasBeenPressed()
     {
-        StartCoroutine(StartLoadCamp());
-        
+        if (DataGameManager.instance.campLockedDict.TryGetValue(campData.campType, out bool isLocked))
+        {
+            if (!isLocked)
+            {
+                StartCoroutine(StartLoadCamp());
+            }
+            else
+            {
+                Debug.Log("button locked");
+            }
+        }
+
+
     }
 
-    private void HandleLocalMarket()
+        private void HandleLocalMarket()
     {
         DataGameManager.instance.topPanelManager.campNameParent.SetActive(true);
 
@@ -135,9 +218,25 @@ public class CampButtonSetup : MonoBehaviour
         TownStorageManager.storageSellManager.parentBox.SetActive(false);
         TownStorageManager.storageSellManager.itemName.text = "Nothing Selected";
     }
+
+    private void HandleTownOverview()
+    {
+        DataGameManager.instance.topPanelManager.campNameParent.SetActive(true);
+        TownStorageManager.storageSellManager.SetupBanner(TownStorageManager.storageSellManager.MarketBGImage);
+        XPManager.campProgressBar.gameObject.SetActive(false);
+        DataGameManager.instance.tierShield.SetActive(false);
+        TownStorageManager.storageSellManager.parentBox.SetActive(false);
+    }
+
     private void HandleTownStorage()
     {
         DataGameManager.instance.topPanelManager.campNameParent.SetActive(true);
+
+        // Ensure the object is active
+        if (!TownStorageManager.storageSellManager.gameObject.activeInHierarchy)
+        {
+            TownStorageManager.storageSellManager.gameObject.SetActive(true);
+        }
 
         TownStorageManager.storageSellManager.SetupBanner(TownStorageManager.storageSellManager.StorageBGImage);
         DataGameManager.instance.populate_Storage_Slots.PopulateItemSlots();
@@ -145,6 +244,13 @@ public class CampButtonSetup : MonoBehaviour
         DataGameManager.instance.tierShield.SetActive(false);
         TownStorageManager.storageSellManager.parentBox.SetActive(false);
         TownStorageManager.storageSellManager.itemName.text = "Nothing Selected";
+    }
+
+    public void SetAsLocked()
+    {
+        ImageContainer.SetActive(false);
+        campXPText.text = "";
+        CampNameText.text = "???";
     }
     public void UpdateButtonCampLevel()
     {

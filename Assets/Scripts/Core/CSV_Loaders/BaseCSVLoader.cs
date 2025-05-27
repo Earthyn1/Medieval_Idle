@@ -5,7 +5,7 @@ using System.Text;
 
 public class BaseCVSLoader : MonoBehaviour
 {   
-    public TextAsset csvFile;
+   
     // Dictionary to hold idle slots
     private Dictionary<string, CampActionData> campActionData;   
      

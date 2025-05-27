@@ -16,6 +16,13 @@ public class CampActionData
     public List<SimpleItemData> ProducedItems { get; set; }
     public List<SimpleItemData> RequiredItems { get; set; }
 
+    public CampSpecificInterface campSpecificLogic { get; private set; }
+
+    public void SetCampSpecificLogic(CampSpecificInterface logic)
+    {
+        this.campSpecificLogic = logic;
+    }
+
     public CampActionData(string resourceName, string description, int populationCost, int levelUnlocked, int xpGiven, float completeTime, Sprite image2D, Sprite bgImage, CampType campType, CampCategorys campCategory, List<SimpleItemData> producedItems, List<SimpleItemData> requiredItems)
     {
         this.resourceName = resourceName;

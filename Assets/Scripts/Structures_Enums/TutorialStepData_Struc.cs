@@ -8,6 +8,6 @@ public class TutorialStepData : ScriptableObject
     public string instructionText;
 
     public string focusObjectName; // e.g. "InventoryButton"
-    public bool waitForClick = true; // You can add more conditions later
+    public bool clickFocusedObject = false; // You can add more conditions later
     public float autoAdvanceDelay = 0f; // Set > 0 to auto-advance
 }

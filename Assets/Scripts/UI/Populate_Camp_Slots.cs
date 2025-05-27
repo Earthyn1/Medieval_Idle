@@ -4,6 +4,8 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.Collections;
+using UnityEngine.InputSystem;
+using UnityEngine.Rendering.Universal;
 
 
 public class Populate_Camp_Slots : MonoBehaviour
@@ -16,6 +18,8 @@ public class Populate_Camp_Slots : MonoBehaviour
     public GameObject requiredResourcePrefab; // Public reference to your slot prefab
     public GameObject Camp_Categorys_Parent;
     public List<CampCategoryData> allCategoryData;
+
+    public List<CampModuleEntry> campSpecificModulePrefabs;
 
 
     public void PopulateSlots(Dictionary<string, CampActionData> campData)
@@ -50,6 +54,10 @@ public class Populate_Camp_Slots : MonoBehaviour
                 continue;
             }
 
+           //-----------------------------
+           //Now start spawning in slots
+
+
             GameObject newSlot = Instantiate(slotPrefab, parentContainer);
             Camp_Resource_Slot slotScript = newSlot.GetComponent<Camp_Resource_Slot>();  // Access the Camp_Resource_Slot script on the newly instantiated slot             
 
@@ -76,6 +84,7 @@ public class Populate_Camp_Slots : MonoBehaviour
                 }
 
             }
+ 
 
             // Check if the slot has required items
             if (slot.Value.RequiredItems != null && slot.Value.RequiredItems.Count > 0)
@@ -105,46 +114,55 @@ public class Populate_Camp_Slots : MonoBehaviour
                 // Debug.LogWarning("No required items found for slot: " + slot.Key);
             }
 
-            // Create a new CampActionData for this slot
-            CampActionData campActionData = new CampActionData(
-                slot.Value.resourceName,
-                slot.Value.description,
-                slot.Value.populationCost,
-                slot.Value.levelUnlocked,
-                slot.Value.xpGiven,
-                slot.Value.completeTime,
-                slot.Value.image2D,
-                slot.Value.bgImage,
-                slot.Value.campType,
-                slot.Value.campCategory,
-                slot.Value.ProducedItems,
-                slot.Value.RequiredItems
-                );
-
             // Try to find existing active entry by matching resourceName or other unique key
             CampActionEntry existingEntry = null;
             foreach (var entry in DataGameManager.instance.activeCamps)
             {
-                if (entry.CampData.resourceName == campActionData.resourceName)
+                if (entry.SlotKey == slot.Value.resourceName)
                 {
                     existingEntry = entry;
-                    Debug.Log(entry.CampData.resourceName);
+                    Debug.Log(entry.SlotKey);
                     slotScript.progressBar.transform.parent.gameObject.SetActive(true);
                     break;
                 }
             }
+
             if (existingEntry != null) //This found an active slot so we assign the slot to the active camp.
             {
-                slotScript.campActionData = existingEntry;
+              
+                slotScript.slotkey = slot.Key;
+                slotScript.campType = slot.Value.campType;
+             
                 existingEntry.SetSlot(slotScript);
                 slotScript.UpdateProgressBar(existingEntry.GetProgress());
                 slotScript.isActive = true;
             }
             else
             {
-                CampActionEntry campActionEntry = new CampActionEntry(campActionData, DateTime.Now);  // Create a new CampActionEntry with the current time
-                slotScript.campActionData = campActionEntry; // Assign the CampActionData to the slot
+                CampActionEntry campActionEntry = new CampActionEntry(slot.Value.resourceName , slot.Value.campType, DateTime.Now);  // Create a new CampActionEntry with the current time 
+                slotScript.slotkey = slot.Key;
+                slotScript.campType = slot.Value.campType;
                 campActionEntry.SetSlot(slotScript); //Adds this new slot ref to itself.
+            }
+
+            CampModuleEntry entry2 = campSpecificModulePrefabs.Find(e => e.campType == slot.Value.campType); //Try to add campspecific modules
+
+            if (entry2 != null && entry2.campModulePrefab != null)
+            {
+                Camp_Resource_Slot slotscript = newSlot.GetComponent<Camp_Resource_Slot>();
+
+                GameObject campModule = Instantiate(entry2.campModulePrefab, slotscript.Unlocked_Panel.transform); // successfully add the new camp module
+                slotscript.CampSpecificPrefab = campModule;
+
+                CampUISlotInterface Campinterface = campModule.GetComponent<CampUISlotInterface>(); //Update Camp slot UI
+                if (Campinterface != null)
+                {
+                    Campinterface.OnUISlotUpdate(slot.Value.resourceName);
+                }
+            }
+            else
+            {
+                Debug.LogWarning("No prefab found for camp type: " + slot.Value.campType);
             }
         }
     }
@@ -155,7 +173,7 @@ public class Populate_Camp_Slots : MonoBehaviour
         {
             Camp_Resource_Slot slotScript = slot.GetComponent<Camp_Resource_Slot>();
 
-            if (slotScript != null && slotScript.campActionData != null)
+            if (slotScript != null && slotScript.slotkey != null)
             {
                 
             }
@@ -163,9 +181,10 @@ public class Populate_Camp_Slots : MonoBehaviour
             {
                 
                 Debug.LogWarning("slotScript or campActionData is null!");
-
             }
-            CampActionData slotcampData = slotScript.campActionData.CampData;
+
+            
+            CampActionData campActionData = DataGameManager.instance.GetCampActionData(slotScript.campType, slotScript.slotkey);
 
             // Check for required resource slots
             if (slotScript.requiredResource_Parent.transform.childCount > 0)
@@ -179,7 +198,7 @@ public class Populate_Camp_Slots : MonoBehaviour
                     if (childScript != null) // Check if the script exists
                     {
                         // Find the matching item from the required items list
-                        var requiredItem = slotcampData.RequiredItems
+                        var requiredItem = campActionData.RequiredItems
                             .FirstOrDefault(item => item.item == childScript.itemID);
 
                         if (requiredItem != null)

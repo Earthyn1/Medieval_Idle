@@ -45,6 +45,9 @@ public class StorageSellManager : MonoBehaviour
                 Debug.Log("Removed item");
                 DataGameManager.instance.PlayerGold += int.Parse(finalPrice.text);
                 DataGameManager.instance.topPanelManager.UpdateGold();
+
+                Item_Slot_Base baseslotscript = TownStorageManager.currentlySelectedInventorySlot.GetComponent<Item_Slot_Base>();
+                baseslotscript.StorageSlotClicked(); //here we update the slot to update the info/unselect the slot if its empty
             }
             else
             {

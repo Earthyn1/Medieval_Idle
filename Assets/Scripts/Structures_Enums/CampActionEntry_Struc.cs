@@ -1,15 +1,19 @@
 using System;
+using System.Globalization;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 
 public class CampActionEntry
 {
-    public CampActionData CampData { get; set; }
+    public string SlotKey { get; set; }  // Store just the key instead of full data
+    public CampType CampType { get; set; }  
     public DateTime StartTime { get; set; }
     public Camp_Resource_Slot Slot { get; set; }  // Can be null
 
-    public CampActionEntry(CampActionData campData, DateTime timeStamp)
+    public CampActionEntry(string slotKey, CampType campType, DateTime timeStamp)
     {
-        CampData = campData;
+        SlotKey = slotKey;
+        CampType = campType;    
         StartTime = DateTime.Now;
         Slot = null;  // Start with no slot linked
 
@@ -19,7 +23,9 @@ public class CampActionEntry
     public float GetProgress()
     {
         float elapsedTime = (float)(DateTime.Now - StartTime).TotalSeconds;
-        return Mathf.Clamp01(elapsedTime / CampData.completeTime);
+        CampActionData campActionData = DataGameManager.instance.campDictionaries[CampType][SlotKey];
+
+        return Mathf.Clamp01(elapsedTime / campActionData.completeTime);
     }
 
     public bool IsCompleted() => GetProgress() >= 1.0f;

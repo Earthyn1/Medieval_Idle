@@ -40,15 +40,16 @@ public class Populate_Storage_Slots : MonoBehaviour
 
             if (!string.IsNullOrEmpty(item.ItemID) && item.Quantity > 0) // Check if the slot has a valid item
             {
-                newSlot.name = $"Slot_{item.ItemID}";
+                newSlot.name = $"Slot_{slotCount}";
                 slotScript.itemDataBasic = item;
                 slotScript.SetupAsActive();
                 slotCount++;
             }
             else
             {
-                newSlot.name = $"Slot_Empty_{slotCount}";
+                newSlot.name = $"Slot_{slotCount}";
                 slotScript.SetAsEmpty();
+                slotCount++;
             }
         }
 
