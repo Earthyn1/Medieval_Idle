@@ -53,6 +53,20 @@ public class Camp_Resource_Slot : MonoBehaviour
         }     
     }
 
+    public void NotEnoughResourceFlash()
+    {
+        foreach (Transform child in requiredResource_Parent.transform)
+        {
+            Required_Resource_Slot childscript = child.GetComponent<Required_Resource_Slot>();
+
+          //  Debug.Log(int.Parse(childscript.itemqty.text) + "////" + TownStorageManager.GetCurrentQuantity(childscript.itemID));
+            if (int.Parse(childscript.itemqty.text) > TownStorageManager.GetCurrentQuantity(childscript.itemID))
+            {
+                childscript.FlashRedAnimation();
+                DataGameManager.instance.Game_Text_Alerts.PlayAlert("Not enough resources");
+            }
+        }
+    }
     public void UpdateProgressBar(float progress)
     {
         progressBar.fillAmount = progress;  // Assuming the slider's range is 0 to 1

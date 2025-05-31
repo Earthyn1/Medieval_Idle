@@ -22,10 +22,12 @@ public class Item_XP_FeedManager : MonoBehaviour
 
     public void AddItemFeedSlot(string itemID, int amount, CampType campType) 
     {
+       
         if(gameObject.transform.childCount == 0)
         {
             GameObject newSlot = Instantiate(itemFeedSlotPrefab, gameObject.transform);
             Item_Feed_Slot newSlotScript = newSlot.gameObject.GetComponent<Item_Feed_Slot>();
+            newSlotScript.isAttachedToXP = false;
 
             ItemData_Struc foundItem = DataGameManager.instance.itemData_Array.TryGetValue(itemID, out var tempItem) ? tempItem : null;
             newSlotScript.item_feed_SlotText.text = foundItem.ItemName;
@@ -34,6 +36,8 @@ public class Item_XP_FeedManager : MonoBehaviour
 
             int currentQty = TownStorageManager.GetCurrentQuantity(itemID);
             newSlotScript.itemAmountInStorageText.text = "(" + currentQty.ToString() + ")";
+
+            return;
         }
 
         bool foundmatch = false;

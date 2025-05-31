@@ -1,0 +1,134 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7ac5c3e75008a440a2a59beff8ebbe6, type: 3}
+  m_Name: JustCollectedMaplePlanksAndBeams
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialGroupData
+  groupId: JustCollectedMaplePlanksAndBeams
+  steps:
+  - stepID: 
+    instructionText: Yes this will do, I believe we can build the Market next.
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Let us head to the camp once more
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: ConstructionCamp_Button
+    clickFocusedObject: 1
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: 
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0.1
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Then to the buildings Tab
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: Category_ConstrustionCamp_Buildings
+    clickFocusedObject: 1
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Hmm, missing a few resources I think.
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Notice the Market requires Copper Nails?
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: RequiredResource-CopperNails
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Also requires a Land Deed, see?
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: LandDeedImage
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: We have a few materials left,  I can supply the nails.
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 9
+  - stepID: 
+    instructionText: You have just enough in the towns storage to afford the Land
+      Deed.
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: Gold_Parent
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Let us buy the Land Deed for the Market.
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: LandDeedButton
+    clickFocusedObject: 1
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 10
+  - stepID: 
+    instructionText: The price may go up as we buy more land my Lord.
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Purchase the Land Deed.
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: PuchaseDeed_Button
+    clickFocusedObject: 1
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Good! Build the Market so we may open up trade!
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0

@@ -219,7 +219,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 0, g: 0, b: 0, a: 0.8352941}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -272,6 +272,7 @@ MonoBehaviour:
   xp_feed_SlotText: {fileID: 6622164662543074628}
   xp_feed_SlotImage: {fileID: 8296665359462917516}
   xp_feed_SlotAnimation: {fileID: 7786436326380209021}
+  item_xp_feed_Slot: {fileID: 0}
 --- !u!1 &6155686729501996418
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,8 +358,8 @@ CanvasGroup:
   m_GameObject: {fileID: 6155686729501996418}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 1
-  m_BlocksRaycasts: 1
+  m_Interactable: 0
+  m_BlocksRaycasts: 0
   m_IgnoreParentGroups: 0
 --- !u!1 &6901310653689953951
 GameObject:

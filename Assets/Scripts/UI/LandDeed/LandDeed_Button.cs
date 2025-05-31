@@ -14,20 +14,28 @@ public class LandDeed_Button : MonoBehaviour
 
     public void ToggleLandDeed()
     {
-        if (landDeedParent_Box.activeInHierarchy)
+        if (DataGameManager.instance.Tutorial_Lists.GetFlag("PurchaseLandDeedUnlocked"))
+        {
+            if (landDeedParent_Box.activeInHierarchy)
 
-            landDeedParent_Box.SetActive(false);
+                landDeedParent_Box.SetActive(false);
+            else
+            {
+                landDeedParent_Box.SetActive(true);
+                Animator animator = landDeedParent_Box.GetComponent<Animator>();
+                animator.Play("IdleState", 0, 0f);
+                animator.ResetTrigger("Open");
+                animator.SetTrigger("Open");
+
+                LandDeed_Manager parentscript = landDeedParent_Box.GetComponent<LandDeed_Manager>();
+                parentscript.SetupDeedBox();
+            }
+        }
         else
         {
-            landDeedParent_Box.SetActive(true);
-            Animator animator = landDeedParent_Box.GetComponent<Animator>();
-            animator.Play("IdleState", 0, 0f);
-            animator.ResetTrigger("Open");
-            animator.SetTrigger("Open");
-
-            LandDeed_Manager parentscript = landDeedParent_Box.GetComponent<LandDeed_Manager>();
-            parentscript.SetupDeedBox();
+            Debug.Log("LandDeed not yet unlocked!");
         }
+       
     }
 
 

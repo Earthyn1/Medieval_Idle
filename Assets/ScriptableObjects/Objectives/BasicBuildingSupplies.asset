@@ -24,8 +24,8 @@ MonoBehaviour:
     isInventoryItem: 1
     taskMaxQty: 12
     taskCurrentQty: 0
-  DialogIDWhenCompleted: {fileID: 11400000, guid: 4886231126fcefa4ba4b26272694fcf5, type: 2}
+  DialogIDWhenCompleted: {fileID: 11400000, guid: 48a2a33783a180f40857595417dda2c7, type: 2}
   Objectives_Rewards:
   - itemID: 
     campType: 2
-    amount: 143
+    amount: 54

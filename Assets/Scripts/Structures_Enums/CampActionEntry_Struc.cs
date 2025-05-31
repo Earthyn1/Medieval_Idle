@@ -23,6 +23,12 @@ public class CampActionEntry
     public float GetProgress()
     {
         float elapsedTime = (float)(DateTime.Now - StartTime).TotalSeconds;
+
+        if (DataGameManager.instance.DEVspeedMultiplier != 1)
+        {
+            elapsedTime *= DataGameManager.instance.DEVspeedMultiplier;
+        }
+
         CampActionData campActionData = DataGameManager.instance.campDictionaries[CampType][SlotKey];
 
         return Mathf.Clamp01(elapsedTime / campActionData.completeTime);

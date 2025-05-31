@@ -33,10 +33,19 @@ public class LandDeed_Manager : MonoBehaviour
 
     public void OnExitWindowPressed()
     {
-        Animator animator = purchaseDeedParentBox.GetComponent<Animator>();
-        animator.Play("IdleState", 0, 0f);
-        animator.ResetTrigger("Close");
-        animator.SetTrigger("Close");
+       
+        if (!DataGameManager.instance.tutorialManager.textBoxParent.activeInHierarchy)
+        {
+            Animator animator = purchaseDeedParentBox.GetComponent<Animator>();
+            animator.Play("IdleState", 0, 0f);
+            animator.ResetTrigger("Close");
+            animator.SetTrigger("Close");
+        }
+        else
+        {
+            Debug.Log("Text box is open?");
+        }
+       
        
     }
 
@@ -69,6 +78,10 @@ public class LandDeed_Manager : MonoBehaviour
             //update upper panels to represent the landdeed
             DataGameManager.instance.upperPanelManager.EnableCampSpecificPanels(CampType.ConstructionCamp);
 
+            Animator animator = purchaseDeedParentBox.GetComponent<Animator>();
+            animator.Play("IdleState", 0, 0f);
+            animator.ResetTrigger("Close");
+            animator.SetTrigger("Close");
         }
        
     }

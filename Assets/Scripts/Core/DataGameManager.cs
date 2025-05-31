@@ -18,6 +18,11 @@ public class DataGameManager : MonoBehaviour
     public GameObject SelectedButton;
     [HideInInspector]
     public CampType currentActiveCamp;
+    [HideInInspector]
+    public Game_Text_Alerts Game_Text_Alerts;
+
+    public float DEVspeedMultiplier = 10f; // or whatever speed boost you want
+
 
     public int CurrentLandDeedsOwned = 0;
     public int landDeedsbrought = 0;

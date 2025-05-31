@@ -12,6 +12,9 @@ public class TopPanelManager : MonoBehaviour
     void Start()
     {
         DataGameManager.instance.topPanelManager = this;
+        UpdateGold();
+        UpdateTownPopulation();
+
     }
 
     public void UpdateGold()

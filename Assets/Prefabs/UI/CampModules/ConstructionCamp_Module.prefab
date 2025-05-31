@@ -282,6 +282,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   landDeedParent: {fileID: 7013791647505733180}
   deedRequiredAmount: {fileID: 7783467401164000578}
+  campid: 
 --- !u!1 &7880674077117627213
 GameObject:
   m_ObjectHideFlags: 0
@@ -294,7 +295,7 @@ GameObject:
   - component: {fileID: 8603609624003060101}
   - component: {fileID: 874469749333573131}
   m_Layer: 5
-  m_Name: Image
+  m_Name: LandDeedImage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

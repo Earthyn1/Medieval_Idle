@@ -55,6 +55,13 @@ public class CampButtonUpdater : MonoBehaviour
             if( childscript.campData.campType == campType)
             {
                 childscript.SetSlotAsUnlocked();
+                XPManager.levelUpNotification.CampUnlocked(campType.ToString());
+
+                childscript.NewCamp_Parent.SetActive(true);
+                childscript.NewCamp_Loop_Anim.Play("IdleState", 0, 0f);
+                childscript.NewCamp_Loop_Anim.ResetTrigger("PlayNewCampLoop");
+                childscript.NewCamp_Loop_Anim.SetTrigger("PlayNewCampLoop");
+
             }   
 
         }

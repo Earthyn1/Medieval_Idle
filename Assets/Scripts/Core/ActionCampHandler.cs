@@ -41,12 +41,14 @@ public class ActionCampHandler : MonoBehaviour
                 }
                 else
                 {
+                    
                     Debug.Log("Not enough resource to restart action");
                     RemoveCampAction(entry.SlotKey, entry.CampType);
 
                     if (entry.Slot != null)
                     {
                         entry.Slot.DeactivateActionSlot();
+                        entry.Slot.NotEnoughResourceFlash();
                     }
                 }
             }
@@ -90,7 +92,8 @@ public class ActionCampHandler : MonoBehaviour
                 return true;
             }
             else
-            {
+            { 
+               slot.NotEnoughResourceFlash();
                 Debug.Log("Not enough resources");
                 return false;
             }
@@ -176,7 +179,7 @@ public class ActionCampHandler : MonoBehaviour
             DataGameManager.instance.TownStorage_List.Any(slot =>
                 slot.ItemID == item.item && slot.Quantity >= item.qty));
 
-        return hasEnough;
+            return hasEnough;
     }
 
     public bool HasEnoughCampSpecificResources(CampActionData campData)

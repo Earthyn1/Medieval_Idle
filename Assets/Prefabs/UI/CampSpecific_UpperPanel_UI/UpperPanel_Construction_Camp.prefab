@@ -49,6 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0211961531e936843aefc7338200f33b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  currentLandDeeds: {fileID: 0}
 --- !u!1 &1832908322974737770
 GameObject:
   m_ObjectHideFlags: 0
@@ -59,7 +60,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3501325928624372556}
   m_Layer: 5
-  m_Name: LandDeedButton
+  m_Name: LandDeedButton_Parent
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -256,8 +257,8 @@ GameObject:
   - component: {fileID: 3506826373360738230}
   - component: {fileID: 1719741740117731825}
   m_Layer: 5
-  m_Name: Button
-  m_TagString: Untagged
+  m_Name: LandDeedButton
+  m_TagString: Active_Buttons
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

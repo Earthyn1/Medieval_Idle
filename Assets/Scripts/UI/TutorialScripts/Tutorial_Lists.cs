@@ -32,20 +32,28 @@ public class Tutorial_Lists : MonoBehaviour
                 break;
 
             case TutorialFlagID.ObjectivesTrackerUnlock:
-                SetFlag(tutorialFlagID.ToString(), true);
-               
-
+                SetFlag(tutorialFlagID.ToString(), true);    
                 break;
 
             case TutorialFlagID.UnlockConstructionCamp:
                 DataGameManager.instance.SetCampLockedStatus(CampType.ConstructionCamp, false);
                 DataGameManager.instance.campButtonUpdater.UpdateCampButtonAsUnlocked(CampType.ConstructionCamp);
-                XPManager.levelUpNotification.CampUnlocked("Construction Camp");
+               // XPManager.levelUpNotification.CampUnlocked("Construction Camp");
+
                 SetFlag(tutorialFlagID.ToString(), true);
                 break;
 
             case TutorialFlagID.UnlockStorageSellPanel:
                 TownStorageManager.storageSellManager.sellPanel.SetActive(true);
+                SetFlag(tutorialFlagID.ToString(), true);
+                break;
+
+            case TutorialFlagID.PurchaseLandDeedUnlocked:
+                SetFlag(tutorialFlagID.ToString(), true);
+                break;
+
+            case TutorialFlagID.GivePlayerCopperNails:
+                TownStorageManager.AddItem("CopperNails", 200, CampType.NA);
                 SetFlag(tutorialFlagID.ToString(), true);
                 break;
 

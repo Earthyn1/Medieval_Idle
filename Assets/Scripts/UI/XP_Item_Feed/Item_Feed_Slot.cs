@@ -9,6 +9,15 @@ public class Item_Feed_Slot : MonoBehaviour
     public Image item_feed_SlotImage;
     public Animator item_feed_SlotAnimation;
     public Text itemAmountInStorageText;
+    public bool isAttachedToXP = true;
 
-
+    public void AnimationFinished()
+    {
+        if (!isAttachedToXP) 
+        {
+            Destroy(gameObject);
+        }
+    }
 }
+
+

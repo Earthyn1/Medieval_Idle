@@ -18,5 +18,8 @@ public enum TutorialFlagID
     UnlockStorageSellPanel,
     SwitchTo_UnlockConstructionCamp_FromOpen,
     FirstTimeCedricDialog,
+    GivePlayerCopperNails,
+    PurchaseLandDeedUnlocked,
+    
     // etc.
 }

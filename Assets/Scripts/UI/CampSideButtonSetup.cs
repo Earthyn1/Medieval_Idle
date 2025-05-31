@@ -13,6 +13,8 @@ public class CampButtonSetup : MonoBehaviour
     public Image CampImage_2;
     public Image Selected_Fade;
     public GameObject ImageContainer;
+    public GameObject NewCamp_Parent;
+    public Animator NewCamp_Loop_Anim;
    
 
     private void Start()
@@ -192,6 +194,9 @@ public class CampButtonSetup : MonoBehaviour
         {
             if (!isLocked)
             {
+                NewCamp_Loop_Anim.Play("IdleState", 0, 0f);
+                NewCamp_Parent.SetActive(false);
+                
                 StartCoroutine(StartLoadCamp());
             }
             else

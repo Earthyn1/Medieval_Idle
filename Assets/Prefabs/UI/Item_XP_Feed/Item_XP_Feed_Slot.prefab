@@ -267,9 +267,25 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 5767093224650702060, guid: 847c86b8bfa308d4c91905ae7f5ff790, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5767093224650702060, guid: 847c86b8bfa308d4c91905ae7f5ff790, type: 3}
+      propertyPath: m_BlocksRaycasts
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6155686729501996418, guid: 847c86b8bfa308d4c91905ae7f5ff790, type: 3}
       propertyPath: m_Name
       value: CampItem
+      objectReference: {fileID: 0}
+    - target: {fileID: 6337171201527569097, guid: 847c86b8bfa308d4c91905ae7f5ff790, type: 3}
+      propertyPath: m_Interactable
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6337171201527569097, guid: 847c86b8bfa308d4c91905ae7f5ff790, type: 3}
+      propertyPath: m_BlocksRaycasts
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6622164662543074628, guid: 847c86b8bfa308d4c91905ae7f5ff790, type: 3}
       propertyPath: m_RaycastTarget
@@ -299,6 +315,10 @@ PrefabInstance:
       propertyPath: m_Sprite
       value: 
       objectReference: {fileID: -8830895250335892810, guid: de4b1429dc8c17e41b0c7e4b22a9a303, type: 3}
+    - target: {fileID: 6949863933138568157, guid: 847c86b8bfa308d4c91905ae7f5ff790, type: 3}
+      propertyPath: m_RaycastTarget
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7975751611232044835, guid: 847c86b8bfa308d4c91905ae7f5ff790, type: 3}
       propertyPath: m_AnchorMax.x
       value: 1

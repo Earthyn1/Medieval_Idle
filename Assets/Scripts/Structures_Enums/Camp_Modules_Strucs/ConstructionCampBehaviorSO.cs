@@ -47,7 +47,9 @@ public class ConstructionCampBehaviorSO : ScriptableObject, CampSpecificInterfac
             {
                 
                 DataGameManager.instance.SetCampLockedStatus(campType, false);
-                Debug.Log(data.BuildingIDUnlocked + "Has been unlocked!");
+                
+
+               
                 DataGameManager.instance.campButtonUpdater.UpdateCampButtonAsUnlocked(campType);
   
             }
