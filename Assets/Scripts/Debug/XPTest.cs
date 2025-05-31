@@ -35,16 +35,17 @@ public class XPTest : MonoBehaviour
         // Check if the "F" key is pressed
         if (Input.GetKeyDown(KeyCode.F))
         {
-            TownStorageManager.AddItem("MaplePlank", 100, CampType.ConstructionCamp);
-            TownStorageManager.AddItem("MapleBeam", 100, CampType.ConstructionCamp);
-            TownStorageManager.AddItem("CopperNails", 100, CampType.ConstructionCamp);
-            TownStorageManager.AddItem("MapleLog", 100, CampType.ConstructionCamp);
+           // TownStorageManager.AddItem("MaplePlank", 100, CampType.ConstructionCamp);
+            //TownStorageManager.AddItem("MapleBeam", 100, CampType.ConstructionCamp);
+           // TownStorageManager.AddItem("CopperNails", 100, CampType.ConstructionCamp);
+            TownStorageManager.AddItem("MapleLog", 1, CampType.ConstructionCamp);
         }
 
         // Check if the "R" key is pressed
         if (Input.GetKeyDown(KeyCode.R))
         {
-            DataGameManager.instance.tutorialManager.SetupTutorial(DataGameManager.instance.Tutorial_Lists.tutorialSteps_Intro);
+            TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("GameIntro");
+            DataGameManager.instance.tutorialManager.SetupTutorial(tutorialGroupData);
 
 
         }
@@ -57,7 +58,9 @@ public class XPTest : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.S))
         {
-            Objective_Manager.UpdateObjectives("MapleLog", 1);
+            DataGameManager.instance.Tutorial_Lists.CompleteDialogEvent(TutorialFlagID.UnlockConstructionCamp);
+            DataGameManager.instance.Tutorial_Lists.CompleteDialogEvent(TutorialFlagID.ObjectivesTrackerUnlock);
+
         }
     }
 }

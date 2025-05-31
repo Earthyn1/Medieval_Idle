@@ -263,6 +263,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: XP_Feed_Slot
       objectReference: {fileID: 0}
+    - target: {fileID: 5547686005426683353, guid: 847c86b8bfa308d4c91905ae7f5ff790, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 6155686729501996418, guid: 847c86b8bfa308d4c91905ae7f5ff790, type: 3}
       propertyPath: m_Name
       value: CampItem

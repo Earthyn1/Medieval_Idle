@@ -22,23 +22,58 @@ public class Item_XP_FeedManager : MonoBehaviour
 
     public void AddItemFeedSlot(string itemID, int amount, CampType campType) 
     {
+        if(gameObject.transform.childCount == 0)
+        {
+            GameObject newSlot = Instantiate(itemFeedSlotPrefab, gameObject.transform);
+            Item_Feed_Slot newSlotScript = newSlot.gameObject.GetComponent<Item_Feed_Slot>();
+
+            ItemData_Struc foundItem = DataGameManager.instance.itemData_Array.TryGetValue(itemID, out var tempItem) ? tempItem : null;
+            newSlotScript.item_feed_SlotText.text = foundItem.ItemName;
+            newSlotScript.itemAmount_feed_SlotText.text = amount.ToString();
+            newSlotScript.item_feed_SlotImage.sprite = foundItem.ItemImage;
+
+            int currentQty = TownStorageManager.GetCurrentQuantity(itemID);
+            newSlotScript.itemAmountInStorageText.text = "(" + currentQty.ToString() + ")";
+        }
+
+        bool foundmatch = false;
+
         foreach (Transform child in gameObject.transform)
         {
             Item_XP_Feed_Slot childScript = child.GetComponent<Item_XP_Feed_Slot>();
 
-            if (childScript.CampType == campType)
+            if(childScript != null)
             {
-                GameObject newSlot = Instantiate(itemFeedSlotPrefab, childScript.item_Panel_Parent.transform);
-                Item_Feed_Slot newSlotScript = newSlot.gameObject.GetComponent<Item_Feed_Slot>();
+                if (childScript.CampType == campType)
+                {
+                    foundmatch = true;
+                    GameObject newSlot = Instantiate(itemFeedSlotPrefab, childScript.item_Panel_Parent.transform);
+                    Item_Feed_Slot newSlotScript = newSlot.gameObject.GetComponent<Item_Feed_Slot>();
 
-                ItemData_Struc foundItem = DataGameManager.instance.itemData_Array.TryGetValue(itemID, out var tempItem) ? tempItem : null;
-                newSlotScript.item_feed_SlotText.text = foundItem.ItemName;
-                newSlotScript.itemAmount_feed_SlotText.text = amount.ToString();
-                newSlotScript.item_feed_SlotImage.sprite =foundItem.ItemImage;
+                    ItemData_Struc foundItem = DataGameManager.instance.itemData_Array.TryGetValue(itemID, out var tempItem) ? tempItem : null;
+                    newSlotScript.item_feed_SlotText.text = foundItem.ItemName;
+                    newSlotScript.itemAmount_feed_SlotText.text = amount.ToString();
+                    newSlotScript.item_feed_SlotImage.sprite = foundItem.ItemImage;
 
-                int currentQty = TownStorageManager.GetCurrentQuantity(itemID);
-                newSlotScript.itemAmountInStorageText.text = "(" + currentQty.ToString() + ")";
+                    int currentQty = TownStorageManager.GetCurrentQuantity(itemID);
+                    newSlotScript.itemAmountInStorageText.text = "(" + currentQty.ToString() + ")";
+                }
             }
+            
+        }
+
+        if (!foundmatch)
+        {
+            GameObject newSlot = Instantiate(itemFeedSlotPrefab, gameObject.transform);
+            Item_Feed_Slot newSlotScript = newSlot.gameObject.GetComponent<Item_Feed_Slot>();
+
+            ItemData_Struc foundItem = DataGameManager.instance.itemData_Array.TryGetValue(itemID, out var tempItem) ? tempItem : null;
+            newSlotScript.item_feed_SlotText.text = foundItem.ItemName;
+            newSlotScript.itemAmount_feed_SlotText.text = amount.ToString();
+            newSlotScript.item_feed_SlotImage.sprite = foundItem.ItemImage;
+
+            int currentQty = TownStorageManager.GetCurrentQuantity(itemID);
+            newSlotScript.itemAmountInStorageText.text = "(" + currentQty.ToString() + ")";
         }
     }
 

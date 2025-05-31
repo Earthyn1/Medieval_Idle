@@ -54,11 +54,17 @@ public class Populate_Camp_Slots : MonoBehaviour
                 continue;
             }
 
+            if (DataGameManager.instance.OneSlotUseActions.TryGetValue(slot.Value.resourceName, out var action))
+            {
+                continue;
+            }
+
            //-----------------------------
            //Now start spawning in slots
 
 
             GameObject newSlot = Instantiate(slotPrefab, parentContainer);
+
             Camp_Resource_Slot slotScript = newSlot.GetComponent<Camp_Resource_Slot>();  // Access the Camp_Resource_Slot script on the newly instantiated slot             
 
             slotScript.actionName.text = slot.Value.resourceName;
@@ -93,9 +99,12 @@ public class Populate_Camp_Slots : MonoBehaviour
                 {
                     // Instantiate the required resource prefab
                     GameObject resourceGO = Instantiate(requiredResourcePrefab, slotScript.requiredResource_Parent.transform);
+                    
 
                     Required_Resource_Slot required_Resource_SlotScript = resourceGO.GetComponent<Required_Resource_Slot>();
                     ItemData_Struc requireditem_Data = DataGameManager.instance.itemData_Array[item.item];
+
+                    resourceGO.name = "RequiredResource-" + requireditem_Data.ItemID;
 
                     required_Resource_SlotScript.itemimage.sprite = requireditem_Data.ItemImage;
                     required_Resource_SlotScript.itemimage_2.sprite = requireditem_Data.ItemImage;
@@ -136,6 +145,7 @@ public class Populate_Camp_Slots : MonoBehaviour
                 existingEntry.SetSlot(slotScript);
                 slotScript.UpdateProgressBar(existingEntry.GetProgress());
                 slotScript.isActive = true;
+                slotScript.requiredResource_Parent.SetActive(false);
             }
             else
             {
@@ -237,6 +247,7 @@ public class Populate_Camp_Slots : MonoBehaviour
             foreach (var matchedData in matchedDataList)
             {
                 GameObject newCategory = Instantiate(CategoryButtonPrefab, Camp_Categorys_Parent.transform);
+                newCategory.name = "Category_" + matchedData.name;
                 Category_Base slotScript = newCategory.GetComponent<Category_Base>();
                 slotScript.CampCategoryData = matchedData;
 

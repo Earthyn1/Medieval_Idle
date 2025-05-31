@@ -6,6 +6,7 @@ public class ConstructionCampModule
     public bool SingleUseSlot;
     public string BuildingIDUnlocked;
     public string PreviousUpgradeRequired;
+    public bool isCompleted = false;
 
     public ConstructionCampModule(int landDeed, bool SingleUseSlot, string BuildingIDUnlocked, string PreviousUpgradeRequired)
     {
@@ -13,6 +14,7 @@ public class ConstructionCampModule
         this.SingleUseSlot = SingleUseSlot;
         this.BuildingIDUnlocked = BuildingIDUnlocked;
         this.PreviousUpgradeRequired = PreviousUpgradeRequired;
+       
     }
 }
 

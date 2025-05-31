@@ -23,13 +23,15 @@ public class ActionCampHandler : MonoBehaviour
             if (entry.Slot != null)
             {
                 entry.Slot.UpdateProgressBar(progress); //This updates the slot progress bar.
-                Debug.Log("Is it running");
+                
             }
 
             if (entry.IsCompleted())
             {
                 CompleteCampAction(entry.SlotKey, entry.CampType);
                 CampActionData campActionData = DataGameManager.instance.campDictionaries[entry.CampType][entry.SlotKey];
+
+                entry.Slot.CheckForDialogs();
 
                 if (HasEnoughResources(campActionData) && HasEnoughCampSpecificResources(campActionData))
                 {
@@ -105,19 +107,23 @@ public class ActionCampHandler : MonoBehaviour
 
         XPManager.AddXP(campType, campData.xpGiven);
 
+        Objective_Manager.UpdateObjectives(Key,1);
+
         float progress = XPManager.GetLevelProgress(campType);
-        Debug.Log($"{campType} is {progress * 100f}%");
+        //Debug.Log($"{campType} is {progress * 100f}%");
 
         RollForProducedItem(Key, campType);
 
         if (campData.campSpecificLogic == null)
         {
-            Debug.Log("No campspecificLogic!!"); 
+          //  Debug.Log("No campspecificLogic!!"); 
         }
         else
         {
             campData.campSpecificLogic.OnCompletedCampSpecificAction(Key);
         }
+
+
     }
 
     void RollForProducedItem(string Key, CampType campType)
@@ -126,7 +132,7 @@ public class ActionCampHandler : MonoBehaviour
 
         // Generate a random number between 1 and 100
         int roll = UnityEngine.Random.Range(1, 101);
-        Debug.Log($"Rolled: {roll}");
+       // Debug.Log($"Rolled: {roll}");
 
         float accumulatedChance = 0;
 
@@ -141,7 +147,7 @@ public class ActionCampHandler : MonoBehaviour
             // Check if the roll falls within the current accumulated range
             if (roll <= accumulatedChance)
             {
-                Debug.Log($"Item acquired: {producedItem.item}, Qty: {producedItem.qty}");
+             //   Debug.Log($"Item acquired: {producedItem.item}, Qty: {producedItem.qty}");
     
                 // Add item to inventory
                 TownStorageManager.AddItem(producedItem.item, producedItem.qty, campType);
@@ -150,7 +156,7 @@ public class ActionCampHandler : MonoBehaviour
         }
 
         // Fallback if no item matched (edge case)
-        Debug.Log("No item acquired. Drop chances may not sum up to 100.");
+       // Debug.Log("No item acquired. Drop chances may not sum up to 100.");
     }
 
     public void RemoveRequiredCampResources(CampActionData campData)
@@ -177,7 +183,7 @@ public class ActionCampHandler : MonoBehaviour
     {
         if (campData.campSpecificLogic == null)
         {
-            Debug.Log("No campspecificLogic!!");
+          //  Debug.Log("No campspecificLogic!!");
             return true;
         }
 
@@ -193,7 +199,7 @@ public class ActionCampHandler : MonoBehaviour
 
         if (campData.campSpecificLogic == null)
         {
-            Debug.Log("No campspecificLogic!!");
+         //   Debug.Log("No campspecificLogic!!");
           
         }
         else

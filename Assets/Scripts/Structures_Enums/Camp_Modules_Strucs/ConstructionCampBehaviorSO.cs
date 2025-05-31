@@ -45,16 +45,30 @@ public class ConstructionCampBehaviorSO : ScriptableObject, CampSpecificInterfac
         {
             if (Enum.TryParse<CampType>(data.BuildingIDUnlocked, out CampType campType))
             {
-
+                
                 DataGameManager.instance.SetCampLockedStatus(campType, false);
                 Debug.Log(data.BuildingIDUnlocked + "Has been unlocked!");
                 DataGameManager.instance.campButtonUpdater.UpdateCampButtonAsUnlocked(campType);
-                
+  
             }
-            else
+
+            if (data.SingleUseSlot && DataGameManager.instance.constructionCampModuleData.TryGetValue(slotKey, out var module))
             {
-                Debug.LogWarning($"Invalid CampType string: {data.BuildingIDUnlocked}");
+                Debug.Log("We set one to complete!!");
+               
+                DataGameManager.instance.OneSlotUseActions.Add(slotKey, new OneSlotUseActions_Struc(slotKey)); //Add this slot to the OneSlotUse!
+
+                DataGameManager.instance.actionCampHandler.RemoveCampAction(slotKey, CampType.ConstructionCamp);
+
+                if (DataGameManager.instance.currentActiveCamp == CampType.ConstructionCamp)
+                {
+                    var campDataDict = DataGameManager.instance.GetCampData(CampType.ConstructionCamp); //update the camps visuals to reflect this camp now gone!
+                    DataGameManager.instance.populate_Camp_Slots.PopulateSlots(campDataDict);
+                }
+
             }
+          
+            
         }
     }
 }

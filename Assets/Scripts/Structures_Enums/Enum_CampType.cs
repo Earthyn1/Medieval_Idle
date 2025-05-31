@@ -12,6 +12,7 @@ public enum CampType
     TownStorage,
     LocalMarket,
     TownOverview,
+    NA
 }
 
 [CreateAssetMenu(fileName = "CampTypeData", menuName = "ScriptableObjects/CampTypeData", order = 1)]

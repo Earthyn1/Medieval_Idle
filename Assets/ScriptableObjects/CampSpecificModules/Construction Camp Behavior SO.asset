@@ -9,13 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9c321f7eb8f2b8f4890f77154c3764db, type: 3}
-  m_Name: Step_1
+  m_Script: {fileID: 11500000, guid: 6449e2c4990fd6b4385eef943a5a9008, type: 3}
+  m_Name: Construction Camp Behavior SO
   m_EditorClassIdentifier: 
-  stepID: Step_1
-  instructionText: 'Hi there!
-
-    Lets focus on the LumberCamp'
-  focusObjectName: Slot_1
-  clickFocusedObject: 1
-  autoAdvanceDelay: 0
+  behaviorName: Construction Camp Logic
+  debugColor: {r: 0, g: 1, b: 0, a: 1}

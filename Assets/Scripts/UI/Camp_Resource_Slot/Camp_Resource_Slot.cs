@@ -74,4 +74,19 @@ public class Camp_Resource_Slot : MonoBehaviour
       requiredResource_Parent.SetActive(false);
       isActive = true;
     }
+
+    public void CheckForDialogs()
+    {
+        if (slotkey == "Maple Plank")
+        {
+            if (!DataGameManager.instance.Tutorial_Lists.GetFlag("FirstTimeCedricDialog"))
+            {
+                TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("JustBuiltSawMill");
+                DataGameManager.instance.tutorialManager.SetupTutorial(tutorialGroupData);
+                DataGameManager.instance.Tutorial_Lists.SetFlag("FirstTimeCedricDialog", true);
+            }
+        }
+
+
+    }
 }

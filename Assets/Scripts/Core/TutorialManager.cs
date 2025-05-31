@@ -13,7 +13,11 @@ public class TutorialManager : MonoBehaviour
     public Button textboxButton;
     public GameObject textBoxParent;
     public Text clickToContinueText;
-    public UnityAction listener;
+    Dictionary<Button, UnityAction> tutorialListeners = new Dictionary<Button, UnityAction>();
+
+    public Image npcImage;
+    public Text npcName;
+    public Text npcName2;
 
     [Header("Tutorial Steps")]
     public List<TutorialStepData> tutorialSteps;
@@ -30,6 +34,10 @@ public class TutorialManager : MonoBehaviour
 
     public void NextStep()
     {
+        DisableAllButtonsExcept(null); // disable all buttons if none are allowed
+       // highlightPanel.SetActive(false);
+
+
         if (autoAdvanceCoroutine != null)
         {
             StopCoroutine(autoAdvanceCoroutine);
@@ -57,6 +65,10 @@ public class TutorialManager : MonoBehaviour
 
         instructionText.text = step.instructionText;
 
+        npcImage.sprite = step.NPCImage;
+        npcName.text = step.NPCName;
+        npcName2.text = npcName.text;
+
         if (step.focusObjectName != "") 
         {
             highlightPanel.SetActive(true);
@@ -81,21 +93,26 @@ public class TutorialManager : MonoBehaviour
 
             PositionHighlight(targetRect);
 
-            // ✅ Disable all buttons except the one we’re highlighting
-            Button focusButton = focusObject.GetComponent<Button>();
-            if (focusButton != null)
+            if (focusObject.GetComponent<Button>())
             {
-                DisableAllButtonsExcept(focusButton);
-            }
-            else
-            {
-                Debug.LogWarning($"Focus object '{step.focusObjectName}' does not have a Button component.");
-                DisableAllButtonsExcept(null); // disable all buttons if none are allowed
-            }
+                // ✅ Disable all buttons except the one we’re highlighting
+                Button focusButton = focusObject.GetComponent<Button>();
+                if (focusButton != null)
+                {
+                    DisableAllButtonsExcept(focusButton);
+                }
+                else
+                {
+                    Debug.LogWarning($"Focus object '{step.focusObjectName}' does not have a Button component.");
+                    DisableAllButtonsExcept(null); // disable all buttons if none are allowed
+                }
 
-            //Add listener for when button pressed
-            listener = () => OnTutorialButtonClicked(focusButton);
-            focusButton.onClick.AddListener(listener);
+
+                // When assigning:
+                UnityAction action = () => OnTutorialButtonClicked(focusButton);
+                focusButton.onClick.AddListener(action);
+                tutorialListeners[focusButton] = action;
+            } 
         }
         else
         {
@@ -115,8 +132,19 @@ public class TutorialManager : MonoBehaviour
 
         dimBackgroundPanel.SetActive(true);
       
+        if (step.ObjectiveToGive != null)
+        {
+            Objective_Manager.CreateNewObjective(step.ObjectiveToGive);
+        }
+
+        if (step.flagToSetID != TutorialFlagID.NA)
+        {
+            DataGameManager.instance.Tutorial_Lists.CompleteDialogEvent(step.flagToSetID);
+            Debug.Log(DataGameManager.instance.Tutorial_Lists.GetFlag(step.flagToSetID.ToString()));
+        }
 
        
+        
         // If this step has an auto-advance delay, start a new coroutine
         if (step.autoAdvanceDelay > 0f)
         {
@@ -130,7 +158,12 @@ public class TutorialManager : MonoBehaviour
         Debug.Log("Tutorial step completed!");
       
         NextStep();
-        button.onClick.RemoveListener(listener);
+
+        if (tutorialListeners.TryGetValue(button, out var action))
+        {
+            button.onClick.RemoveListener(action);
+            tutorialListeners.Remove(button);
+        }
     }
 
     private void PositionHighlight(RectTransform target)
@@ -183,7 +216,7 @@ public class TutorialManager : MonoBehaviour
         foreach (Button btn in allButtons)
         {
             btn.interactable = (btn == allowedButton);
-            Debug.Log($"{btn.gameObject.name} interactable set to {btn.interactable}");
+          //  Debug.Log($"{btn.gameObject.name} interactable set to {btn.interactable}");
         }
     }
 
@@ -202,9 +235,23 @@ public class TutorialManager : MonoBehaviour
         }
     }
 
-    public void SetupTutorial(List<TutorialStepData> TutorialSteps)
+  
+
+    public void SetupTutorial(TutorialGroupData tutorialGroupData)
     {
-        tutorialSteps = TutorialSteps;
+        // Clean up existing listeners
+        foreach (var pair in tutorialListeners)
+        {
+            if (pair.Key != null)
+            {
+                pair.Key.onClick.RemoveListener(pair.Value);
+            }
+        }
+        tutorialListeners.Clear();
+
+        Debug.Log(tutorialGroupData.groupId);
+        currentStepIndex = -1;
+        tutorialSteps = tutorialGroupData.steps;
         textBoxParent.SetActive(true);
         NextStep();
     }

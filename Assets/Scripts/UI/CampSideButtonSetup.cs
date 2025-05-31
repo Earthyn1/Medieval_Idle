@@ -35,11 +35,7 @@ public class CampButtonSetup : MonoBehaviour
 
                 break;
 
-            case CampType.ConstructionCamp:
-                DataGameManager.instance.SetCampLockedStatus(campData.campType, false);
-                int currentxp2 = XPManager.GetCampXP(campData.campType)?.currentXP ?? 0;
-                campXPText.text = "Lvl: " + XPManager.GetLevelForXP(currentxp2).ToString();
-                break;
+       
 
 
             case CampType.TownOverview:

@@ -1,0 +1,54 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7ac5c3e75008a440a2a59beff8ebbe6, type: 3}
+  m_Name: JustBuiltSawMill
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialGroupData
+  groupId: JustBuiltSawMill
+  steps:
+  - stepID: 
+    instructionText: Names Cedric, I run this Lumber Camp my Lord.
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: I see you have ordered the production of Maple Planks?
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: 'Excellent decision My Lord! They are the foundation for many
+      builds once this Construction Camp gains more experience! '
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Here is a rough estimate on the basic building supplies we should
+      have.
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 11400000, guid: dae8d51487102cb4f942658d81536a80, type: 2}
+    flagToSetID: 0

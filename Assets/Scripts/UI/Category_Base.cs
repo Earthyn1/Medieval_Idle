@@ -87,6 +87,6 @@ public class Category_Base : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
 
     public void OnPointerClick(PointerEventData eventData)
     {
-        SetAsSelected();
+      //  SetAsSelected();
     }
 }

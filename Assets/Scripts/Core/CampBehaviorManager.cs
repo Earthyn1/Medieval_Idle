@@ -19,14 +19,14 @@ public class CampBehaviorManager : MonoBehaviour
             CampSpecificInterface behavior = GetBehaviorForCampType(campPair.Key);
             if (behavior == null)
             {
-                Debug.LogWarning($"No behavior assigned for CampType {campPair.Key}");
+              //  Debug.LogWarning($"No behavior assigned for CampType {campPair.Key}");
                 continue;
             }
 
             foreach (var kvp in campPair.Value)
             {
                 kvp.Value.SetCampSpecificLogic(behavior);
-                Debug.Log($"Assigned {behavior.GetType().Name} to {kvp.Key}");
+             //   Debug.Log($"Assigned {behavior.GetType().Name} to {kvp.Key}");
             }
         }
     }

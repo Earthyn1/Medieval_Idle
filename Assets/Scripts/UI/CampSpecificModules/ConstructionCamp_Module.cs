@@ -41,7 +41,7 @@ public class ConstructionCamp_Module : MonoBehaviour , CampUISlotInterface
 
     public void OnUISlotUpdate(string campid)
     {
-       if (constructionCampModule != null)
+        if (constructionCampModule != null)
         {
             if (DataGameManager.instance.CurrentLandDeedsOwned < constructionCampModule.landDeed)
             {
@@ -51,8 +51,9 @@ public class ConstructionCamp_Module : MonoBehaviour , CampUISlotInterface
             {
                 deedRequiredAmount.color = Color.green;
             }
-        } 
+        }
     }
+
 
     public bool HasEnoughCampSpecificResources(string campid)
     {

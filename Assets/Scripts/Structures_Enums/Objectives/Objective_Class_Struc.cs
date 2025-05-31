@@ -8,16 +8,13 @@ public class TaskData
 {
     public string taskName;
     public string taskId;
+    public bool isInventoryItem;
     public int taskMaxQty;
     public int taskCurrentQty = 0;
+    
 }
 
-[CreateAssetMenu(fileName = "NewObjective", menuName = "Objectives/Objective")]
-public class ObjectiveData : ScriptableObject
-{
-    public string objectiveName;
-    public List<TaskData> tasks = new List<TaskData>();
-}
+
 
 public class ObjectiveInstance
 {
@@ -35,6 +32,7 @@ public class TaskInstance
 {
     public string taskName;
     public string taskId;
+    public bool isInventoryItem;
     public int currentQty;
     public int maxQty;
 
@@ -42,6 +40,7 @@ public class TaskInstance
     {
         taskName = data.taskName;
         taskId = data.taskId;
+        isInventoryItem = data.isInventoryItem; 
         maxQty = data.taskMaxQty;
         currentQty = 0;
     }

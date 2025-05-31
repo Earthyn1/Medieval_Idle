@@ -75,6 +75,8 @@ public class DataGameManager : MonoBehaviour
 
     public Dictionary<string, ConstructionCampModule> constructionCampModuleData;
 
+    public Dictionary<string, OneSlotUseActions_Struc> OneSlotUseActions = new();
+
 
     //combined into 1 dictionary by Camp Type
     public Dictionary<CampType, Dictionary<string, CampActionData>> campDictionaries = new Dictionary<CampType, Dictionary<string, CampActionData>>();
@@ -92,7 +94,12 @@ public class DataGameManager : MonoBehaviour
     //List of the CampTypeData Struc
     public List<CampTypeData> campTypeDataList;
 
+    // CUrrent objectives
     public List<ObjectiveInstance> ActiveObjectives = new List<ObjectiveInstance>();
+
+    //Dictionry of flags for the game like first time opening x thing
+    public Dictionary<string, bool> tutorialFlags = new Dictionary<string, bool>();
+
 
 
 
@@ -151,6 +158,11 @@ public class DataGameManager : MonoBehaviour
 
     }
 
+    public CampTypeData GetCampTypeDataByType(CampType campType)
+    {
+        return campTypeDataList.Find(data => data.campType == campType);
+    }
+
     public Dictionary<string, CampActionData> GetCampData(CampType campType) // Function to retrieve the dictionary for a specific camp type
     {
         if (campDictionaries.TryGetValue(campType, out var campData))
@@ -179,6 +191,11 @@ public class DataGameManager : MonoBehaviour
         {
             campXPDictionaries[campType] = new CampXPData { currentXP = 0, currentLevel = 1 };
         }
+    }
+
+    public bool TryFindItemData(string itemID, out ItemData_Struc itemData)
+    {
+        return itemData_Array.TryGetValue(itemID, out itemData);
     }
 
     public void SetCampLockedStatus(CampType campType, bool isLocked)

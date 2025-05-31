@@ -1,0 +1,120 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7ac5c3e75008a440a2a59beff8ebbe6, type: 3}
+  m_Name: UnlockConstructionCamp_FromOpen
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialGroupData
+  groupId: ExplainCompletedObjectivesButton_FromOpen
+  steps:
+  - stepID: 
+    instructionText: Completing objectives is a great way to progress this small
+      town!
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Let us complete this objective My Lord.
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: CompleteObjectiveButton
+    clickFocusedObject: 1
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: I also bring good news, I have word that the Construction Camp
+      is almost ready for use!
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 5
+  - stepID: 
+    instructionText: We should head there now!
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: ConstructionCamp_Button
+    clickFocusedObject: 1
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Ah... I was not informed what "almost" meant...
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: No matter! Do you see the panels at the top? Click on the Building
+      icon.
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: Category_ConstrustionCamp_Buildings
+    clickFocusedObject: 1
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Oh thats not so bad, we just need 12 Maple Logs to finish construction
+      of the Saw Mill!
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: See the Maple Logs required there?
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: RequiredResource-MapleLog
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Its important to note how many villagers are required for each
+      action too.
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: Villager_Req
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Your entire workforce can be found at the top.
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: Population_Parent
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: For now I recommned completing the Sawmill, good luck My Lord!
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 11400000, guid: 3eabfac99b692c7499c3d6e1b4b48e43, type: 2}
+    flagToSetID: 0

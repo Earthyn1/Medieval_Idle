@@ -360,7 +360,7 @@ GameObject:
   - component: {fileID: 5515687046329886886}
   m_Layer: 5
   m_Name: Inventory_Slot
-  m_TagString: Untagged
+  m_TagString: Active_Buttons
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -498,6 +498,8 @@ MonoBehaviour:
   itemName: {fileID: 5995537526295007635}
   itemQty: {fileID: 6386396328425687234}
   boxOutline: {fileID: 4276431463418487368}
+  itemSalePrice: {fileID: 0}
+  isLocalMarketSlot: 0
   itemIcon: {fileID: 553742416782480714}
   isActive: 0
 --- !u!1 &6453489598271012784

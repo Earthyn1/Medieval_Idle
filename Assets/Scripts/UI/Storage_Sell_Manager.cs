@@ -20,6 +20,7 @@ public class StorageSellManager : MonoBehaviour
     public Texture2D StorageBGImage;
     public Texture2D MarketBGImage;
     public Image BG_Banner;
+    public GameObject sellPanel;
 
 
 
