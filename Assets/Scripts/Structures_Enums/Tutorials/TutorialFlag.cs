@@ -15,11 +15,13 @@ public enum TutorialFlagID
     VisitBlacksmith,
     ObjectivesTrackerUnlock,
     UnlockConstructionCamp,
-    UnlockStorageSellPanel,
+    FirstTimeVisitStorageSellPanel,
     SwitchTo_UnlockConstructionCamp_FromOpen,
     FirstTimeCedricDialog,
     GivePlayerCopperNails,
     PurchaseLandDeedUnlocked,
+    FirstTimeVisitLocalMarket,
+    FirstTimeFishingCamp,
     
     // etc.
 }

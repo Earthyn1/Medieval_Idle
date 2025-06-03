@@ -19,7 +19,7 @@ MonoBehaviour:
     isInventoryItem: 0
     taskMaxQty: 1
     taskCurrentQty: 0
-  DialogIDWhenCompleted: {fileID: 0}
+  DialogIDWhenCompleted: {fileID: 11400000, guid: 4886231126fcefa4ba4b26272694fcf5, type: 2}
   Objectives_Rewards:
   - itemID: MapleLog
     campType: 10

@@ -3,6 +3,7 @@ using UnityEngine.UI;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.Events;
+using System;
 
 public class TutorialManager : MonoBehaviour
 {
@@ -71,9 +72,24 @@ public class TutorialManager : MonoBehaviour
 
         if (step.focusObjectName != "") 
         {
+            GameObject focusObject = null;
+
             highlightPanel.SetActive(true);
 
-            GameObject focusObject = GameObject.Find(step.focusObjectName);
+            if (step.focusObjectName == "WolfMeat")
+            {
+                int index = TownStorageManager.FindItemIndexByID(step.focusObjectName);
+                Debug.Log("Location of item --" + index);
+
+                string slotname = DataGameManager.instance.populate_Storage_Slots.parentContainer.GetChild(index).name;
+                focusObject = GameObject.Find(slotname);
+            }
+            else
+            {
+                focusObject = GameObject.Find(step.focusObjectName);
+            }
+
+           
             if (focusObject == null)
             {
                 Debug.LogWarning($"Focus object '{step.focusObjectName}' not found in scene.");

@@ -6,7 +6,7 @@ public class ItemData_Struc
     public string ItemName;
     public string Description;
     public Sprite ItemImage;
-    public string ItemType;
+    public ItemType ItemType;
     public string ItemCategory;
     public string ItemReplaces;
     public int StorageSpace;
@@ -24,7 +24,7 @@ public class ItemData_Struc
         ItemName = "Unknown";
         Description = "No description";
         ItemImage = null;
-        ItemType = "None";
+        ItemType = ItemType.NA;
         ItemCategory = "Misc";
         ItemReplaces = "None";
         StorageSpace = 1;
@@ -38,7 +38,7 @@ public class ItemData_Struc
 
     public ItemData_Struc(
         string itemID, string itemName, string description, Sprite itemImage,
-        string itemType, string itemCategory, string itemReplaces, int storageSpace,
+        ItemType itemType, string itemCategory, string itemReplaces, int storageSpace,
         int restoreHealthAmount, int fuelAmount, int itemSellPrice, int storedQty, int maxStack)
 
     {

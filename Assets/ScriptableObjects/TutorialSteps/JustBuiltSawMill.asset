@@ -31,9 +31,9 @@ MonoBehaviour:
     clickFocusedObject: 0
     autoAdvanceDelay: 0
     ObjectiveToGive: {fileID: 0}
-    flagToSetID: 0
+    flagToSetID: 8
   - stepID: 
-    instructionText: I see you have ordered the production of Maple Planks?
+    instructionText: I see you are interested in the production of Maple Planks?
     NPCName: Cedric
     NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
     focusObjectName: 
@@ -52,12 +52,30 @@ MonoBehaviour:
     ObjectiveToGive: {fileID: 0}
     flagToSetID: 0
   - stepID: 
-    instructionText: A rough estimate on the basic building supplies, added to your
-      Objective Tracker.
+    instructionText: This is a rough estimate on a recommended amount we should get,
+      added to your Objective Tracker.
     NPCName: Cedric
     NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
     focusObjectName: 
     clickFocusedObject: 0
     autoAdvanceDelay: 0
     ObjectiveToGive: {fileID: 11400000, guid: dae8d51487102cb4f942658d81536a80, type: 2}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Let us head back to see what options we now have my Lord.
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: ConstructionCamp_Button
+    clickFocusedObject: 1
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Maple Planks, a sturdy wood yes! A great choice my Lord!
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
     flagToSetID: 0

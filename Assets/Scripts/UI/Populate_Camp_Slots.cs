@@ -6,6 +6,7 @@ using System.Linq;
 using System.Collections;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
+using UnityEditor.Rendering;
 
 
 public class Populate_Camp_Slots : MonoBehaviour
@@ -73,6 +74,16 @@ public class Populate_Camp_Slots : MonoBehaviour
             slotScript.popCount.text = slot.Value.populationCost.ToString();
             newSlot.name = $"Slot_{slot.Key}";
             slotScript.lvlUnlocked.text = slot.Value.levelUnlocked.ToString();
+
+            if (slot.Value.populationCost > DataGameManager.instance.CurrentVillagerCount)
+            {
+                slotScript.popCount.color = Color.red;
+            }
+            else
+            {
+                slotScript.popCount.color = Color.white;
+            }
+
 
             if (DataGameManager.instance.campXPDictionaries.TryGetValue(slot.Value.campType, out CampXPData campXPData)) // checks we have the data
             {
@@ -149,7 +160,7 @@ public class Populate_Camp_Slots : MonoBehaviour
             }
             else
             {
-                CampActionEntry campActionEntry = new CampActionEntry(slot.Value.resourceName , slot.Value.campType, DateTime.Now);  // Create a new CampActionEntry with the current time 
+                CampActionEntry campActionEntry = new CampActionEntry(slot.Value.resourceName , slot.Value.campType, DateTime.Now, 0);  // Create a new CampActionEntry with the current time 
                 slotScript.slotkey = slot.Key;
                 slotScript.campType = slot.Value.campType;
                 campActionEntry.SetSlot(slotScript); //Adds this new slot ref to itself.
@@ -182,18 +193,7 @@ public class Populate_Camp_Slots : MonoBehaviour
         foreach (Transform slot in parentContainer)
         {
             Camp_Resource_Slot slotScript = slot.GetComponent<Camp_Resource_Slot>();
-
-            if (slotScript != null && slotScript.slotkey != null)
-            {
-                
-            }
-            else
-            {
-                
-                Debug.LogWarning("slotScript or campActionData is null!");
-            }
-
-            
+     
             CampActionData campActionData = DataGameManager.instance.GetCampActionData(slotScript.campType, slotScript.slotkey);
 
             // Check for required resource slots
@@ -228,6 +228,24 @@ public class Populate_Camp_Slots : MonoBehaviour
         }
     }
 
+    public void UpdateRequiredVillager_Colors()
+    {
+        foreach (Transform slot in parentContainer)
+        {
+            Camp_Resource_Slot slotScript = slot.GetComponent<Camp_Resource_Slot>();
+
+            CampActionData campActionData = DataGameManager.instance.GetCampActionData(slotScript.campType, slotScript.slotkey);
+
+            if (campActionData.populationCost > DataGameManager.instance.CurrentVillagerCount)
+            {
+                slotScript.popCount.color = Color.red;
+            }
+            else
+            {
+                slotScript.popCount.color = Color.white;
+            }
+        }
+    }
     public IEnumerator SetupCampCategorys(CampType campType)
     {
         foreach (Transform child in Camp_Categorys_Parent.transform) // Clear existing slots

@@ -38,6 +38,13 @@ public class ConstructionCampBehaviorSO : ScriptableObject, CampSpecificInterfac
         DataGameManager.instance.CurrentLandDeedsOwned -= data.landDeed;
     }
 
+    public void ReturnCampSpecificResources(string slotKey)
+    {
+        var data = DataGameManager.instance.constructionCampModuleData[slotKey];
+        DataGameManager.instance.CurrentLandDeedsOwned += data.landDeed;
+       
+    }
+
     public void OnCompletedCampSpecificAction(string slotKey)
     {
         var data = DataGameManager.instance.constructionCampModuleData[slotKey];
@@ -46,17 +53,14 @@ public class ConstructionCampBehaviorSO : ScriptableObject, CampSpecificInterfac
             if (Enum.TryParse<CampType>(data.BuildingIDUnlocked, out CampType campType))
             {
                 
-                DataGameManager.instance.SetCampLockedStatus(campType, false);
-                
-
-               
-                DataGameManager.instance.campButtonUpdater.UpdateCampButtonAsUnlocked(campType);
+                DataGameManager.instance.SetCampLockedStatus(campType, false); //Updates the Camps Locked status
+ 
+                DataGameManager.instance.campButtonUpdater.UpdateCampButtonAsUnlocked(campType); //Sets side button as unlocked
   
             }
 
-            if (data.SingleUseSlot && DataGameManager.instance.constructionCampModuleData.TryGetValue(slotKey, out var module))
+            if (data.SingleUseSlot && DataGameManager.instance.constructionCampModuleData.TryGetValue(slotKey, out var module)) //Sets oneSlotUse as hidden
             {
-                Debug.Log("We set one to complete!!");
                
                 DataGameManager.instance.OneSlotUseActions.Add(slotKey, new OneSlotUseActions_Struc(slotKey)); //Add this slot to the OneSlotUse!
 
@@ -73,4 +77,6 @@ public class ConstructionCampBehaviorSO : ScriptableObject, CampSpecificInterfac
             
         }
     }
+
+    
 }

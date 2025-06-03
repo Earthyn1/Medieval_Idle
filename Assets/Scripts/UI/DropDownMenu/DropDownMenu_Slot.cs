@@ -1,0 +1,57 @@
+using UnityEngine;
+using UnityEngine.UI;
+
+public class DropDownMenu_Slot : MonoBehaviour
+{
+    public Text SlotAmount;
+    public string itemID;
+    public Text SlotName;
+    public Image SlotImage;
+    public GameObject ParentButton;
+    public CampType campType_;
+    public DropDownMenu dropDownMenu;
+    // Sta
+    // rt is called once before the first execution of Update after the MonoBehaviour is created
+    public void SetupSlot(ItemData_Struc itemData, int Amount, CampType campType, GameObject parentButton)
+    {
+        SlotAmount.text = Amount.ToString();
+        SlotName.text = itemData.ItemName;
+        SlotImage.sprite = itemData.ItemImage;
+        campType_ = campType;
+        ParentButton = parentButton;
+    }
+
+    public void OnClicked()
+    {
+        if (campType_ != CampType.FishingCamp) return;
+
+        FishingCampBait_Button fishingCampBait_Button = ParentButton.GetComponent<FishingCampBait_Button>();
+
+        if (!int.TryParse(SlotAmount.text, out int parsedAmount))
+            return;
+
+        var equipped = DataGameManager.instance.currentFishingBaitEquipped;
+
+        if (equipped != null)
+        {
+            if (equipped.item == itemID)
+            {
+                equipped.qty += parsedAmount;
+            }
+            else
+            {
+                TownStorageManager.AddItem(equipped.item, equipped.qty, CampType.NA);
+                DataGameManager.instance.currentFishingBaitEquipped = new(itemID, parsedAmount, 0);
+            }
+        }
+        else
+        {
+            DataGameManager.instance.currentFishingBaitEquipped = new(itemID, parsedAmount, 0);
+        }
+
+        TownStorageManager.RemoveItem(itemID, parsedAmount);
+        dropDownMenu.PlayAnimation_Close();
+        fishingCampBait_Button.SetButton();
+    }
+}
+

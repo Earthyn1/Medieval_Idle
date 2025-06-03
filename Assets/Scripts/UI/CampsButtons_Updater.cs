@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering.Universal;
 using UnityEngine.UI;
 
 public class CampButtonUpdater : MonoBehaviour
@@ -46,6 +47,43 @@ public class CampButtonUpdater : MonoBehaviour
             Debug.LogError($"No button found for camp type: {campType}");
         }
     }
+
+    public void UpdateCampUsageGreenDots(CampType campType, int Amount)
+    {
+        foreach (Transform child in campsVerticalLayout.transform)
+        {
+            CampButtonSetup childscript = child.GetComponent<CampButtonSetup>();
+            if (childscript.campData.campType == campType)
+            {
+                if (Amount > 0)
+                {
+                    // Add green dots
+                    for (int i = 0; i < Amount; i++)
+                    {
+                        GameObject newDot = Instantiate(childscript.GreenDot, childscript.CampPopUsage_Parent.transform);
+                    }
+                }
+                else if (Amount < 0)
+                {
+                    // Remove green dots safely by caching first
+                    int toRemoveCount = Mathf.Min(Mathf.Abs(Amount), childscript.CampPopUsage_Parent.transform.childCount);
+                    List<Transform> toRemove = new List<Transform>();
+
+                    for (int i = 0; i < toRemoveCount; i++)
+                    {
+                        toRemove.Add(childscript.CampPopUsage_Parent.transform.GetChild(i));
+                    }
+
+                    foreach (var t in toRemove)
+                    {
+                        GameObject.Destroy(t.gameObject);
+                    }
+                }
+                // If Amount == 0, do nothing
+            }
+        }
+    }
+
 
     public void UpdateCampButtonAsUnlocked(CampType campType)
     {

@@ -25,6 +25,7 @@ public class Camp_Resource_Slot : MonoBehaviour
     public GameObject CampSpecificPrefab;
     public bool isActive = false;
     public bool isLocked = true;
+    public Animator animator;
  
     public void OnClicked()
     {
@@ -67,6 +68,14 @@ public class Camp_Resource_Slot : MonoBehaviour
             }
         }
     }
+
+    public void NotEnoughVillagerFlash()
+    {
+        animator.Play("IdleState", 0, 0f);
+        animator.ResetTrigger("PlayAnimation");
+        animator.SetTrigger("PlayAnimation");
+
+    }
     public void UpdateProgressBar(float progress)
     {
         progressBar.fillAmount = progress;  // Assuming the slider's range is 0 to 1
@@ -77,9 +86,19 @@ public class Camp_Resource_Slot : MonoBehaviour
         Transform parentTransform = progressBar.transform.parent;
         parentTransform.gameObject.SetActive(false);
         requiredResource_Parent.SetActive(true);
+        DataGameManager.instance.actionCampHandler.ReturnResources(slotkey, campType);
         DataGameManager.instance.actionCampHandler.RemoveCampAction(slotkey,campType);
         isActive = false;
     }
+
+    public void DeactivateActionSlot_WithoutReturningResources()
+    {
+        Transform parentTransform = progressBar.transform.parent;
+        parentTransform.gameObject.SetActive(false);
+        requiredResource_Parent.SetActive(true);
+        isActive = false;
+    }
+
 
     public void ActivateActionSlot()
     {
@@ -93,6 +112,7 @@ public class Camp_Resource_Slot : MonoBehaviour
     {
         if (slotkey == "Maple Plank")
         {
+
             if (!DataGameManager.instance.Tutorial_Lists.GetFlag("FirstTimeCedricDialog"))
             {
                 TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("JustBuiltSawMill");
@@ -100,7 +120,7 @@ public class Camp_Resource_Slot : MonoBehaviour
                 DataGameManager.instance.Tutorial_Lists.SetFlag("FirstTimeCedricDialog", true);
             }
         }
-
-
     }
+
+ 
 }

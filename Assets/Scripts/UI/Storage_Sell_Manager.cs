@@ -44,6 +44,7 @@ public class StorageSellManager : MonoBehaviour
             {
                 TownStorageManager.RemoveItemFromSlot(slotIndex, (int)slider.value); //If selling from storage code
                 Debug.Log("Removed item");
+                DataGameManager.instance.topPanelManager.AddedRemovedGoldAnim(true, int.Parse(finalPrice.text));
                 DataGameManager.instance.PlayerGold += int.Parse(finalPrice.text);
                 DataGameManager.instance.topPanelManager.UpdateGold();
 
@@ -58,6 +59,8 @@ public class StorageSellManager : MonoBehaviour
                     TownStorageManager.AddItem(itemscript.LocalMarketItemData.itemID, int.Parse(currentQtySelected.text), CampType.LocalMarket); //If selling from storage code
                     DataGameManager.instance.PlayerGold -= int.Parse(finalPrice.text);
                     DataGameManager.instance.topPanelManager.UpdateGold();
+                    DataGameManager.instance.topPanelManager.AddedRemovedGoldAnim(false, int.Parse(finalPrice.text));
+
                     UpdateUI();
                     Debug.Log("updatedGold");
                 }
@@ -83,7 +86,7 @@ public class StorageSellManager : MonoBehaviour
             itemDescription.text = data.Description;
             itemImage.sprite = data.ItemImage;
             itemSinglePrice.text = data.ItemSellPrice.ToString();
-            itemType.text = data.ItemType;
+            itemType.text = data.ItemType.ToString();
             itemMaxQty.text = script.itemDataBasic.Quantity.ToString();
             singleCostText.text = "Single sell cost";
             buySellText.text = "Sell";
@@ -110,7 +113,7 @@ public class StorageSellManager : MonoBehaviour
         itemName.text = data.ItemName;
         itemDescription.text = data.Description;
         itemImage.sprite = data.ItemImage;
-        itemType.text = data.ItemType;
+        itemType.text = data.ItemType.ToString();
         singleCostText.text = "Single buy cost";
         buySellText.text = "Buy";
         buySellText_2.text = "Buy";

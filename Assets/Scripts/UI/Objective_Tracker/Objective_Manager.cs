@@ -92,6 +92,7 @@ public static class Objective_Manager
 
     public static void RemoveObjective(ObjectiveInstance data)
     {
+        DataGameManager.instance.CompletedObjectives.Add(data);
         DataGameManager.instance.ActiveObjectives.Remove(data);
 
         objectivesTracker.RemoveObjectivesUI(data);

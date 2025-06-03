@@ -7,8 +7,9 @@ public class LandDeed_Manager : MonoBehaviour
 {
     public Text purchaseDeedAmountText;
     public GameObject purchaseDeedParentBox;
+    public Button purchaseDeedAmountButton;
 
-    private float basePrice = 286f;
+    private float basePrice = 160f;
     private float growthRate = 1.15f;
 
     public int GetDeedCost()
@@ -18,6 +19,7 @@ public class LandDeed_Manager : MonoBehaviour
 
     public void SetupDeedBox()
     {
+        purchaseDeedAmountButton.interactable = true;
         //set purchase amount and red text if not enough black text if enough.
         purchaseDeedAmountText.text = GetDeedCost().ToString();
         if(GetDeedCost() > DataGameManager.instance.PlayerGold)
@@ -69,6 +71,10 @@ public class LandDeed_Manager : MonoBehaviour
             DataGameManager.instance.PlayerGold = DataGameManager.instance.PlayerGold - GetDeedCost();
             DataGameManager.instance.landDeedsbrought = DataGameManager.instance.landDeedsbrought + 1;
             DataGameManager.instance.CurrentLandDeedsOwned = DataGameManager.instance.CurrentLandDeedsOwned + 1;
+            DataGameManager.instance.topPanelManager.UpdateGold();
+            int cost = GetDeedCost();
+            DataGameManager.instance.topPanelManager.AddedRemovedGoldAnim(false, cost);
+
 
             SetupDeedBox();
 

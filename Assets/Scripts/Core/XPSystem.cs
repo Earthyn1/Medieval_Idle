@@ -43,6 +43,7 @@ public static class XPManager
     
     public static CampProgressBar campProgressBar;
     public static LevelUpNotification_Manager levelUpNotification;
+    public static NewUnlocks_Notifcation_Manager newUnlocksNotifcation;
 
 
 
@@ -149,7 +150,7 @@ public static class XPManager
                 campProgressBar.UpdateProgressBar(campType);
             }
 
-            // Check if the camp can level up d
+            // Check if the camp can level up
             if (CanLevelUp(campType))
             {
                 // Get the new level based on the XP
@@ -158,7 +159,9 @@ public static class XPManager
                 // If the new level is higher, update the level
                 if (newLevel > campData.currentLevel)
                 {
+                    int oldLevel = campData.currentLevel;
                     campData.currentLevel = newLevel;
+                    newUnlocksNotifcation.CheckForNewUnlocks(campType, newLevel, oldLevel);
                     DataGameManager.instance.campButtonUpdater.UpdateCampButtonLevel(campType); //update the side button xp aswell!
                     
                     levelUpNotification.LevelUpNotificationSetup(campType);

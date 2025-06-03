@@ -37,7 +37,7 @@ public class CampBehaviorManager : MonoBehaviour
         return campType switch
         {
             CampType.ConstructionCamp => constructionCampBehaviorSO,
-            CampType.FishingCamp => fishingCampBehaviorSO,
+         //   CampType.FishingCamp => fishingCampBehaviorSO,
             // Add other camp types here...
             _ => null,
         };

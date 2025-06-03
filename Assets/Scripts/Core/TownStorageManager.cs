@@ -65,7 +65,7 @@ public static class TownStorageManager
                 slot.Quantity = toAdd;
                 DataGameManager.instance.TownStorage_List[i] = slot;
                 remaining -= toAdd;
-                break;
+                
             }
         }
 
@@ -200,6 +200,22 @@ public static class TownStorageManager
                 slotUI.SetAsEmpty();
             }
         }  
+    }
+
+    public static int FindItemIndexByID(string itemID)
+    {
+        int index = 0;
+        foreach (var kvp in DataGameManager.instance.TownStorage_List)
+        {
+            if (kvp.ItemID == itemID)
+            {
+                return index;
+            }
+            index++;
+        }
+
+        Debug.LogWarning($"Item ID '{itemID}' not found in itemData_Array.");
+        return -1; // Not found
     }
 
     public static int GetCurrentQuantity(string itemID)

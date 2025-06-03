@@ -24,6 +24,8 @@ public interface CampSpecificInterface
     void OnUpdateSlot(string slotKey);
     bool HasEnoughCampSpecificResources(string slotKey);
     void RemoveCampSpecificResources(string slotKey);
+
+    void ReturnCampSpecificResources(string slotKey);
     void OnCompletedCampSpecificAction(string slotKey);
 }
 

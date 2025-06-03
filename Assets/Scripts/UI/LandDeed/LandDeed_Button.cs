@@ -33,6 +33,7 @@ public class LandDeed_Button : MonoBehaviour
         }
         else
         {
+            DataGameManager.instance.Game_Text_Alerts.PlayAlert("Land Deeds are not yet unlocked!");
             Debug.Log("LandDeed not yet unlocked!");
         }
        

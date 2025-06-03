@@ -42,6 +42,10 @@ public class Objective_Slot_UI : MonoBehaviour
 
             Objective_Rewards_UI newslotScript = newSlot.GetComponent<Objective_Rewards_UI>();
 
+            ItemData_Struc itemData;
+            DataGameManager.instance.TryFindItemData(objectives_Rewards.itemID, out itemData);
+           
+
             if (objectives_Rewards.campType != CampType.NA) //If reward is campXP
             {
                 CampTypeData campType = DataGameManager.instance.GetCampTypeDataByType(objectives_Rewards.campType);
@@ -50,6 +54,7 @@ public class Objective_Slot_UI : MonoBehaviour
 
                 newslotScript.image.sprite = campType.campImage;
                 newslotScript.item_XP_text.text = objectives_Rewards.amount.ToString() + "xp";
+                newslotScript.itemName = campType.campName;
             }
             else
             {
@@ -60,6 +65,7 @@ public class Objective_Slot_UI : MonoBehaviour
                         newSlot.name = "RewardSlot_" + itemdata.ItemName;
                         newslotScript.image.sprite = itemdata.ItemImage;
                         newslotScript.item_XP_text.text = objectives_Rewards.amount.ToString();
+                        newslotScript.itemName = itemData.ItemName;
                     }
                 }
             }

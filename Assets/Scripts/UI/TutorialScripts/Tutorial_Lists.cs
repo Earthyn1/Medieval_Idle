@@ -43,8 +43,8 @@ public class Tutorial_Lists : MonoBehaviour
                 SetFlag(tutorialFlagID.ToString(), true);
                 break;
 
-            case TutorialFlagID.UnlockStorageSellPanel:
-                TownStorageManager.storageSellManager.sellPanel.SetActive(true);
+            case TutorialFlagID.FirstTimeVisitStorageSellPanel:
+                TownStorageManager.AddItem("WolfMeat", 3, CampType.NA);
                 SetFlag(tutorialFlagID.ToString(), true);
                 break;
 
@@ -52,10 +52,20 @@ public class Tutorial_Lists : MonoBehaviour
                 SetFlag(tutorialFlagID.ToString(), true);
                 break;
 
+            case TutorialFlagID.FirstTimeVisitLocalMarket:
+                SetFlag(tutorialFlagID.ToString(), true);
+                break;
+
             case TutorialFlagID.GivePlayerCopperNails:
                 TownStorageManager.AddItem("CopperNails", 200, CampType.NA);
                 SetFlag(tutorialFlagID.ToString(), true);
                 break;
+
+            case TutorialFlagID.FirstTimeCedricDialog:
+                SetFlag(tutorialFlagID.ToString(), true);
+                break;
+
+
 
 
         }

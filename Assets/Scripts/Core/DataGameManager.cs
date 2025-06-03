@@ -20,6 +20,8 @@ public class DataGameManager : MonoBehaviour
     public CampType currentActiveCamp;
     [HideInInspector]
     public Game_Text_Alerts Game_Text_Alerts;
+   
+    
 
     public float DEVspeedMultiplier = 10f; // or whatever speed boost you want
 
@@ -54,6 +56,11 @@ public class DataGameManager : MonoBehaviour
     public CampButtonUpdater campButtonUpdater;
     [HideInInspector]
     public Tutorial_Lists Tutorial_Lists;
+    [HideInInspector]
+    public DropDownMenu DropDownMenu;
+    [HideInInspector]
+    public SimpleItemData currentFishingBaitEquipped;
+         
 
 
     public Dictionary<int, int> levelXp; //levelXp is the 1-99 xp amounts
@@ -102,8 +109,12 @@ public class DataGameManager : MonoBehaviour
     // CUrrent objectives
     public List<ObjectiveInstance> ActiveObjectives = new List<ObjectiveInstance>();
 
+    // Completed objectives
+    public List<ObjectiveInstance> CompletedObjectives = new List<ObjectiveInstance>();
+
     //Dictionry of flags for the game like first time opening x thing
     public Dictionary<string, bool> tutorialFlags = new Dictionary<string, bool>();
+
 
 
 

@@ -1,0 +1,104 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7ac5c3e75008a440a2a59beff8ebbe6, type: 3}
+  m_Name: FirstTimeStorageSellMenu
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialGroupData
+  groupId: FirstTimeStorageSellMenu
+  steps:
+  - stepID: 
+    instructionText: Aha, your here! With the Market built it opens the doors to
+      basic trade.
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Now do consider the prices will be... low. Real profit will
+      come from the Merchants Camp later.
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: 'One of the Townsman trapped an Alpha Wolf this morning. Let
+      us sell it right away!
+
+'
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 6
+  - stepID: 
+    instructionText: Select the Wolf meat
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: WolfMeat
+    clickFocusedObject: 1
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Under the basic information you can find the Single Sell Cost
+      of the selected item.
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: SingleSellCost_BG
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Below that is a slider that controls how much you are willing
+      to sell
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: Qty_Slider_Box
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: And finally we have the sale price!
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: SalePrice_BG
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Decide the amount and click Sell
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: Sell_Button_1
+    clickFocusedObject: 1
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: That covers the basics of selling my Lord.
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0

@@ -1,9 +1,11 @@
 using NUnit.Framework.Interfaces;
+using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
 using System.Text;
 using Unity.VisualScripting;
 using UnityEngine;
+using static UnityEngine.Rendering.DebugUI;
 
 
 
@@ -50,8 +52,8 @@ public class ItemListCSVLoader : MonoBehaviour
             string itemName = TryGetString(fields, 2);
             string description = TryGetString(fields, 3);
             string itemImage = TryGetString(fields, 4);
-            string itemType = TryGetString(fields, 5);
-            string itemCategory = TryGetString(fields, 6);
+            ItemType itemType = TryGetEnum<ItemType>(fields, 6);
+            string itemCategory = TryGetString(fields, 5);
             string itemReplaces = TryGetString(fields, 7);
             int storageSpace = TryGetInt(fields, 8);
             int restoreHealthAmount = TryGetInt(fields, 9);
@@ -78,6 +80,21 @@ public class ItemListCSVLoader : MonoBehaviour
         }
     }
 
+    public TEnum TryGetEnum<TEnum>(string[] fields, int index, TEnum fallback = default) where TEnum : struct
+    {
+        if (index >= 0 && index < fields.Length)
+        {
+           
+            string value = fields[index].Trim();
+            Debug.Log(value);
+            if (Enum.TryParse<TEnum>(value, out var result))
+            {
+                return result;
+            }
+        }
+
+        return fallback;
+    }
     string[] SplitCsvLine(string line) // A method to split the CSV line while keeping the Produced Items field intact
     {
         List<string> fields = new List<string>();

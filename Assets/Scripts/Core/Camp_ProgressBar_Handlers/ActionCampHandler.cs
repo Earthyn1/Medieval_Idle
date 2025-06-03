@@ -18,15 +18,10 @@ public class ActionCampHandler : MonoBehaviour
     {
         foreach (var entry in DataGameManager.instance.activeCamps.ToList())
         {
-            float progress = entry.GetProgress();            
+            // Let the handler update the progress bar however it wants
+            entry.CampTypeHandler.UpdateProgress(entry);
 
-            if (entry.Slot != null)
-            {
-                entry.Slot.UpdateProgressBar(progress); //This updates the slot progress bar.
-                
-            }
-
-            if (entry.IsCompleted())
+            if (entry.CampTypeHandler.IsCompleted(entry))
             {
                 CompleteCampAction(entry.SlotKey, entry.CampType);
                 CampActionData campActionData = DataGameManager.instance.campDictionaries[entry.CampType][entry.SlotKey];
@@ -38,6 +33,7 @@ public class ActionCampHandler : MonoBehaviour
                     RemoveRequiredCampResources(campActionData);
                     RemoveRequiredSpecificCampResources(campActionData);
                     entry.RestartTimer();  // Automatically restart the timer
+                    entry.CampTypeHandler.RestartTimer(campActionData);  
                 }
                 else
                 {
@@ -47,7 +43,7 @@ public class ActionCampHandler : MonoBehaviour
 
                     if (entry.Slot != null)
                     {
-                        entry.Slot.DeactivateActionSlot();
+                        entry.Slot.DeactivateActionSlot_WithoutReturningResources();
                         entry.Slot.NotEnoughResourceFlash();
                     }
                 }
@@ -55,6 +51,28 @@ public class ActionCampHandler : MonoBehaviour
         }
     }
 
+
+    public void ReturnResources(string Key, CampType campType)
+    {
+
+        Debug.Log("Returning a resource specifc!");
+        CampActionData campData = DataGameManager.instance.GetCampActionData(campType, Key);
+
+        foreach (SimpleItemData simpleItemData in campData.RequiredItems)
+        {
+            TownStorageManager.AddItem(simpleItemData.item, simpleItemData.qty, campType);
+        }
+
+        if (campData.campSpecificLogic == null)
+        {
+            
+        }
+        else
+        {
+            campData.campSpecificLogic.ReturnCampSpecificResources(Key);
+        }
+
+    }
     public void RemoveCampAction(string Key, CampType campType)
     {
         CampActionData campData = DataGameManager.instance.GetCampActionData(campType, Key);
@@ -68,6 +86,9 @@ public class ActionCampHandler : MonoBehaviour
             DataGameManager.instance.CurrentVillagerCount = DataGameManager.instance.CurrentVillagerCount + campData.populationCost;
             DataGameManager.instance.topPanelManager.UpdateTownPopulation();
 
+            DataGameManager.instance.campButtonUpdater.UpdateCampUsageGreenDots(campType, campData.populationCost * -1);
+            Debug.Log(campData.populationCost * -1);
+
             DataGameManager.instance.activeCamps.Remove(entry);
         }
 
@@ -79,28 +100,38 @@ public class ActionCampHandler : MonoBehaviour
 
         if (DataGameManager.instance.CurrentVillagerCount - campActionData.populationCost >= 0)
         {
+            if (DataGameManager.instance.activeCamps.Any(e => e.CampType == campType))
+            {
+                string campName = DataGameManager.instance.campTypeDataList.FirstOrDefault(c => c.campType == campType)?.campName;
+                DataGameManager.instance.Game_Text_Alerts.PlayAlert(campName + " is busy!");
+                return false;
+            }
+
             if (HasEnoughResources(campActionData) && HasEnoughCampSpecificResources(campActionData))
             {
                 RemoveRequiredCampResources(campActionData);
                 RemoveRequiredSpecificCampResources(campActionData);
 
-                CampActionEntry campActionEntry = new CampActionEntry(key, campType, DateTime.Now);
+                CampActionEntry campActionEntry = new CampActionEntry(key, campType, DateTime.Now, 0);
                 campActionEntry.Slot = slot; // Assuming this is called from the Camp_Resource_Slot instance
+                campActionEntry.CampTypeHandler = CampActionHandlerFactory.GetHandler(campType);
                 DataGameManager.instance.activeCamps.Add(campActionEntry);
                 DataGameManager.instance.CurrentVillagerCount = DataGameManager.instance.CurrentVillagerCount - campActionData.populationCost;
-                DataGameManager.instance.topPanelManager.UpdateTownPopulation();       
+                DataGameManager.instance.topPanelManager.UpdateTownPopulation();    
+                DataGameManager.instance.campButtonUpdater.UpdateCampUsageGreenDots(campType,campActionData.populationCost);
                 return true;
             }
             else
             { 
                slot.NotEnoughResourceFlash();
-                Debug.Log("Not enough resources");
                 return false;
             }
         }
         else
         {
-            Debug.Log("Not enough villagers available");
+            slot.NotEnoughVillagerFlash();
+            DataGameManager.instance.Game_Text_Alerts.PlayAlert("Not enough villagers available");
+
             return false;
         }
     }

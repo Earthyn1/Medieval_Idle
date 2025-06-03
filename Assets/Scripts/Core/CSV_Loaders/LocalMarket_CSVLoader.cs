@@ -15,7 +15,7 @@ public class LocalMarket_CSVLoader : MonoBehaviour
 
         DataGameManager.instance.localMarket_Items_List = localMarket_Items_List;
 
-       // Print();
+      
     }
 
     void LoadCSV()

@@ -15,6 +15,8 @@ public class CampButtonSetup : MonoBehaviour
     public GameObject ImageContainer;
     public GameObject NewCamp_Parent;
     public Animator NewCamp_Loop_Anim;
+    public GameObject GreenDot;
+    public GameObject CampPopUsage_Parent;
    
 
     private void Start()
@@ -37,7 +39,7 @@ public class CampButtonSetup : MonoBehaviour
 
                 break;
 
-       
+   
 
 
             case CampType.TownOverview:
@@ -158,8 +160,7 @@ public class CampButtonSetup : MonoBehaviour
                     Category_UI_Script.SetAsSelected();
                     DataGameManager.instance.currentCampCategory = Category_UI_Script.CampCategoryData.campCategory;
                     Debug.Log(DataGameManager.instance.currentCampCategory);
-                   
-                        
+          
                 }
                 else
                 {
@@ -169,6 +170,8 @@ public class CampButtonSetup : MonoBehaviour
                 DataGameManager.instance.populate_Camp_Slots.PopulateSlots(campDataDict);
                 break;
         }
+
+        CheckforFirstTimeClick(campType);
 
         // Update button selection UI
         if (DataGameManager.instance.SelectedButton == null)
@@ -187,6 +190,24 @@ public class CampButtonSetup : MonoBehaviour
         }
     }
 
+    public void CheckforFirstTimeClick(CampType campType)
+    {
+        // Switch on camp type to determine setup behavior
+        switch (campType)
+        {
+            case CampType.FishingCamp:
+
+                if(!DataGameManager.instance.Tutorial_Lists.GetFlag("FirstTimeFishingCamp"))
+                {
+                    TutorialGroupData tutorialdialog = DataGameManager.instance.Tutorial_Lists.FindDialog("FirstTimeFishingCamp");
+                    DataGameManager.instance.tutorialManager.SetupTutorial(tutorialdialog);
+                    DataGameManager.instance.Tutorial_Lists.SetFlag("FirstTimeFishingCamp", true);
+
+
+                }
+                break;
+        }
+    }
 
     public void ButtonHasBeenPressed()
     {
@@ -218,6 +239,19 @@ public class CampButtonSetup : MonoBehaviour
         DataGameManager.instance.tierShield.SetActive(false);
         TownStorageManager.storageSellManager.parentBox.SetActive(false);
         TownStorageManager.storageSellManager.itemName.text = "Nothing Selected";
+        TownStorageManager.storageSellManager.sellPanel.SetActive(true);
+
+
+        if (!DataGameManager.instance.Tutorial_Lists.GetFlag("FirstTimeVisitLocalMarket")) //This handles first time local market tutorial
+        {
+            TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("FirstTimeLocalMarket");
+            DataGameManager.instance.tutorialManager.SetupTutorial(tutorialGroupData);
+
+            if(Objective_Manager.objectivesTracker.IsOpen)
+            {
+                Objective_Manager.objectivesTracker.ToggleObjectiveTracker_State();
+            }
+        }
     }
 
     private void HandleTownOverview()
@@ -245,6 +279,32 @@ public class CampButtonSetup : MonoBehaviour
         DataGameManager.instance.tierShield.SetActive(false);
         TownStorageManager.storageSellManager.parentBox.SetActive(false);
         TownStorageManager.storageSellManager.itemName.text = "Nothing Selected";
+
+        bool isLocked;
+
+        if (DataGameManager.instance.campLockedDict.TryGetValue(CampType.LocalMarket, out isLocked))  //This for tutorial early if Localmarket not unlocked then we cannot sell things
+        {
+            if (isLocked)
+            { 
+                TownStorageManager.storageSellManager.sellPanel.SetActive(false);
+            }
+            else
+            {
+                TownStorageManager.storageSellManager.sellPanel.SetActive(true);
+
+                if (!DataGameManager.instance.Tutorial_Lists.GetFlag("FirstTimeVisitStorageSellPanel"))
+                {
+                    TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("FirstTimeStorageSellMenu");
+                    DataGameManager.instance.tutorialManager.SetupTutorial(tutorialGroupData);
+
+                    if (Objective_Manager.objectivesTracker.IsOpen)
+                    {
+                        Objective_Manager.objectivesTracker.ToggleObjectiveTracker_State();
+                    }
+
+                }
+            }
+        }
     }
 
     public void SetAsLocked()
