@@ -1,7 +1,8 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class DropDownMenu_Slot : MonoBehaviour
+public class DropDownMenu_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler
 {
     public Text SlotAmount;
     public string itemID;
@@ -52,6 +53,16 @@ public class DropDownMenu_Slot : MonoBehaviour
         TownStorageManager.RemoveItem(itemID, parsedAmount);
         dropDownMenu.PlayAnimation_Close();
         fishingCampBait_Button.SetButton();
+    }
+
+    public void OnPointerEnter(PointerEventData eventData)
+    {
+        Bait_ToolTipUI.instance.ShowTooltipBelow_Bait(transform as RectTransform, itemID);
+    }
+
+    public void OnPointerExit(PointerEventData eventData)
+    {
+        Bait_ToolTipUI.instance.Hide();
     }
 }
 

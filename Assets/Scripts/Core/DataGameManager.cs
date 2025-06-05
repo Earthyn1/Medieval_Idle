@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DataGameManager : MonoBehaviour
 {
@@ -20,6 +21,8 @@ public class DataGameManager : MonoBehaviour
     public CampType currentActiveCamp;
     [HideInInspector]
     public Game_Text_Alerts Game_Text_Alerts;
+    [HideInInspector]
+    public Camp_Boosts_Manager boostsManager;
    
     
 
@@ -33,6 +36,7 @@ public class DataGameManager : MonoBehaviour
     public int PlayerGold = 0;
     public int MaxVillagerCapacity =5;
     public int CurrentVillagerCount = 5;
+    public Image BG_Banner;
     [HideInInspector]
     public GameObject tierShield;
     public int CurrentContentLevelAvailable = 30;
@@ -102,6 +106,9 @@ public class DataGameManager : MonoBehaviour
     public List<StorageSlot> TownStorage_List = new List<StorageSlot>();
     //Local Market dictionary
     public Dictionary<string, LocalMarket_Items> localMarket_Items_List;
+
+    //FishingBait Dictionary
+    public Dictionary<string, FishingBait_Item_Struc> fishingBait_Item_List;
    
     //List of the CampTypeData Struc
     public List<CampTypeData> campTypeDataList;
@@ -115,6 +122,17 @@ public class DataGameManager : MonoBehaviour
     //Dictionry of flags for the game like first time opening x thing
     public Dictionary<string, bool> tutorialFlags = new Dictionary<string, bool>();
 
+    //The FishingCamp Boost Data.
+    public FishingCamp_Boost_Struc FishingCamp_Boost = new FishingCamp_Boost_Struc();
+
+    //The LumberCamp Boost Data.
+    public LumberCamp_Boost_Struc LumberCamp_Boost = new LumberCamp_Boost_Struc();
+
+    //The ConstructionCamp Boost Data.
+    public ConstructionCamp_Boost_Struc ConstructionCamp_Boost = new ConstructionCamp_Boost_Struc();
+
+
+
 
 
 
@@ -124,6 +142,10 @@ public class DataGameManager : MonoBehaviour
 
     public void Awake()
     {
+        FishingCamp_Boost.InitializeSprites();
+        LumberCamp_Boost.InitializeSprites();
+        ConstructionCamp_Boost.InitializeSprites();
+
         // Check if an instance already exists
         if (instance == null)
         {
@@ -134,6 +156,7 @@ public class DataGameManager : MonoBehaviour
         {
             Destroy(gameObject); // Destroy duplicate
             return;
+            
         }
 
         BaseCSVLoader = GetComponent<BaseCVSLoader>();
@@ -174,6 +197,17 @@ public class DataGameManager : MonoBehaviour
 
     }
 
+    public List<CampBoost_Class> GetBaseBoostsForCamp(CampType campType)
+    {
+        return campType switch
+        {
+            CampType.FishingCamp => FishingCamp_Boost.GetAllBoosts(),
+            CampType.LumberCamp => LumberCamp_Boost.GetAllBoosts(),
+            CampType.ConstructionCamp => ConstructionCamp_Boost.GetAllBoosts(),
+           // CampType.MiningCamp => MiningCamp_Boost.GetAllBoosts(),
+            _ => new List<CampBoost_Class>()
+        };
+    }
     public CampTypeData GetCampTypeDataByType(CampType campType)
     {
         return campTypeDataList.Find(data => data.campType == campType);

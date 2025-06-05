@@ -86,7 +86,7 @@ public class ItemListCSVLoader : MonoBehaviour
         {
            
             string value = fields[index].Trim();
-            Debug.Log(value);
+           
             if (Enum.TryParse<TEnum>(value, out var result))
             {
                 return result;

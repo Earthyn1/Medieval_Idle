@@ -151,7 +151,7 @@ RectTransform:
   m_GameObject: {fileID: 1832908322974737770}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 0.76, y: 0.76, z: 0.76}
   m_ConstrainProportionsScale: 1
   m_Children:
   - {fileID: 5552134122935236903}
@@ -162,7 +162,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 210, y: -0.000024796}
+  m_AnchoredPosition: {x: 430, y: -6}
   m_SizeDelta: {x: 123.8602, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2588799700393555640
@@ -1023,7 +1023,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 75613054093130678, guid: 61999a35273ceb144bf691c92037a921, type: 3}
       propertyPath: m_AnchoredPosition.x
-      value: 209.99994
+      value: 429.99994
       objectReference: {fileID: 0}
     - target: {fileID: 75613054093130678, guid: 61999a35273ceb144bf691c92037a921, type: 3}
       propertyPath: m_AnchoredPosition.y
@@ -1049,6 +1049,10 @@ PrefabInstance:
       propertyPath: parentButton
       value: 
       objectReference: {fileID: 5895139699275953433}
+    - target: {fileID: 1313535215381543326, guid: 61999a35273ceb144bf691c92037a921, type: 3}
+      propertyPath: m_Color.a
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2227276269676502566, guid: 61999a35273ceb144bf691c92037a921, type: 3}
       propertyPath: m_SizeDelta.y
       value: 280.0272
@@ -1057,6 +1061,10 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -8.0239
       objectReference: {fileID: 0}
+    - target: {fileID: 2358579012086973303, guid: 61999a35273ceb144bf691c92037a921, type: 3}
+      propertyPath: m_Sprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 8f01295964e8c564cb69f1940cf2f817, type: 3}
     - target: {fileID: 2750245978084070035, guid: 61999a35273ceb144bf691c92037a921, type: 3}
       propertyPath: m_SizeDelta.x
       value: 1866.4519

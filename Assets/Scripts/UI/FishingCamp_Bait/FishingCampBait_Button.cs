@@ -42,19 +42,10 @@ public class FishingCampBait_Button : MonoBehaviour
             DataGameManager.instance.Game_Text_Alerts.PlayAlert("No Bait to equip!");
         }
     }
-       
-        
-            
-        
-        
-       
-
-    
 
     public void SetasEmpty()
     {
         AmountTextParent.SetActive(false);  
-
     }
 
     public void SetButton()
@@ -65,6 +56,7 @@ public class FishingCampBait_Button : MonoBehaviour
             AmountTextParent.SetActive(true);
             AmountText.text = DataGameManager.instance.currentFishingBaitEquipped.qty.ToString();
             buttonImage.sprite = itemdata.ItemImage;
+            DataGameManager.instance.boostsManager.SetupCampBoosts(CampType.FishingCamp);
         }
 
     }

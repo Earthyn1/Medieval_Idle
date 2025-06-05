@@ -272,6 +272,8 @@ public class Populate_Camp_Slots : MonoBehaviour
                 // Use the matched data to set the image
                 slotScript.Category_Image.sprite = matchedData.categorysImage;
 
+                slotScript.SetAsUnSelected();
+
                 // Keep reference to the last one
                 lastSlotScript = slotScript;
             }

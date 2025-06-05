@@ -17,6 +17,7 @@ public class CampButtonSetup : MonoBehaviour
     public Animator NewCamp_Loop_Anim;
     public GameObject GreenDot;
     public GameObject CampPopUsage_Parent;
+    public Sprite Banner;
    
 
     private void Start()
@@ -121,7 +122,10 @@ public class CampButtonSetup : MonoBehaviour
         DataGameManager.instance.topPanelManager.campName.text = campData.campName.ToString();
 
         DataGameManager.instance.upperPanelManager.EnableCampSpecificPanels(campType); //Setup the camp specific Panels
-      
+
+        DataGameManager.instance.BG_Banner.sprite = Banner; //Setup Banner
+
+        DataGameManager.instance.boostsManager.SetupCampBoosts(campType); //Setup the camp boosts
 
         // Switch on camp type to determine setup behavior
         switch (campType)
@@ -146,6 +150,8 @@ public class CampButtonSetup : MonoBehaviour
 
                 XPManager.campProgressBar.gameObject.SetActive(true);
                 DataGameManager.instance.tierShield.SetActive(true);
+                DataGameManager.instance.boostsManager.gameObject.SetActive(true);
+
                 DataGameManager.instance.topPanelManager.campNameParent.SetActive(false);
                 Tier_Shield tiershieldScript = DataGameManager.instance.tierShield.GetComponent<Tier_Shield>(); //Handle shield icon
                 tiershieldScript.campImage.sprite = campData.campTierImage;
@@ -233,10 +239,12 @@ public class CampButtonSetup : MonoBehaviour
     {
         DataGameManager.instance.topPanelManager.campNameParent.SetActive(true);
 
-        TownStorageManager.storageSellManager.SetupBanner(TownStorageManager.storageSellManager.MarketBGImage);
+     //   TownStorageManager.storageSellManager.SetupBanner(TownStorageManager.storageSellManager.MarketBGImage);
         DataGameManager.instance.populate_Local_Market_Slots.PopulateLocalMarketSlots();
         XPManager.campProgressBar.gameObject.SetActive(false);
         DataGameManager.instance.tierShield.SetActive(false);
+        DataGameManager.instance.boostsManager.gameObject.SetActive(false);
+
         TownStorageManager.storageSellManager.parentBox.SetActive(false);
         TownStorageManager.storageSellManager.itemName.text = "Nothing Selected";
         TownStorageManager.storageSellManager.sellPanel.SetActive(true);
@@ -257,7 +265,7 @@ public class CampButtonSetup : MonoBehaviour
     private void HandleTownOverview()
     {
         DataGameManager.instance.topPanelManager.campNameParent.SetActive(true);
-        TownStorageManager.storageSellManager.SetupBanner(TownStorageManager.storageSellManager.MarketBGImage);
+      //  TownStorageManager.storageSellManager.SetupBanner(TownStorageManager.storageSellManager.MarketBGImage);
         XPManager.campProgressBar.gameObject.SetActive(false);
         DataGameManager.instance.tierShield.SetActive(false);
         TownStorageManager.storageSellManager.parentBox.SetActive(false);
@@ -273,10 +281,11 @@ public class CampButtonSetup : MonoBehaviour
             TownStorageManager.storageSellManager.gameObject.SetActive(true);
         }
 
-        TownStorageManager.storageSellManager.SetupBanner(TownStorageManager.storageSellManager.StorageBGImage);
+     //   TownStorageManager.storageSellManager.SetupBanner(TownStorageManager.storageSellManager.StorageBGImage);
         DataGameManager.instance.populate_Storage_Slots.PopulateItemSlots();
         XPManager.campProgressBar.gameObject.SetActive(false);
         DataGameManager.instance.tierShield.SetActive(false);
+        DataGameManager.instance.boostsManager.gameObject.SetActive(false);
         TownStorageManager.storageSellManager.parentBox.SetActive(false);
         TownStorageManager.storageSellManager.itemName.text = "Nothing Selected";
 

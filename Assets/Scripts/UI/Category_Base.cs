@@ -12,9 +12,9 @@ public class Category_Base : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     public RectTransform rectTransform;  // Reference to the RectTransform
     public float targetY = 50f;
     private Color black25 = new Color(0, 0, 0, 0.25f);
-    private Color black50 = new Color(0, 0, 0, 0.5f);
-    private Color black100 = new Color(0, 0, 0, 0.6f);
-    private Color white50 = new Color(1, 1, 1, 0.5f);
+    private Color black50 = new Color(0, 0, 0, 0.8f);
+    private Color black100 = new Color(0, 0, 0, 0.9f);
+    private Color white50 = new Color(1, 1, 1, 0.8f);
     private Color white100 = new Color(1, 1, 1, 1f);
 
     public void SetAsSelected()
@@ -52,7 +52,7 @@ public class Category_Base : MonoBehaviour, IPointerEnterHandler, IPointerExitHa
     {
         
             Category_Image.color = white50;
-            BG_Image.color = black25;
+            BG_Image.color = black50;
             // Set the anchored position directly to the target Y value
             rectTransform.anchoredPosition = new Vector2(
             rectTransform.anchoredPosition.x, 0);

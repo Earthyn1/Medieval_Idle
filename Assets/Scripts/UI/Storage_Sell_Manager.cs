@@ -97,10 +97,11 @@ public class StorageSellManager : MonoBehaviour
             slider.value = (1 + float.Parse(itemMaxQty.text)) / 2;
         }
 
-    public void SetupBanner(Texture2D texture)
+    public void SetupBanner(Sprite texture)
     {
-        Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
-        BG_Banner.sprite = sprite;
+        //Sprite sprite = Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f));
+     //   BG_Banner.sprite = texture;
+       // BG_Banner.gameObject.SetActive(true);
     }
 
     public void SetupUpUI_Market(string itemID)

@@ -18,6 +18,8 @@ public class DropDownMenu : MonoBehaviour
         Animator.Play("IdleState", 0, 0f);
         Animator.ResetTrigger("PlayAnimation_Open");
         Animator.SetTrigger("PlayAnimation_Open");
+        MenuVerticalHolder.SetActive(true);
+       
     }
     public void PlayAnimation_Close()
     {
@@ -25,6 +27,8 @@ public class DropDownMenu : MonoBehaviour
         Animator.ResetTrigger("PlayAnimation_Close");
         Animator.SetTrigger("PlayAnimation_Close");
         BGDimmer.SetActive(false);
+        MenuVerticalHolder.SetActive(false);
+        Bait_ToolTipUI.instance.Hide();
     }
 
     public void PopulateSlots()

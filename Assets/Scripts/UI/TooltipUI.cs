@@ -11,6 +11,8 @@ public class TooltipUI : MonoBehaviour
     public Text tooltipText; // or UnityEngine.UI.Text
     public Text ItemQty;
     private Canvas canvas;
+    public GameObject secondRow;
+    public Text description;
 
     void Awake()
     {
@@ -21,6 +23,7 @@ public class TooltipUI : MonoBehaviour
 
     public void ShowTooltipBelow_Name(RectTransform targetButton, string itemName)
     {
+        secondRow.SetActive(false);
         tooltipText.text = itemName;
 
         ItemQty.text = "";
@@ -50,6 +53,7 @@ public class TooltipUI : MonoBehaviour
 
     public void ShowTooltipBelow(RectTransform targetButton, string itemID)
     {
+        secondRow.SetActive(false);
         ItemData_Struc itemData;
         if (DataGameManager.instance.itemData_Array.TryGetValue(itemID, out itemData))
         {
@@ -81,6 +85,35 @@ public class TooltipUI : MonoBehaviour
         panel.anchoredPosition = anchoredPos;
     }
 
+    public void ShowBoostInfoBelow(RectTransform targetButton, string name, string descrip)
+    {
+        secondRow.SetActive(true);
+        tooltipText.text = name;
+        description.text = descrip;
+        ItemQty.text = "";
+
+        panel.gameObject.SetActive(true);
+
+        Vector3[] worldCorners = new Vector3[4];
+        targetButton.GetWorldCorners(worldCorners);
+
+        // Get bottom center of the button
+        Vector3 bottomCenter = (worldCorners[0] + worldCorners[3]) / 2f;
+
+        // Convert world space to canvas local position
+        Vector2 anchoredPos;
+        RectTransformUtility.ScreenPointToLocalPointInRectangle(
+            panel.parent as RectTransform,
+            Camera.main.WorldToScreenPoint(bottomCenter),
+            Camera.main,
+            out anchoredPos
+        );
+
+        // Offset down
+        anchoredPos.y -= 30f;
+
+        panel.anchoredPosition = anchoredPos;
+    }
     public void Hide()
     {
         panel.gameObject.SetActive(false);
