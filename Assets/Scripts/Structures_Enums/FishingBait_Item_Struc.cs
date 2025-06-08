@@ -24,7 +24,7 @@ public class FishingBait_Item_Struc
             {
                 boostName = "Catch Chance",
                 boostDescription = "Increases chance to catch fish",
-                boostAmount = catchChance / 100f, // If CSV is percent like 25, convert to 0.25
+                boostAmount = catchChance, // If CSV is percent like 25, convert to 0.25
                 boostUnit = BoostUnit.Percent,
                 boostSprite = null // load later
             },
@@ -32,7 +32,7 @@ public class FishingBait_Item_Struc
             {
                 boostName = "Double Catch",
                 boostDescription = "Chance to catch two fish",
-                boostAmount = doubleCatch / 100f,
+                boostAmount = doubleCatch,
                 boostUnit = BoostUnit.Percent,
                 boostSprite = null // load later
             }

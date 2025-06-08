@@ -13,6 +13,7 @@ public class CampActionData
     public Sprite bgImage;
     public CampCategorys campCategory;
     public CampType campType;
+   
     public List<SimpleItemData> ProducedItems { get; set; }
     public List<SimpleItemData> RequiredItems { get; set; }
 

@@ -135,15 +135,23 @@ public static class XPManager
             // Get the current camp's XP data
             CampXPData campData = DataGameManager.instance.campXPDictionaries[campType];
 
-            // Add XP to the current camp's XP
-            campData.currentXP += xpToAdd;
+            var boosts = DataGameManager.instance.boostsManager.GetMergedBoosts(campType);
+            float xpboost = GetBoostAmount(boosts, "Builder’s Insight", "Woodcutters Insight", "Angler's Insight", "Prospector's Insight");
+           
+            // Calculate total XP to add including boost percentage
+           
+            int bonusAdded = (int)(xpToAdd * (1f + xpboost / 100f));
+            int bonusAmount = bonusAdded - xpToAdd;
+
+            // Add the calculated XP to the current camp's XP
+            campData.currentXP += bonusAdded;
 
             // Add the XP as a feed
             CampTypeData match = DataGameManager.instance.campTypeDataList.FirstOrDefault(c => c.campType == campType);
 
-            Debug.Log($"CampType: {match.campType}, CampImage: {match.campImage}");
+            
 
-            DataGameManager.instance.item_XP_FeedManager.AddXPFeedSlot(xpToAdd.ToString(), match.campImage, match.campType);
+            DataGameManager.instance.item_XP_FeedManager.AddXPFeedSlot(xpToAdd.ToString(), bonusAmount.ToString(), match.campImage, match.campType);
 
             if (campType == DataGameManager.instance.currentActiveCamp)
             {
@@ -185,7 +193,12 @@ public static class XPManager
         return false;  // No level up
     }
 
-   
 
+    static float GetBoostAmount(List<CampBoost_Class> boosts, params string[] boostNames)
+    {
+        return boosts
+            .Where(b => boostNames.Contains(b.boostName))
+            .Sum(b => b.boostAmount);
+    }
 
 }

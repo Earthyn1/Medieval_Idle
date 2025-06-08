@@ -1,3 +1,4 @@
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -26,33 +27,48 @@ public class DropDownMenu_Slot : MonoBehaviour, IPointerEnterHandler, IPointerEx
     {
         if (campType_ != CampType.FishingCamp) return;
 
-        FishingCampBait_Button fishingCampBait_Button = ParentButton.GetComponent<FishingCampBait_Button>();
-
-        if (!int.TryParse(SlotAmount.text, out int parsedAmount))
-            return;
-
-        var equipped = DataGameManager.instance.currentFishingBaitEquipped;
-
-        if (equipped != null)
+        if (!DataGameManager.instance.activeCamps.Any(entry => entry.CampType == CampType.FishingCamp && entry.IsActive))
         {
-            if (equipped.item == itemID)
+            FishingCampBait_Button fishingCampBait_Button = ParentButton.GetComponent<FishingCampBait_Button>();
+
+            if (!int.TryParse(SlotAmount.text, out int parsedAmount))
+                return;
+
+            var equipped = DataGameManager.instance.currentFishingBaitEquipped;
+
+            if (equipped != null)
             {
-                equipped.qty += parsedAmount;
+                if (equipped.item == itemID)
+                {
+                    equipped.qty += parsedAmount;
+                }
+                else
+                {
+                    bool success = TownStorageManager.AddItem(equipped.item, equipped.qty, CampType.NA);
+                    if (!success)
+                    {
+                        Debug.LogWarning($"Failed to add {equipped.item} x{equipped.qty} to storage. Inventory may be full.");
+                        // Optional: Trigger UI warning or fallback logic here
+                    }
+
+                    DataGameManager.instance.currentFishingBaitEquipped = new(itemID, parsedAmount, 0);
+                }
             }
             else
             {
-                TownStorageManager.AddItem(equipped.item, equipped.qty, CampType.NA);
                 DataGameManager.instance.currentFishingBaitEquipped = new(itemID, parsedAmount, 0);
             }
+
+            TownStorageManager.RemoveItem(itemID, parsedAmount);
+            dropDownMenu.PlayAnimation_Close();
+            fishingCampBait_Button.SetButton(true);
         }
         else
         {
-            DataGameManager.instance.currentFishingBaitEquipped = new(itemID, parsedAmount, 0);
+            DataGameManager.instance.Game_Text_Alerts.PlayAlert("Cannot change bait whilst fishing!");
         }
 
-        TownStorageManager.RemoveItem(itemID, parsedAmount);
-        dropDownMenu.PlayAnimation_Close();
-        fishingCampBait_Button.SetButton();
+       
     }
 
     public void OnPointerEnter(PointerEventData eventData)

@@ -18,6 +18,14 @@ public class ConstructionCampModule
     }
 }
 
+public class FishingCampModule
+{
+    public FishingCampModule ()
+    {
+
+    }
+}
+
 public interface CampSpecificInterface
 {
     void OnSlotLoad(string slotKey);

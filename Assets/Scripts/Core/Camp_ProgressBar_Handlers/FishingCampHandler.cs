@@ -6,63 +6,75 @@ using System.Globalization;
 
 public class FishingCampHandler : ICampActionHandler
 {
-    private float delayTimer;
-    private float lerpProgress = 0f; // Tracks lerp progress from 0 to 1
-    private float delayAdd;
-
-    public FishingCampHandler()
-    {
-        delayAdd = UnityEngine.Random.Range(0f, 3f);
-    }
-
-    public void RestartTimer(CampActionData entry)
-    {
-        delayAdd = UnityEngine.Random.Range(0f, 3f);
-         lerpProgress = 0f; // Reset lerp on restart
-    }
 
     public void UpdateProgress(CampActionEntry entry)
     {
-        if (entry.Slot == null) return;
+        if (entry.Slot == null || !entry.IsActive) return;
 
-        CampActionData campActionData = DataGameManager.instance.campDictionaries[entry.CampType][entry.SlotKey];
-
-        delayTimer = campActionData.completeTime + delayAdd;
-
-        Debug.Log(delayTimer);
-
-
-        float elapsed = (float)(DateTime.Now - entry.StartTime).TotalSeconds;
-
-        // How long before completion to start lerping (last 1 second)
-        float lerpStartTime = delayTimer - 1f;
-
-        if (elapsed >= delayTimer)
+        if (IsCompleted(entry))
         {
-            // Completed: progress bar at full
+          
             entry.Slot.UpdateProgressBar(1f);
+            CompleteAction(entry);
+            return; // Don't increase progress or call complete again
         }
-        else if (elapsed >= lerpStartTime)
-        {
-            // Lerp progress from 0.5 to 1.0 smoothly over last 1 second
-            lerpProgress += Time.deltaTime / (delayTimer - lerpStartTime);
-            lerpProgress = Mathf.Clamp01(lerpProgress);
-
-            float lerpValue = Mathf.Lerp(0.5f, 1f, lerpProgress);
-            entry.Slot.UpdateProgressBar(lerpValue);
-        }
-        else
-        {
-            // Before lerp phase: show wobble around 0.5
-            lerpProgress = 0f; // Reset lerp progress in case timer restarted early
-            float wobble = 0.5f + Mathf.Sin(Time.time * 2f) * 0.1f;
-            entry.Slot.UpdateProgressBar(wobble);
-        }
+        float progress = entry.GetProgress();
+        entry.Slot.UpdateProgressBar(progress);
     }
 
     public bool IsCompleted(CampActionEntry entry)
     {
-        float elapsed = (float)(DateTime.Now - entry.StartTime).TotalSeconds;
-        return elapsed >= delayTimer;
+        bool completed = entry.IsCompleted();
+        return completed;
     }
+
+    public void RestartTimer(CampActionEntry entry)
+    {
+        if (!entry.IsActive) return;
+        entry.StartTime = DateTime.Now;
+        entry.Progress = 0f;
+        CampActionData data = DataGameManager.instance.campDictionaries[entry.CampType][entry.SlotKey];
+        float duration = data.completeTime;
+        
+
+        if (entry.Slot != null)
+            entry.Slot.UpdateProgressBar(0f);
+    }
+
+
+    public void CompleteAction(CampActionEntry entry)
+    {
+       
+        // ✅ Handle reward, bait, particles, XP, etc. here
+        if (DataGameManager.instance.currentFishingBaitEquipped.item != "")
+        {
+            DataGameManager.instance.currentFishingBaitEquipped.qty = DataGameManager.instance.currentFishingBaitEquipped.qty - 1;
+            if (DataGameManager.instance.currentFishingBaitEquipped.qty <= 0)
+            {
+                DataGameManager.instance.currentFishingBaitEquipped.item = "";
+            }
+
+            FishingCamp_UpperPanel_Module upperpanelfishingCamp = DataGameManager.instance.upperPanelManager.fishingCamp_Buttons.GetComponent<FishingCamp_UpperPanel_Module>();
+            upperpanelfishingCamp.UpdateBaitButton();
+        }
+
+    }
+
+    public bool HasEnoughCampSpecificResources(CampActionEntry entry)
+    {
+        return true;
+        // TODO: Implement check for camp-specific resources
+    }
+
+    public void RemoveCampSpecificResources(CampActionEntry entry)
+    {
+        // TODO: Implement removal of camp-specific resources
+    }
+
+    public void ReturnCampSpecificResources(CampActionEntry entry)
+    {
+        // TODO: Implement return of unused camp-specific resources
+    }
+
+
 }

@@ -14,12 +14,12 @@ public static class TownStorageManager
     public static GameObject currentlySelectedInventorySlot;
     private static Coroutine uiRefreshCoroutine;
 
-    public static void AddItem(string itemID, int amount, CampType campType)
+    public static bool AddItem(string itemID, int amount, CampType campType)
     {
         if (!DataGameManager.instance.itemData_Array.TryGetValue(itemID, out ItemData_Struc item))
         {
             Debug.LogWarning("Item ID not found: " + itemID);
-            return;
+            return false;
         }
 
         int remaining = amount;
@@ -29,7 +29,6 @@ public static class TownStorageManager
         {
             var slot = DataGameManager.instance.TownStorage_List[i];
 
-            // Check if the slot has the same item and is not full
             if (slot.ItemID == itemID && slot.Quantity < item.MaxStack)
             {
                 int space = item.MaxStack - slot.Quantity;
@@ -48,8 +47,6 @@ public static class TownStorageManager
                     remaining -= space;
                 }
             }
-
-            
         }
 
         // Try to place the remaining items in empty slots
@@ -57,7 +54,6 @@ public static class TownStorageManager
         {
             var slot = DataGameManager.instance.TownStorage_List[i];
 
-            // Check for an empty slot
             if (string.IsNullOrEmpty(slot.ItemID) || slot.Quantity == 0)
             {
                 int toAdd = Mathf.Min(remaining, item.MaxStack);
@@ -65,20 +61,24 @@ public static class TownStorageManager
                 slot.Quantity = toAdd;
                 DataGameManager.instance.TownStorage_List[i] = slot;
                 remaining -= toAdd;
-                
             }
         }
 
-        if (remaining > 0)
+        bool success = remaining <= 0;
+
+        if (!success)
         {
             Debug.LogWarning("Inventory full! Could not add all items.");
         }
 
-        DataGameManager.instance.item_XP_FeedManager.AddItemFeedSlot(itemID, amount, campType); //Add item to itemFeed
+        // Log and feed regardless of success (optional: wrap these in `if (success)` if needed)
+        DataGameManager.instance.item_XP_FeedManager.AddItemFeedSlot(itemID, amount - remaining, campType);
         RefreshAllSlotsUI();
+        Objective_Manager.UpdateObjectives(itemID, amount - remaining);
 
-        Objective_Manager.UpdateObjectives(itemID, amount); //Update Objectives 
+        return success;
     }
+
 
 
     public static void RemoveItem(string itemID, int amountToRemove)
@@ -242,6 +242,38 @@ public static class TownStorageManager
         storageSellManager.UpdateUI();
     }
 
+    public static bool CanAddItem(string itemID, int amount)
+    {
+        if (!DataGameManager.instance.itemData_Array.TryGetValue(itemID, out ItemData_Struc item))
+            return false;
+
+        int remaining = amount;
+
+        // Check existing stacks
+        foreach (var slot in DataGameManager.instance.TownStorage_List)
+        {
+            if (slot.ItemID == itemID && slot.Quantity < item.MaxStack)
+            {
+                int space = item.MaxStack - slot.Quantity;
+                remaining -= space;
+                if (remaining <= 0)
+                    return true;
+            }
+        }
+
+        // Check for empty slots
+        foreach (var slot in DataGameManager.instance.TownStorage_List)
+        {
+            if (string.IsNullOrEmpty(slot.ItemID) || slot.Quantity == 0)
+            {
+                remaining -= item.MaxStack;
+                if (remaining <= 0)
+                    return true;
+            }
+        }
+
+        return false;
+    }
 
 
 

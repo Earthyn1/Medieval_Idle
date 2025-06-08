@@ -33,7 +33,7 @@ public class Camp_Resource_Slot : MonoBehaviour
         {
             // If already active, always allow deactivation regardless of resources/villagers
             DeactivateActionSlot();
-            Debug.Log("Deactivated");
+          //  Debug.Log("Deactivated");
         }
         else
         {
@@ -45,6 +45,7 @@ public class Camp_Resource_Slot : MonoBehaviour
 
             if (DataGameManager.instance.actionCampHandler.TryToAddCampSlot(slotkey,campType, this))
             {
+             //  Debug.Log("Activate Slot!");
                 ActivateActionSlot();
             }
             else

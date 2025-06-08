@@ -87,10 +87,10 @@ public class FishingBait_CSV_Loader : MonoBehaviour
                     
                     case "Swift Fishing":
 
-                        boost.boostSprite = SpriteLoader.LoadBoostSprite("SwiftFishing");
+                        boost.boostSprite = SpriteLoader.LoadBoostSprite("CatchChance");
                         break;
                     case "Catch Chance":
-                        boost.boostSprite = SpriteLoader.LoadBoostSprite("CatchChance");
+                        boost.boostSprite = SpriteLoader.LoadBoostSprite("SwiftFishing");
                         break;
                     case "Double Catch":
                         boost.boostSprite = SpriteLoader.LoadBoostSprite("DoubleCatch");

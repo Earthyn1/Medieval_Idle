@@ -19,5 +19,12 @@ public class Game_Text_Alerts : MonoBehaviour
         alertAnimator.SetTrigger("PlayAlert");
     }
 
- 
+    public void PlayInvFull()
+    {
+        alertText.text = "Failed to add item, is inventory full?";
+        alertAnimator.Play("IdleState", 0, 0f);
+        alertAnimator.ResetTrigger("PlayAlert");
+        alertAnimator.SetTrigger("PlayAlert");
+    }
+
 }

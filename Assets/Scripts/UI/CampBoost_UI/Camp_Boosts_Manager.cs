@@ -8,7 +8,7 @@ public class Camp_Boosts_Manager : MonoBehaviour
     public CampBoost_Slot CampBoost_Slot_2;
     public CampBoost_Slot CampBoost_Slot_3;
     public CampBoost_Slot CampBoost_Slot_4;
-    private List<CampBoost_Slot> campBoostSlots;
+    public List<CampBoost_Slot> campBoostSlots;
 
     void Awake()
     {
@@ -31,7 +31,7 @@ public class Camp_Boosts_Manager : MonoBehaviour
         }
     }
 
-    List<CampBoost_Class> GetMergedBoosts(CampType campType)
+    public List<CampBoost_Class> GetMergedBoosts(CampType campType)
     {
         var baseBoosts = DataGameManager.instance.GetBaseBoostsForCamp(campType);
         var tempBoosts = CloneBoosts(baseBoosts);
@@ -55,6 +55,7 @@ public class Camp_Boosts_Manager : MonoBehaviour
                 var match = boosts.FirstOrDefault(b => b.boostName == baitBoost.boostName);
                 if (match != null)
                 {
+                   // Debug.Log("Bait boost add" + baitBoost.boostAmount);
                     match.boostAmount += baitBoost.boostAmount;    
                 }
                 else
@@ -81,6 +82,38 @@ public class Camp_Boosts_Manager : MonoBehaviour
             boostSprite = b.boostSprite
         }).ToList();
     }
+
+    public void AddToBaseBoost(CampType campType, string boostName, float amountToAdd)
+    {
+        // Get reference to the actual base boost list (not a copy)
+        List<CampBoost_Class> baseBoosts = campType switch
+        {
+            CampType.FishingCamp => DataGameManager.instance.FishingCamp_Boost.GetAllBoosts(),
+            CampType.LumberCamp => DataGameManager.instance.LumberCamp_Boost.GetAllBoosts(),
+            CampType.ConstructionCamp => DataGameManager.instance.ConstructionCamp_Boost.GetAllBoosts(),
+            CampType.MiningCamp => DataGameManager.instance.MiningCamp_Boost.GetAllBoosts(),
+            _ => null
+        };
+
+        if (baseBoosts == null)
+        {
+            Debug.LogWarning($"[Boosts] No base boost list found for camp type: {campType}");
+            return;
+        }
+
+        // Find the boost by name
+        var boost = baseBoosts.FirstOrDefault(b => b.boostName == boostName);
+        if (boost != null)
+        {
+            boost.boostAmount += amountToAdd;
+            Debug.Log($"[Boosts] Updated '{boostName}' boost for {campType}: +{amountToAdd}, New Value: {boost.boostAmount}");
+        }
+        else
+        {
+            Debug.LogWarning($"[Boosts] Boost named '{boostName}' not found in base boosts for {campType}");
+        }
+    }
+
 
 
 

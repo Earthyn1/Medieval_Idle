@@ -1,46 +1,95 @@
+﻿using System.Collections.Generic;
 using System;
 using UnityEngine;
+using static UnityEngine.EventSystems.EventTrigger;
+using System.Globalization;
 
 public class ConstructionCampHandler : ICampActionHandler
 {
-    private float delayTimer;
-    private float chopCooldown = 0.3f; // 1 second between visual chops
-    private float nextChopTime;
-    private float displayedProgress = 0f; // Progress shown on the bar
-
-    public void RestartTimer(CampActionData entry)
-    {
-        delayTimer = entry.completeTime;
-        nextChopTime = Time.time + chopCooldown;
-        displayedProgress = 0f;
-    }
 
     public void UpdateProgress(CampActionEntry entry)
     {
-        if (entry.Slot == null) return;
+        if (entry.Slot == null || !entry.IsActive) return;
 
-        float elapsed = (float)(DateTime.Now - entry.StartTime).TotalSeconds;
-
-        // Calculate true continuous progress (0 to 1)
-        float trueProgress = Mathf.Clamp01(elapsed / delayTimer);
-
-        // Update displayed progress only every chopCooldown seconds
-        if (Time.time >= nextChopTime && displayedProgress < 1f)
+        if (IsCompleted(entry))
         {
-            // Jump progress up by a chunk or to trueProgress, whichever is smaller
-            float chunk = 0.2f; // fixed chunk size for visual jump, e.g. 20%
-            displayedProgress = Mathf.Min(displayedProgress + chunk, trueProgress, 1f);
-            nextChopTime = Time.time + chopCooldown;
+           
+            entry.Slot.UpdateProgressBar(1f);
+            CompleteAction(entry);
+            return; // Don't increase progress or call complete again
         }
-
-        // Update progress bar with the discrete visual progress
-        entry.Slot.UpdateProgressBar(displayedProgress);
+        float progress = entry.GetProgress();
+        entry.Slot.UpdateProgressBar(progress);
     }
 
     public bool IsCompleted(CampActionEntry entry)
     {
-        float elapsed = (float)(DateTime.Now - entry.StartTime).TotalSeconds;
-        return elapsed >= delayTimer;
+        bool completed = entry.IsCompleted();
+        return completed;
     }
-}
 
+    public void RestartTimer(CampActionEntry entry)
+    {
+        if (!entry.IsActive) return;
+        entry.StartTime = DateTime.Now;
+        entry.Progress = 0f;
+        CampActionData data = DataGameManager.instance.campDictionaries[entry.CampType][entry.SlotKey];
+        float duration = data.completeTime;
+
+        if (entry.Slot != null)
+            entry.Slot.UpdateProgressBar(0f);
+    }
+
+
+    public void CompleteAction(CampActionEntry entry)
+    {
+        string slotKey = entry.SlotKey;
+        var data = DataGameManager.instance.constructionCampModuleData[slotKey];
+        
+        if (data.BuildingIDUnlocked != null)
+        {
+           
+            if (Enum.TryParse<CampType>(data.BuildingIDUnlocked, out CampType campType))
+            {
+                DataGameManager.instance.SetCampLockedStatus(campType, false); //Updates the Camps Locked statu
+                DataGameManager.instance.campButtonUpdater.UpdateCampButtonAsUnlocked(campType); //Sets side button as unlocked
+            }
+
+            if (data.SingleUseSlot && DataGameManager.instance.constructionCampModuleData.TryGetValue(slotKey, out var module)) //Sets oneSlotUse as hidden
+            {
+                DataGameManager.instance.OneSlotUseActions.Add(slotKey, new OneSlotUseActions_Struc(slotKey)); //Add this slot to the OneSlotUse!
+                DataGameManager.instance.actionCampHandler.RemoveCampAction(slotKey, CampType.ConstructionCamp);
+
+                if (DataGameManager.instance.currentActiveCamp == CampType.ConstructionCamp)
+                {
+                    var campDataDict = DataGameManager.instance.GetCampData(CampType.ConstructionCamp); //update the camps visuals to reflect this camp now gone!
+                    DataGameManager.instance.populate_Camp_Slots.PopulateSlots(campDataDict);
+                }
+            }
+        }
+    }
+
+    public bool HasEnoughCampSpecificResources(CampActionEntry entry)
+    {
+        Debug.Log("Checking the land deed!");
+        var data = DataGameManager.instance.constructionCampModuleData[entry.SlotKey];
+        return DataGameManager.instance.CurrentLandDeedsOwned >= data.landDeed;
+        // TODO: Implement check for camp-specific resources
+    }
+
+    public void RemoveCampSpecificResources(CampActionEntry entry)
+    {
+        Debug.Log("Removing the land deed!");
+        var data = DataGameManager.instance.constructionCampModuleData[entry.SlotKey];
+        DataGameManager.instance.CurrentLandDeedsOwned -= data.landDeed;
+    }
+
+    public void ReturnCampSpecificResources(CampActionEntry entry)
+    {
+        Debug.Log("Returning the land deed!");
+        var data = DataGameManager.instance.constructionCampModuleData[entry.SlotKey];
+        DataGameManager.instance.CurrentLandDeedsOwned += data.landDeed;
+
+    }
+
+}

@@ -90,6 +90,7 @@ public class DataGameManager : MonoBehaviour
     //Seperate dictionaries for each camp specific module
 
     public Dictionary<string, ConstructionCampModule> constructionCampModuleData;
+    public Dictionary<string, VeinData> miningCampModuleData;
 
     public Dictionary<string, OneSlotUseActions_Struc> OneSlotUseActions = new();
 
@@ -124,12 +125,18 @@ public class DataGameManager : MonoBehaviour
 
     //The FishingCamp Boost Data.
     public FishingCamp_Boost_Struc FishingCamp_Boost = new FishingCamp_Boost_Struc();
-
     //The LumberCamp Boost Data.
     public LumberCamp_Boost_Struc LumberCamp_Boost = new LumberCamp_Boost_Struc();
-
     //The ConstructionCamp Boost Data.
     public ConstructionCamp_Boost_Struc ConstructionCamp_Boost = new ConstructionCamp_Boost_Struc();
+    //The MiningCamp Boost Data.
+    public MiningCamp_Boost_Struc MiningCamp_Boost = new MiningCamp_Boost_Struc();
+
+
+    //MiningCamp Vein Data
+    public Dictionary<string, VeinData> miningVeinStates = new(); // slotKey -> saved vein
+
+
 
 
 
@@ -145,6 +152,7 @@ public class DataGameManager : MonoBehaviour
         FishingCamp_Boost.InitializeSprites();
         LumberCamp_Boost.InitializeSprites();
         ConstructionCamp_Boost.InitializeSprites();
+        MiningCamp_Boost.InitializeSprites();
 
         // Check if an instance already exists
         if (instance == null)
@@ -163,7 +171,7 @@ public class DataGameManager : MonoBehaviour
         populate_Camp_Slots = GetComponent<Populate_Camp_Slots>();
         populate_Storage_Slots = GetComponent<Populate_Storage_Slots>();
         populate_Local_Market_Slots = GetComponent<Populate_Local_Market_Slots>();  
-        campBehaviorManager = GetComponent<CampBehaviorManager>();
+       // campBehaviorManager = GetComponent<CampBehaviorManager>(); //behaviours replaced
 
         foreach (CampType type in Enum.GetValues(typeof(CampType)))
         {
@@ -191,7 +199,7 @@ public class DataGameManager : MonoBehaviour
             campDictionaries[entry.campType] = data;
         }
 
-        campBehaviorManager.AssignCampBehaviors(campDictionaries); //Assign the Camp Behaviours!
+      //  campBehaviorManager.AssignCampBehaviors(campDictionaries); //Assign the Camp Behaviours! // Behaviours replaced!
 
         PlayerXPManager();  // Initialize the dictionary with all camps and default XP data
 
@@ -204,7 +212,7 @@ public class DataGameManager : MonoBehaviour
             CampType.FishingCamp => FishingCamp_Boost.GetAllBoosts(),
             CampType.LumberCamp => LumberCamp_Boost.GetAllBoosts(),
             CampType.ConstructionCamp => ConstructionCamp_Boost.GetAllBoosts(),
-           // CampType.MiningCamp => MiningCamp_Boost.GetAllBoosts(),
+            CampType.MiningCamp => MiningCamp_Boost.GetAllBoosts(),
             _ => new List<CampBoost_Class>()
         };
     }

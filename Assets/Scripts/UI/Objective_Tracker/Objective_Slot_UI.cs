@@ -142,7 +142,12 @@ public class Objective_Slot_UI : MonoBehaviour
                             {
                                 if (DataGameManager.instance.TryFindItemData(objectives_Rewards.itemID, out var item))
                                 {
-                                    TownStorageManager.AddItem(item.ItemID, objectives_Rewards.amount, campType);
+                                    bool added = TownStorageManager.AddItem(item.ItemID, objectives_Rewards.amount, campType);
+                                    if (!added)
+                                    {
+                                        Debug.LogWarning("Failed to add equipped bait due to full inventory.");
+                                        // Optionally: trigger a UI message, fallback storage, etc.
+                                    }
                                 }
                             }
                         }

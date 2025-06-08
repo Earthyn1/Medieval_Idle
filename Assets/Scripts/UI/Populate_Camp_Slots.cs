@@ -25,168 +25,144 @@ public class Populate_Camp_Slots : MonoBehaviour
 
     public void PopulateSlots(Dictionary<string, CampActionData> campData)
     {
-      
+        ActivateScrollWindow();
 
-        scrollWindow.SetActive(true);
-        DataGameManager.instance.populate_Storage_Slots.scrollWindow.SetActive(false);
-        ScrollRect scrollRect = scrollWindow.GetComponentInParent<ScrollRect>();
-        scrollRect.verticalNormalizedPosition = 1f;  // Top
+        ClearOldSlots();
 
-        foreach (Transform child in parentContainer) // Clear existing slots
+        foreach (var pair in campData)
         {
-            Destroy(child.gameObject);
-        }
-        foreach (Transform child in DataGameManager.instance.populate_Storage_Slots.parentContainer) // Clear existing slots
-        {
-            Destroy(child.gameObject);
-        }
+            var key = pair.Key;
+            var data = pair.Value;
 
-            foreach (var slot in campData)
-            {
-            if (slot.Value.levelUnlocked > DataGameManager.instance.CurrentContentLevelAvailable) //keep current content to up to lvl 30
-            {
-                continue;
-            }
-            CampCategorys nocategory = CampCategorys.NA;
+            if (ShouldSkipSlot(data)) continue;
 
-            if (slot.Value.campCategory != DataGameManager.instance.currentCampCategory && slot.Value.campCategory != nocategory) //Here we only use the camps within current category.
-            {
-           //     Debug.Log(slot.Value.campCategory + ", " + DataGameManager.instance.currentCampCategory); 
-                continue;
-            }
+            var slotGO = Instantiate(slotPrefab, parentContainer);
+            var slotUI = slotGO.GetComponent<Camp_Resource_Slot>();
+            slotGO.name = $"Slot_{key}";
 
-            if (DataGameManager.instance.OneSlotUseActions.TryGetValue(slot.Value.resourceName, out var action))
-            {
-                continue;
-            }
+            SetupSlotVisuals(slotUI, data, key);
+            SetupRequiredResources(slotUI, data);
 
-           //-----------------------------
-           //Now start spawning in slots
+            var activeEntry = FindActiveCampEntry(key, data.campType);
+            BindSlotToActiveEntry(slotUI, activeEntry, key, data);
 
-
-            GameObject newSlot = Instantiate(slotPrefab, parentContainer);
-
-            Camp_Resource_Slot slotScript = newSlot.GetComponent<Camp_Resource_Slot>();  // Access the Camp_Resource_Slot script on the newly instantiated slot             
-
-            slotScript.actionName.text = slot.Value.resourceName;
-            slotScript.FGImage.sprite = slot.Value.image2D;
-            slotScript.BGImage.sprite = slot.Value.bgImage;
-            slotScript.popCount.text = slot.Value.populationCost.ToString();
-            newSlot.name = $"Slot_{slot.Key}";
-            slotScript.lvlUnlocked.text = slot.Value.levelUnlocked.ToString();
-
-            if (slot.Value.populationCost > DataGameManager.instance.CurrentVillagerCount)
-            {
-                slotScript.popCount.color = Color.red;
-            }
-            else
-            {
-                slotScript.popCount.color = Color.white;
-            }
-
-
-            if (DataGameManager.instance.campXPDictionaries.TryGetValue(slot.Value.campType, out CampXPData campXPData)) // checks we have the data
-            {
-
-                int currentLevel = campXPData.currentLevel;  // Access the current level from the retrieved data
-                if (slot.Value.levelUnlocked <= currentLevel) //Here we setup the Locked UI
-                {
-                    slotScript.isLocked = false;
-                }
-                else
-                {
-                    slotScript.Unlocked_Panel.SetActive(false);
-                    slotScript.Locked_Panel.SetActive(true);
-                    slotScript.isLocked = true;
-                }
-
-            }
- 
-
-            // Check if the slot has required items
-            if (slot.Value.RequiredItems != null && slot.Value.RequiredItems.Count > 0)
-            {
-                foreach (SimpleItemData item in slot.Value.RequiredItems)
-                {
-                    // Instantiate the required resource prefab
-                    GameObject resourceGO = Instantiate(requiredResourcePrefab, slotScript.requiredResource_Parent.transform);
-                    
-
-                    Required_Resource_Slot required_Resource_SlotScript = resourceGO.GetComponent<Required_Resource_Slot>();
-                    ItemData_Struc requireditem_Data = DataGameManager.instance.itemData_Array[item.item];
-
-                    resourceGO.name = "RequiredResource-" + requireditem_Data.ItemID;
-
-                    required_Resource_SlotScript.itemimage.sprite = requireditem_Data.ItemImage;
-                    required_Resource_SlotScript.itemimage_2.sprite = requireditem_Data.ItemImage;
-                    required_Resource_SlotScript.itemqty.text = item.qty.ToString();
-                    required_Resource_SlotScript.itemID = item.item;
-
-                    required_Resource_SlotScript.itemqty.color =
-                    DataGameManager.instance.TownStorage_List.Any(slot =>
-                    slot.ItemID == item.item && slot.Quantity >= item.qty)
-                    ? Color.green
-                    : Color.red;
-                }
-            }
-            else
-            {
-                // Debug.LogWarning("No required items found for slot: " + slot.Key);
-            }
-
-            // Try to find existing active entry by matching resourceName or other unique key
-            CampActionEntry existingEntry = null;
-            foreach (var entry in DataGameManager.instance.activeCamps)
-            {
-                if (entry.SlotKey == slot.Value.resourceName)
-                {
-                    existingEntry = entry;
-                    Debug.Log(entry.SlotKey);
-                    slotScript.progressBar.transform.parent.gameObject.SetActive(true);
-                    break;
-                }
-            }
-
-            if (existingEntry != null) //This found an active slot so we assign the slot to the active camp.
-            {
-              
-                slotScript.slotkey = slot.Key;
-                slotScript.campType = slot.Value.campType;
-             
-                existingEntry.SetSlot(slotScript);
-                slotScript.UpdateProgressBar(existingEntry.GetProgress());
-                slotScript.isActive = true;
-                slotScript.requiredResource_Parent.SetActive(false);
-            }
-            else
-            {
-                CampActionEntry campActionEntry = new CampActionEntry(slot.Value.resourceName , slot.Value.campType, DateTime.Now, 0);  // Create a new CampActionEntry with the current time 
-                slotScript.slotkey = slot.Key;
-                slotScript.campType = slot.Value.campType;
-                campActionEntry.SetSlot(slotScript); //Adds this new slot ref to itself.
-            }
-
-            CampModuleEntry entry2 = campSpecificModulePrefabs.Find(e => e.campType == slot.Value.campType); //Try to add campspecific modules
-
-            if (entry2 != null && entry2.campModulePrefab != null)
-            {
-                Camp_Resource_Slot slotscript = newSlot.GetComponent<Camp_Resource_Slot>();
-
-                GameObject campModule = Instantiate(entry2.campModulePrefab, slotscript.Unlocked_Panel.transform); // successfully add the new camp module
-                slotscript.CampSpecificPrefab = campModule;
-
-                CampUISlotInterface Campinterface = campModule.GetComponent<CampUISlotInterface>(); //Update Camp slot UI
-                if (Campinterface != null)
-                {
-                    Campinterface.OnUISlotUpdate(slot.Value.resourceName);
-                }
-            }
-            else
-            {
-                Debug.LogWarning("No prefab found for camp type: " + slot.Value.campType);
-            }
+            AttachCampSpecificModule(slotUI, data);
         }
     }
+
+    private void ActivateScrollWindow()
+    {
+        scrollWindow.SetActive(true);
+        DataGameManager.instance.populate_Storage_Slots.scrollWindow.SetActive(false);
+
+        ScrollRect scrollRect = scrollWindow.GetComponentInParent<ScrollRect>();
+        scrollRect.verticalNormalizedPosition = 1f;
+    }
+
+    private void ClearOldSlots()
+    {
+        foreach (Transform child in parentContainer)
+            Destroy(child.gameObject);
+
+        foreach (Transform child in DataGameManager.instance.populate_Storage_Slots.parentContainer)
+            Destroy(child.gameObject);
+    }
+
+    private bool ShouldSkipSlot(CampActionData data)
+    {
+        return data.levelUnlocked > DataGameManager.instance.CurrentContentLevelAvailable ||
+               (data.campCategory != DataGameManager.instance.currentCampCategory &&
+                data.campCategory != CampCategorys.NA) ||
+               DataGameManager.instance.OneSlotUseActions.ContainsKey(data.resourceName);
+    }
+
+    private void SetupSlotVisuals(Camp_Resource_Slot slot, CampActionData data, string key)
+    {
+        slot.slotkey = key;
+        slot.campType = data.campType;
+        slot.actionName.text = data.resourceName;
+        slot.FGImage.sprite = data.image2D;
+        slot.BGImage.sprite = data.bgImage;
+        slot.popCount.text = data.populationCost.ToString();
+        slot.lvlUnlocked.text = data.levelUnlocked.ToString();
+        slot.popCount.color = (data.populationCost > DataGameManager.instance.CurrentVillagerCount) ? Color.red : Color.white;
+
+        if (DataGameManager.instance.campXPDictionaries.TryGetValue(data.campType, out var xpData))
+        {
+            slot.isLocked = data.levelUnlocked > xpData.currentLevel;
+            slot.Locked_Panel.SetActive(slot.isLocked);
+            slot.Unlocked_Panel.SetActive(!slot.isLocked);
+        }
+    }
+
+    private void SetupRequiredResources(Camp_Resource_Slot slot, CampActionData data)
+    {
+        if (data.RequiredItems == null || data.RequiredItems.Count == 0) return;
+
+        foreach (var item in data.RequiredItems)
+        {
+            GameObject resourceGO = Instantiate(requiredResourcePrefab, slot.requiredResource_Parent.transform);
+            var reqSlot = resourceGO.GetComponent<Required_Resource_Slot>();
+            var itemData = DataGameManager.instance.itemData_Array[item.item];
+
+            resourceGO.name = "RequiredResource-" + itemData.ItemID;
+            reqSlot.itemimage.sprite = itemData.ItemImage;
+            reqSlot.itemimage_2.sprite = itemData.ItemImage;
+            reqSlot.itemqty.text = item.qty.ToString();
+            reqSlot.itemID = item.item;
+
+            bool hasEnough = DataGameManager.instance.TownStorage_List
+                .Any(s => s.ItemID == item.item && s.Quantity >= item.qty);
+
+            reqSlot.itemqty.color = hasEnough ? Color.green : Color.red;
+        }
+    }
+
+    private CampActionEntry FindActiveCampEntry(string key, CampType type)
+    {
+        return DataGameManager.instance.activeCamps
+            .FirstOrDefault(e => e.SlotKey == key && e.CampType == type && e.IsActive);
+    }
+
+    private void BindSlotToActiveEntry(Camp_Resource_Slot slot, CampActionEntry entry, string key, CampActionData data)
+    {
+        if (entry != null)
+        {
+            Debug.Log($"Found active entry for {key}");
+            entry.SetSlot(slot);
+            entry.IsActive = true;
+
+            slot.UpdateProgressBar(entry.GetProgress());
+            slot.isActive = true;
+            slot.requiredResource_Parent.SetActive(false);
+            slot.progressBar.transform.parent.gameObject.SetActive(true);
+        }
+        else
+        {
+            Debug.Log($"No active entry found for {key}");
+            slot.UpdateProgressBar(0f);
+            slot.isActive = false;
+            slot.requiredResource_Parent.SetActive(true);
+        }
+    }
+
+    private void AttachCampSpecificModule(Camp_Resource_Slot slot, CampActionData data)
+    {
+        var moduleEntry = campSpecificModulePrefabs.Find(e => e.campType == data.campType);
+        if (moduleEntry?.campModulePrefab != null)
+        {
+            GameObject module = Instantiate(moduleEntry.campModulePrefab, slot.Unlocked_Panel.transform);
+            slot.CampSpecificPrefab = module;
+
+            module.GetComponent<CampUISlotInterface>()?.OnUISlotUpdate(data.resourceName);
+        }
+        else
+        {
+            Debug.LogWarning($"No prefab found for camp type: {data.campType}");
+        }
+    }
+
+
 
     public void UpdateRequiredResource_Colors()
     {

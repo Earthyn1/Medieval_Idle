@@ -15,7 +15,7 @@ MonoBehaviour:
   objectiveName: Build the Fishing Camp
   tasks:
   - taskName: Build Fishing Camp
-    taskId: FishingCamp
+    taskId: Fishing Cabin
     isInventoryItem: 0
     taskMaxQty: 1
     taskCurrentQty: 0

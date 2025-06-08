@@ -4,7 +4,7 @@ using UnityEngine;
 public class CampBehaviorManager : MonoBehaviour
 {
     public ConstructionCampBehaviorSO constructionCampBehaviorSO;
-    public ConstructionCampBehaviorSO fishingCampBehaviorSO;
+    public FishingCampBehaviorSO fishingCampBehaviorSO;
     // Add other SO references here...
 
     private void Start()
@@ -19,14 +19,14 @@ public class CampBehaviorManager : MonoBehaviour
             CampSpecificInterface behavior = GetBehaviorForCampType(campPair.Key);
             if (behavior == null)
             {
-              //  Debug.LogWarning($"No behavior assigned for CampType {campPair.Key}");
+           //     Debug.LogWarning($"No behavior assigned for CampType {campPair.Key}");
                 continue;
             }
 
             foreach (var kvp in campPair.Value)
             {
                 kvp.Value.SetCampSpecificLogic(behavior);
-             //   Debug.Log($"Assigned {behavior.GetType().Name} to {kvp.Key}");
+               // Debug.Log($"Assigned {behavior.GetType().Name} to {kvp.Key}");
             }
         }
     }
@@ -37,7 +37,7 @@ public class CampBehaviorManager : MonoBehaviour
         return campType switch
         {
             CampType.ConstructionCamp => constructionCampBehaviorSO,
-         //   CampType.FishingCamp => fishingCampBehaviorSO,
+            CampType.FishingCamp => fishingCampBehaviorSO,
             // Add other camp types here...
             _ => null,
         };

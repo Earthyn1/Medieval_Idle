@@ -1,6 +1,8 @@
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Security.Cryptography;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering.Universal;
@@ -18,123 +20,211 @@ public class ActionCampHandler : MonoBehaviour
     {
         foreach (var entry in DataGameManager.instance.activeCamps.ToList())
         {
-            // Let the handler update the progress bar however it wants
-            entry.CampTypeHandler.UpdateProgress(entry);
-
-            if (entry.CampTypeHandler.IsCompleted(entry))
+            if (entry.IsActive)
             {
-                CompleteCampAction(entry.SlotKey, entry.CampType);
-                CampActionData campActionData = DataGameManager.instance.campDictionaries[entry.CampType][entry.SlotKey];
+                // Let the handler update the progress bar however it wants
+                entry.CampTypeHandler.UpdateProgress(entry);
 
-                entry.Slot.CheckForDialogs();
-
-                if (HasEnoughResources(campActionData) && HasEnoughCampSpecificResources(campActionData))
+                if (entry.CampTypeHandler.IsCompleted(entry))
                 {
-                    RemoveRequiredCampResources(campActionData);
-                    RemoveRequiredSpecificCampResources(campActionData);
-                    entry.RestartTimer();  // Automatically restart the timer
-                    entry.CampTypeHandler.RestartTimer(campActionData);  
-                }
-                else
-                {
-                    
-                    Debug.Log("Not enough resource to restart action");
-                    RemoveCampAction(entry.SlotKey, entry.CampType);
+                    CompleteCampAction(entry.SlotKey, entry.CampType);
+                    CampActionData campActionData = DataGameManager.instance.campDictionaries[entry.CampType][entry.SlotKey];
 
-                    if (entry.Slot != null)
+                    entry.Slot.CheckForDialogs();
+
+                    if (HasEnoughResources(campActionData) && HasEnoughCampSpecificResources(entry))
                     {
-                        entry.Slot.DeactivateActionSlot_WithoutReturningResources();
-                        entry.Slot.NotEnoughResourceFlash();
+                        RemoveRequiredCampResources(campActionData);
+                        RemoveRequiredSpecificCampResources(entry);
+                        // entry.RestartTimer();  // Automatically restart the timer
+                        entry.CampTypeHandler.RestartTimer(entry);
+                    }
+                    else
+                    {
+
+                        Debug.Log("Not enough resource to restart action");
+                        RemoveCampAction(entry.SlotKey, entry.CampType);
+
+                        if (entry.Slot != null)
+                        {
+                            entry.Slot.DeactivateActionSlot_WithoutReturningResources();
+                            entry.Slot.NotEnoughResourceFlash();
+                        }
                     }
                 }
-            }
+            }            
         }
     }
 
 
     public void ReturnResources(string Key, CampType campType)
     {
-
         Debug.Log("Returning a resource specifc!");
         CampActionData campData = DataGameManager.instance.GetCampActionData(campType, Key);
+        var entry = DataGameManager.instance.activeCamps
+            .FirstOrDefault(c => c.SlotKey == Key && c.CampType == campType); // ← Added campType check
 
         foreach (SimpleItemData simpleItemData in campData.RequiredItems)
         {
-            TownStorageManager.AddItem(simpleItemData.item, simpleItemData.qty, campType);
-        }
+            bool added = TownStorageManager.AddItem(simpleItemData.item, simpleItemData.qty, campType);
 
-        if (campData.campSpecificLogic == null)
-        {
-            
+            if (!added)
+            {
+                Debug.LogWarning($"Could not add all of {simpleItemData.item} (wanted to add {simpleItemData.qty}). Inventory may be full.");
+            }
         }
-        else
-        {
-            campData.campSpecificLogic.ReturnCampSpecificResources(Key);
-        }
-
+        entry.CampTypeHandler.ReturnCampSpecificResources(entry);
     }
-    public void RemoveCampAction(string Key, CampType campType)
+    public void RemoveCampAction(string key, CampType campType)
     {
-        CampActionData campData = DataGameManager.instance.GetCampActionData(campType, Key);
+        CampActionData campData = DataGameManager.instance.GetCampActionData(campType, key);
 
         var entry = DataGameManager.instance.activeCamps
-            .FirstOrDefault(c => c.SlotKey == Key);
+            .FirstOrDefault(c => c.SlotKey == key && c.CampType == campType); // ← Added campType check
 
         if (entry != null)
         {
-            // DataGameManager.instance.activeCamps.Remove(campActionEntry);
-            DataGameManager.instance.CurrentVillagerCount = DataGameManager.instance.CurrentVillagerCount + campData.populationCost;
+            // Refund villagers
+            DataGameManager.instance.CurrentVillagerCount += campData.populationCost;
             DataGameManager.instance.topPanelManager.UpdateTownPopulation();
 
-            DataGameManager.instance.campButtonUpdater.UpdateCampUsageGreenDots(campType, campData.populationCost * -1);
-            Debug.Log(campData.populationCost * -1);
+            // Update UI
+            DataGameManager.instance.campButtonUpdater.UpdateCampUsageGreenDots(campType, -campData.populationCost);
 
-            DataGameManager.instance.activeCamps.Remove(entry);
+            // Mark inactive
+            entry.IsActive = false;
         }
-
-       
     }
+
     public bool TryToAddCampSlot(string key, CampType campType, Camp_Resource_Slot slot)
     {
-        CampActionData campActionData = DataGameManager.instance.campDictionaries[campType][key];
+        var campData = DataGameManager.instance.campDictionaries[campType][key];
 
-        if (DataGameManager.instance.CurrentVillagerCount - campActionData.populationCost >= 0)
+        if (!HasEnoughVillagers(campData, slot))
+            return false;
+
+        var existingEntry = FindCampEntry(key, campType);
+
+        if (existingEntry != null)
         {
-            if (DataGameManager.instance.activeCamps.Any(e => e.CampType == campType))
-            {
-                string campName = DataGameManager.instance.campTypeDataList.FirstOrDefault(c => c.campType == campType)?.campName;
-                DataGameManager.instance.Game_Text_Alerts.PlayAlert(campName + " is busy!");
-                return false;
-            }
-
-            if (HasEnoughResources(campActionData) && HasEnoughCampSpecificResources(campActionData))
-            {
-                RemoveRequiredCampResources(campActionData);
-                RemoveRequiredSpecificCampResources(campActionData);
-
-                CampActionEntry campActionEntry = new CampActionEntry(key, campType, DateTime.Now, 0);
-                campActionEntry.Slot = slot; // Assuming this is called from the Camp_Resource_Slot instance
-                campActionEntry.CampTypeHandler = CampActionHandlerFactory.GetHandler(campType);
-                DataGameManager.instance.activeCamps.Add(campActionEntry);
-                DataGameManager.instance.CurrentVillagerCount = DataGameManager.instance.CurrentVillagerCount - campActionData.populationCost;
-                DataGameManager.instance.topPanelManager.UpdateTownPopulation();    
-                DataGameManager.instance.campButtonUpdater.UpdateCampUsageGreenDots(campType,campActionData.populationCost);
-                return true;
-            }
-            else
-            { 
-               slot.NotEnoughResourceFlash();
-                return false;
-            }
+            return TryReactivateExistingEntry(existingEntry, campData, slot);
         }
         else
         {
-            slot.NotEnoughVillagerFlash();
-            DataGameManager.instance.Game_Text_Alerts.PlayAlert("Not enough villagers available");
-
-            return false;
+            return TryCreateNewEntry(key, campType, campData, slot);
         }
     }
+
+    private bool HasEnoughVillagers(CampActionData data, Camp_Resource_Slot slot)
+    {
+        if (DataGameManager.instance.CurrentVillagerCount < data.populationCost)
+        {
+            slot.NotEnoughVillagerFlash();
+            return false;
+        }
+        return true;
+    }
+
+    private bool HasRequiredResources(CampActionData data, Camp_Resource_Slot slot, CampActionEntry entry)
+    {
+        if (!HasEnoughResources(data) || !HasEnoughCampSpecificResources(entry))
+        {
+            slot.NotEnoughResourceFlash();
+            return false;
+        }
+        return true;
+    }
+
+    private CampActionEntry FindCampEntry(string key, CampType campType)
+    {
+        return DataGameManager.instance.activeCamps
+            .FirstOrDefault(e => e.SlotKey == key && e.CampType == campType);
+    }
+
+    private bool TryReactivateExistingEntry(CampActionEntry entry, CampActionData data, Camp_Resource_Slot slot)
+    {
+        if (entry.IsActive)
+        {
+            ShowCampBusyAlert(entry.CampType);
+            return false;
+        }
+
+        if (!HasRequiredResources(data, slot, entry))
+            return false;
+
+        ConsumeResources(data, entry);
+
+        // Reactivate
+        entry.Slot = slot;
+        if (entry.CampTypeHandler == null)
+            entry.CampTypeHandler = CampActionHandlerFactory.GetHandler(entry.CampType);
+
+        entry.StartTime = DateTime.Now;
+        entry.Progress = 0f;
+        entry.CampTypeHandler.RestartTimer(entry);
+        entry.IsActive = true;
+
+        UpdateSlotVisuals(slot);
+        UpdateTownState(data);
+
+        return true;
+    }
+
+    private bool TryCreateNewEntry(string key, CampType campType, CampActionData data, Camp_Resource_Slot slot)
+    {
+        var newEntry = CreateCampActionEntry(key, campType);
+
+        if (!HasRequiredResources(data, slot, newEntry))
+            return false;
+
+        ConsumeResources(data, newEntry);
+
+        
+        newEntry.StartTime = DateTime.Now;
+        newEntry.Progress = 0f;
+        newEntry.Slot = slot;
+        newEntry.CampTypeHandler = CampActionHandlerFactory.GetHandler(campType);
+        newEntry.IsActive = true;
+
+        DataGameManager.instance.activeCamps.Add(newEntry);
+
+        UpdateSlotVisuals(slot);
+        UpdateTownState(data);
+
+        return true;
+    }
+
+    private void ConsumeResources(CampActionData data, CampActionEntry entry)
+    {
+        RemoveRequiredCampResources(data);
+        RemoveRequiredSpecificCampResources(entry);
+    }
+
+    private void UpdateSlotVisuals(Camp_Resource_Slot slot)
+    {
+        slot.UpdateProgressBar(0f);
+        slot.isActive = true;
+        slot.requiredResource_Parent.SetActive(false);
+        slot.progressBar.transform.parent.gameObject.SetActive(true);
+    }
+
+    private void UpdateTownState(CampActionData data)
+    {
+        DataGameManager.instance.CurrentVillagerCount -= data.populationCost;
+        DataGameManager.instance.topPanelManager.UpdateTownPopulation();
+        DataGameManager.instance.campButtonUpdater.UpdateCampUsageGreenDots(data.campType, data.populationCost);
+    }
+
+    private void ShowCampBusyAlert(CampType campType)
+    {
+        string campName = DataGameManager.instance.campTypeDataList
+            .FirstOrDefault(c => c.campType == campType)?.campName;
+        DataGameManager.instance.Game_Text_Alerts.PlayAlert(campName + " is busy!");
+    }
+
+
+
+
     void CompleteCampAction(string Key, CampType campType)
     {
         CampActionData campData = DataGameManager.instance.GetCampActionData(campType, Key);
@@ -144,54 +234,108 @@ public class ActionCampHandler : MonoBehaviour
         Objective_Manager.UpdateObjectives(Key,1);
 
         float progress = XPManager.GetLevelProgress(campType);
-        //Debug.Log($"{campType} is {progress * 100f}%");
+       
 
         RollForProducedItem(Key, campType);
 
         if (campData.campSpecificLogic == null)
         {
-          //  Debug.Log("No campspecificLogic!!"); 
+        Debug.Log("No campspecificLogic!!"); 
         }
         else
         {
             campData.campSpecificLogic.OnCompletedCampSpecificAction(Key);
         }
-
-
     }
 
-    void RollForProducedItem(string Key, CampType campType)
+    public CampActionEntry CreateCampActionEntry(string key, CampType campType)
     {
-        CampActionData campData = DataGameManager.instance.GetCampActionData(campType, Key);
+        CampActionEntry entry;
 
-        // Generate a random number between 1 and 100
+        if (campType == CampType.MiningCamp)
+        {
+            if (DataGameManager.instance.miningCampModuleData.TryGetValue(key, out VeinData veindata))
+            {
+                var miningEntry = new MiningActionEntry(key, campType, DateTime.Now, 0f, veindata);
+                miningEntry.IsSearching = true;
+                miningEntry.SearchStartTime = DateTime.Now;
+
+                entry = miningEntry;
+            }
+            else
+            {
+
+                entry = new CampActionEntry(key, campType, DateTime.Now, 0f);
+            }
+
+            return entry;
+        }
+        // Add a return here to handle other camp types
+        entry = new CampActionEntry(key, campType, DateTime.Now, 0f);
+        return entry;
+    }
+
+    void RollForProducedItem(string key, CampType campType)
+    {
+        CampActionData campData = DataGameManager.instance.GetCampActionData(campType, key);
+        var boosts = DataGameManager.instance.boostsManager.GetMergedBoosts(campType);
+
+        //Here we can add other camps boost names that do the same thing!
+        float dropChanceBoost = GetBoostAmount(boosts, "Catch Chance");
+        float doubleDropChance = GetBoostAmount(boosts, "Double Catch", "Double Craft", "Twin Harvest");
+
         int roll = UnityEngine.Random.Range(1, 101);
-       // Debug.Log($"Rolled: {roll}");
-
         float accumulatedChance = 0;
 
-        // Sort produced items by drop chance (if not already sorted)
         campData.ProducedItems.Sort((a, b) => a.dropChance.CompareTo(b.dropChance));
 
         foreach (var producedItem in campData.ProducedItems)
         {
-            // Accumulate the drop chance
-            accumulatedChance += producedItem.dropChance;
+            float boostedDropChance = producedItem.dropChance + dropChanceBoost;
+            accumulatedChance += boostedDropChance;
 
-            // Check if the roll falls within the current accumulated range
             if (roll <= accumulatedChance)
             {
-             //   Debug.Log($"Item acquired: {producedItem.item}, Qty: {producedItem.qty}");
-    
-                // Add item to inventory
-                TownStorageManager.AddItem(producedItem.item, producedItem.qty, campType);
+                int finalQty = CalculateFinalQuantity(producedItem.qty, campType);
+
+                if (UnityEngine.Random.Range(0f, 100f) < doubleDropChance)
+                {
+                    finalQty *= 2;
+                    Debug.Log($"DOUBLE DROP! {producedItem.item} x{finalQty}");
+                }
+
+                bool added = TownStorageManager.AddItem(producedItem.item, finalQty, campType);
+                if (!added)
+                {
+                    Debug.LogWarning($"Could not add {producedItem.item} x{finalQty} to storage. Inventory may be full.");
+                }
+
                 return;
             }
         }
 
-        // Fallback if no item matched (edge case)
-       // Debug.Log("No item acquired. Drop chances may not sum up to 100.");
+        Debug.Log($"[Drop Result] Rolled: {roll} | No item matched.");
     }
+
+    float GetBoostAmount(List<CampBoost_Class> boosts, params string[] boostNames)
+    {
+        return boosts
+            .Where(b => boostNames.Contains(b.boostName))
+            .Sum(b => b.boostAmount);
+    }
+
+    int CalculateFinalQuantity(int baseQty, CampType campType)
+    {
+        if (campType == CampType.FishingCamp && baseQty > 1)
+        {
+            int variation = UnityEngine.Random.Range(-1, 2); // -1, 0, or 1
+            return Mathf.Max(1, baseQty + variation);
+        }
+
+        return baseQty;
+    }
+
+
 
     public void RemoveRequiredCampResources(CampActionData campData)
     {
@@ -213,33 +357,19 @@ public class ActionCampHandler : MonoBehaviour
             return hasEnough;
     }
 
-    public bool HasEnoughCampSpecificResources(CampActionData campData)
+    public bool HasEnoughCampSpecificResources(CampActionEntry entry)
     {
-        if (campData.campSpecificLogic == null)
-        {
-          //  Debug.Log("No campspecificLogic!!");
-            return true;
-        }
-
-        bool hasEnough = campData.campSpecificLogic.HasEnoughCampSpecificResources(campData.resourceName);
+        bool hasEnough = entry.CampTypeHandler.HasEnoughCampSpecificResources(entry);
         if (!hasEnough)
             Debug.Log("Not enough specific resource");
 
         return hasEnough;
     }
 
-    public void RemoveRequiredSpecificCampResources(CampActionData campData)
+    public void RemoveRequiredSpecificCampResources(CampActionEntry entry)
     {
-
-        if (campData.campSpecificLogic == null)
-        {
-         //   Debug.Log("No campspecificLogic!!");
-          
-        }
-        else
-        {
-            campData.campSpecificLogic.RemoveCampSpecificResources(campData.resourceName);
-        }
+        entry.CampTypeHandler.RemoveCampSpecificResources(entry);
+        
     }
 
 

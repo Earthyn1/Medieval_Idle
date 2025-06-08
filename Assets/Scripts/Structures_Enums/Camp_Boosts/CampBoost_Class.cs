@@ -12,7 +12,7 @@ public class CampBoost_Class
     {
         return boostUnit switch
         {
-            BoostUnit.Percent => $"+{boostAmount * 100f:0.#}%",
+            BoostUnit.Percent => $"+{boostAmount :0.#}%",
             BoostUnit.Seconds => $"-{boostAmount:0.##}s",
             BoostUnit.Flat => $"+{boostAmount}",
             _ => boostAmount.ToString()

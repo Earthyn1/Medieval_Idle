@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Security.Cryptography;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
@@ -7,7 +8,10 @@ public class CampSpecific_CSV_Loaders : MonoBehaviour
 {
     
     private Dictionary<string, ConstructionCampModule> constructionCampModuleData;
+    private Dictionary<string, VeinData> veinData;
     public TextAsset constructionmoduleCSV;
+    public TextAsset miningmoduleCSV;
+
 
 
     void Start()
@@ -17,13 +21,8 @@ public class CampSpecific_CSV_Loaders : MonoBehaviour
         var constructionData = LoadConstructionModuleCSV(constructionmoduleCSV);
         DataGameManager.instance.constructionCampModuleData = constructionData;
 
-      //  foreach (var kvp in constructionData)
-       // {
-       //     string resourceName = kvp.Key;
-        //    ConstructionCampModule module = kvp.Value;
-
-        //    Debug.Log($"Resource: {resourceName} | Land Deed: {module.landDeed} | Single Use: {module.SingleUseSlot} | Unlocks Building ID: {module.BuildingIDUnlocked} | Requires Upgrade: {module.PreviousUpgradeRequired}");
-      //  }
+        var miningData = LoadMiningModuleCSV(miningmoduleCSV);
+        DataGameManager.instance.miningCampModuleData = miningData;
 
 
     }
@@ -41,7 +40,7 @@ public class CampSpecific_CSV_Loaders : MonoBehaviour
             // Split the CSV line by commas, but handle the special case for the Produced Items field
             string[] fields = SplitCsvLine(line);
 
-            if (fields.Length < 13) // Skip malformed rows
+            if (fields.Length < 16) // Skip malformed rows
 
             {
                 Debug.LogWarning("Invalid or incomplete row: ");
@@ -58,9 +57,44 @@ public class CampSpecific_CSV_Loaders : MonoBehaviour
             ConstructionCampModule slot = new ConstructionCampModule(landDeed,SingleUseSlot,BuildingIDUnlocked,PreviousUpgradeRequired);
 
             constructionCampModuleData.Add(resourceName, slot);
+          
+        }
+        return constructionCampModuleData;
+    }
+
+    public Dictionary<string, VeinData> LoadMiningModuleCSV(TextAsset CsvLoaded)
+    {
+        veinData = new Dictionary<string, VeinData>();
+        string[] lines = CsvLoaded.text.Split('\n');
+
+        // Start from the second line to skip the header row
+        for (int i = 1; i < lines.Length; i++)
+        {
+            string line = lines[i].Trim();
+            if (string.IsNullOrWhiteSpace(line)) continue;
+
+            // Split the CSV line by commas, but handle the special case for the Produced Items field
+            string[] fields = SplitCsvLine(line);
+
+            if (fields.Length < 16) // Skip malformed rows
+
+            {
+                Debug.LogWarning("Invalid or incomplete row: ");
+                continue;
+            }
+
+            // Skip the first column (index number)
+            string OreID = TryGetString(fields, 1);
+            int remaining = TryGetInt(fields, 15);
+            int initial = TryGetInt(fields, 13);
+            float SearchDuration = TryGetFloat(fields, 14);
+    
+            VeinData slot = new VeinData(OreID, remaining, initial, SearchDuration);
+
+            veinData.Add(OreID, slot);
         }
 
-        return constructionCampModuleData;
+        return veinData;
     }
 
 
@@ -118,6 +152,13 @@ public class CampSpecific_CSV_Loaders : MonoBehaviour
         if (fields.Length > index && int.TryParse(fields[index], out int result))
             return result;
         return 0; // Default value if parsing fails
+    }
+
+    private float TryGetFloat(string[] fields, int index)
+    {
+        if (fields.Length > index && float.TryParse(fields[index], out float result))
+            return result;
+        return 0f; // Default value if parsing fails
     }
 }
 

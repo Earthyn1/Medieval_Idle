@@ -7,6 +7,7 @@ public class XP_Feed_Slot : MonoBehaviour
     public Image xp_feed_SlotImage;
     public Animator xp_feed_SlotAnimation;
     public GameObject item_xp_feed_Slot;
+    public Text bonusXPText;
 
     private void Start()
     {

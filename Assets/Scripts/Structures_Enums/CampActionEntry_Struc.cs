@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.Globalization;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 
@@ -10,7 +12,9 @@ public class CampActionEntry
     public DateTime StartTime { get; set; }
     public Camp_Resource_Slot Slot { get; set; }  // Can be null
 
-    public float Progress = 0f; // <-- add this
+    public float Progress = 0f; 
+
+    public bool IsActive { get; set; }
 
     public ICampActionHandler CampTypeHandler { get; set; }  
 
@@ -22,6 +26,7 @@ public class CampActionEntry
         Slot = null;  // Start with no slot linked
         CampTypeHandler = CampActionHandlerFactory.GetHandler(campType);  // <-- Initialize logic
         Progress = progress;
+        IsActive = true;
     }
 
     // Calculate progress (0 to 1)
@@ -36,7 +41,14 @@ public class CampActionEntry
 
         CampActionData campActionData = DataGameManager.instance.campDictionaries[CampType][SlotKey];
 
-        return Mathf.Clamp01(elapsedTime / campActionData.completeTime);
+        float speedincrease = 0f;
+
+        var boosts = DataGameManager.instance.boostsManager.GetMergedBoosts(campActionData.campType);
+        var boostNames = new List<string> { "Swift Fishing", "Swift Construction", "Rapid Woodcutting", "Rapid Mining" }; //Here we add the bonus speed for all camps with bonus speed
+        var dropBoost = boosts.FirstOrDefault(b => boostNames.Contains(b.boostName));
+        if (dropBoost != null)
+            speedincrease = dropBoost.boostAmount; // we get the merged boosts for fishing camp
+        return Mathf.Clamp01(elapsedTime / (campActionData.completeTime - speedincrease));
     }
 
     public bool IsCompleted() => GetProgress() >= 1.0f;

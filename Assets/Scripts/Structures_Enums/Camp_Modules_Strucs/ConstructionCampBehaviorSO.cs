@@ -48,7 +48,9 @@ public class ConstructionCampBehaviorSO : ScriptableObject, CampSpecificInterfac
     public void OnCompletedCampSpecificAction(string slotKey)
     {
         var data = DataGameManager.instance.constructionCampModuleData[slotKey];
-        if (data.BuildingIDUnlocked != null)
+        bool stopthis = false;
+        // if (data.BuildingIDUnlocked != null)
+        if (stopthis == true)
         {
             if (Enum.TryParse<CampType>(data.BuildingIDUnlocked, out CampType campType))
             {

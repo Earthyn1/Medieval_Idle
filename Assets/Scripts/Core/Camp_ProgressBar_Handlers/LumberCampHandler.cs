@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using UnityEngine;
 
 public class LumberCampHandler : ICampActionHandler
@@ -8,9 +8,9 @@ public class LumberCampHandler : ICampActionHandler
     private float nextChopTime;
     private float displayedProgress = 0f; // Progress shown on the bar
 
-    public void RestartTimer(CampActionData entry)
+    public void RestartTimer(CampActionEntry entry)
     {
-        delayTimer = entry.completeTime;
+       // delayTimer = entry.completeTime;
         nextChopTime = Time.time + chopCooldown;
         displayedProgress = 0f;
     }
@@ -42,5 +42,31 @@ public class LumberCampHandler : ICampActionHandler
         float elapsed = (float)(DateTime.Now - entry.StartTime).TotalSeconds;
         return elapsed >= delayTimer;
     }
+
+    public void CompleteAction(CampActionEntry entry)
+    {
+        // ✅ Handle reward, bait, particles, XP, etc. here
+
+    }
+
+
+public bool HasEnoughCampSpecificResources(CampActionEntry entry)
+{
+    return true;
+    // TODO: Implement check for camp-specific resources
 }
+
+public void RemoveCampSpecificResources(CampActionEntry entry)
+{
+    // TODO: Implement removal of camp-specific resources
+}
+
+public void ReturnCampSpecificResources(CampActionEntry entry)
+{
+    // TODO: Implement return of unused camp-specific resources
+}
+
+
+}
+
 

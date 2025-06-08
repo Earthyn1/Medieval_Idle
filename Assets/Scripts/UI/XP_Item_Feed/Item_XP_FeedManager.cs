@@ -12,12 +12,12 @@ public class Item_XP_FeedManager : MonoBehaviour
         DataGameManager.instance.item_XP_FeedManager = this;
     }
 
-    public void AddXPFeedSlot(string xpAmount,Sprite CampImage, CampType campType)
+    public void AddXPFeedSlot(string xpAmount, string bonusAmount, Sprite CampImage, CampType campType)
     {
         GameObject newSlot = Instantiate(itemXpFeedSlotPrefab, gameObject.transform);
         Item_XP_Feed_Slot newSlot_Script = newSlot.GetComponent<Item_XP_Feed_Slot>();
         newSlot_Script.CampType = campType; //for now we just add, but later we should check to see if camptypexp already in feed
-        newSlot_Script.SetupXP(xpAmount, CampImage);
+        newSlot_Script.SetupXP(xpAmount,bonusAmount, CampImage);
     }
 
     public void AddItemFeedSlot(string itemID, int amount, CampType campType) 

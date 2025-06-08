@@ -51,10 +51,10 @@ public class FishingCamp_Boost_Struc
 
     public void InitializeSprites()
     {
-        SwiftFishing.boostSprite = SpriteLoader.LoadBoostSprite("SwiftFishing");
-        CatchChance.boostSprite = SpriteLoader.LoadBoostSprite("CatchChance");
+        SwiftFishing.boostSprite = SpriteLoader.LoadBoostSprite("CatchChance");
+        CatchChance.boostSprite = SpriteLoader.LoadBoostSprite("SwiftFishing");
         DoubleCatch.boostSprite = SpriteLoader.LoadBoostSprite("DoubleCatch");
-        AnglersInsight.boostSprite = SpriteLoader.LoadBoostSprite("AnglersInsight");
+        AnglersInsight.boostSprite = SpriteLoader.LoadBoostSprite("AnglersInsight");   
     }
 
     public static class SpriteLoader
