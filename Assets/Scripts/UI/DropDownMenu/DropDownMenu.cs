@@ -1,5 +1,7 @@
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DropDownMenu : MonoBehaviour
 {
@@ -8,6 +10,9 @@ public class DropDownMenu : MonoBehaviour
     public GameObject BGDimmer;
     public GameObject slotPrefab;
     public GameObject parentButton;
+    public Text blacksmithHelperText;
+    public Text fishingHelperText;
+
     void Start()
     {
         DataGameManager.instance.DropDownMenu = this;
@@ -19,7 +24,7 @@ public class DropDownMenu : MonoBehaviour
         Animator.ResetTrigger("PlayAnimation_Open");
         Animator.SetTrigger("PlayAnimation_Open");
         MenuVerticalHolder.SetActive(true);
-       
+
     }
     public void PlayAnimation_Close()
     {
@@ -31,35 +36,91 @@ public class DropDownMenu : MonoBehaviour
         Bait_ToolTipUI.instance.Hide();
     }
 
-    public void PopulateSlots()
+    public void SetasDefault()
     {
-        foreach (Transform child in MenuVerticalHolder.transform) // Clear existing slots
+        Debug.Log("Setasdefault");
+        Animator.Play("IdleHere", 0, 0f);
+   
+        Animator.Update(0f); // <— this is key!
+    }
+
+    public void CampSpecificHelperPanels()
+    {
+        switch (DataGameManager.instance.currentActiveCamp)
         {
-            Destroy(child.gameObject);
+            case CampType.Blacksmith:
+                // Do something specific for Blacksmith
+                blacksmithHelperText.transform.gameObject.SetActive(true);
+                fishingHelperText.transform.gameObject.SetActive(false);
+
+                break;
+
+            case CampType.FishingCamp:
+                // Do something specific for Fishing
+                blacksmithHelperText.transform.gameObject.SetActive(false);
+                fishingHelperText.transform.gameObject.SetActive(true);
+                break;
+
         }
+    }
+
+        public void PopulateSlots()
+    {
+        // Clear existing UI slots
+        foreach (Transform child in MenuVerticalHolder.transform)
+            Destroy(child.gameObject);
+
+        // Get the item type filter for the current camp
+        ItemType? filterType = GetFilterTypeForCamp(DataGameManager.instance.currentActiveCamp);
+        if (filterType == null)
+            return;
+
+        // Step 1: Combine quantities by ItemID
+        Dictionary<string, int> combinedItems = new Dictionary<string, int>();
 
         foreach (StorageSlot storageslot in DataGameManager.instance.TownStorage_List)
         {
-            int CurrentAmount = storageslot.Quantity;
+            if (storageslot.ItemID == null) continue;
 
-            ItemData_Struc itemdata;
-            if(storageslot.ItemID != null)
+            if (DataGameManager.instance.itemData_Array.TryGetValue(storageslot.ItemID, out ItemData_Struc itemdata))
             {
-                if (DataGameManager.instance.itemData_Array.TryGetValue(storageslot.ItemID, out itemdata))
+                if (itemdata.ItemType == filterType)
                 {
-                    if (itemdata.ItemType == ItemType.Bait)
-                    {
-                        GameObject newSlot = Instantiate(slotPrefab, MenuVerticalHolder.transform);
-                        DropDownMenu_Slot slotScript = newSlot.GetComponent<DropDownMenu_Slot>();
-                        slotScript.SetupSlot(itemdata, CurrentAmount, CampType.FishingCamp, parentButton);
-                        slotScript.dropDownMenu = this;
-                        slotScript.itemID = storageslot.ItemID;
-                    }
+                    if (combinedItems.ContainsKey(storageslot.ItemID))
+                        combinedItems[storageslot.ItemID] += storageslot.Quantity;
+                    else
+                        combinedItems[storageslot.ItemID] = storageslot.Quantity;
                 }
-
             }
-
-            BGDimmer.SetActive(true);
         }
+
+        // Step 2: Create a dropdown slot for each unique item
+        foreach (var kvp in combinedItems)
+        {
+            string itemID = kvp.Key;
+            int totalQuantity = kvp.Value;
+
+            if (DataGameManager.instance.itemData_Array.TryGetValue(itemID, out ItemData_Struc itemdata))
+            {
+                GameObject newSlot = Instantiate(slotPrefab, MenuVerticalHolder.transform);
+                var slotScript = newSlot.GetComponent<DropDownMenu_Slot>();
+                slotScript.SetupSlot(itemdata, totalQuantity, DataGameManager.instance.currentActiveCamp, parentButton);
+                slotScript.dropDownMenu = this;
+                slotScript.itemID = itemID;
+            }
+        }
+
+        BGDimmer.SetActive(true);
+    }
+
+    private ItemType? GetFilterTypeForCamp(CampType camp)
+    {
+        return camp switch
+        {
+            CampType.FishingCamp => ItemType.Bait,
+            CampType.Blacksmith => ItemType.Logs,
+            _ => null
+        };
     }
 }
+

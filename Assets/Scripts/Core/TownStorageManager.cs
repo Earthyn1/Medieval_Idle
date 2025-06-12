@@ -83,6 +83,7 @@ public static class TownStorageManager
 
     public static void RemoveItem(string itemID, int amountToRemove)
     {
+        Debug.Log("Removingtest");
         int remainingToRemove = amountToRemove;
 
         // Get all slots with this itemID, sorted by quantity ascending, then index descending

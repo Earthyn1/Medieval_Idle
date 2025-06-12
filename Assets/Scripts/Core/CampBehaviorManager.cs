@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class CampBehaviorManager : MonoBehaviour
 {
-    public ConstructionCampBehaviorSO constructionCampBehaviorSO;
-    public FishingCampBehaviorSO fishingCampBehaviorSO;
+   // public ConstructionCampBehaviorSO constructionCampBehaviorSO;
+   // public FishingCampBehaviorSO fishingCampBehaviorSO;
     // Add other SO references here...
 
     private void Start()
@@ -36,8 +36,8 @@ public class CampBehaviorManager : MonoBehaviour
     {
         return campType switch
         {
-            CampType.ConstructionCamp => constructionCampBehaviorSO,
-            CampType.FishingCamp => fishingCampBehaviorSO,
+        //    CampType.ConstructionCamp => constructionCampBehaviorSO,
+         //   CampType.FishingCamp => fishingCampBehaviorSO,
             // Add other camp types here...
             _ => null,
         };

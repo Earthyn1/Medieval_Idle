@@ -64,15 +64,16 @@ public class DataGameManager : MonoBehaviour
     public DropDownMenu DropDownMenu;
     [HideInInspector]
     public SimpleItemData currentFishingBaitEquipped;
+    [HideInInspector]
+    public int currentBlacksmithFuel;
+ 
+    public int maxBlacksmithFuel;
          
-
-
     public Dictionary<int, int> levelXp; //levelXp is the 1-99 xp amounts
     public Dictionary<CampType, CampXPData> campXPDictionaries = new Dictionary<CampType, CampXPData>();
 
     //Dictionary of the camps and if they are locked or not.
     public Dictionary<CampType, bool> campLockedDict = new Dictionary<CampType, bool>(); 
-
 
     //list of camp CSV
     public List<CampCsvEntry> campCsvFiles;
@@ -91,9 +92,9 @@ public class DataGameManager : MonoBehaviour
 
     public Dictionary<string, ConstructionCampModule> constructionCampModuleData;
     public Dictionary<string, VeinData> miningCampModuleData;
+    public Dictionary<string, BlacksmithCampFuelData> blacksmithCampModuleData;
 
     public Dictionary<string, OneSlotUseActions_Struc> OneSlotUseActions = new();
-
 
     //combined into 1 dictionary by Camp Type
     public Dictionary<CampType, Dictionary<string, CampActionData>> campDictionaries = new Dictionary<CampType, Dictionary<string, CampActionData>>();
@@ -114,7 +115,7 @@ public class DataGameManager : MonoBehaviour
     //List of the CampTypeData Struc
     public List<CampTypeData> campTypeDataList;
 
-    // CUrrent objectives
+    // Current objectives
     public List<ObjectiveInstance> ActiveObjectives = new List<ObjectiveInstance>();
 
     // Completed objectives
@@ -131,14 +132,6 @@ public class DataGameManager : MonoBehaviour
     public ConstructionCamp_Boost_Struc ConstructionCamp_Boost = new ConstructionCamp_Boost_Struc();
     //The MiningCamp Boost Data.
     public MiningCamp_Boost_Struc MiningCamp_Boost = new MiningCamp_Boost_Struc();
-
-
-    //MiningCamp Vein Data
-    public Dictionary<string, VeinData> miningVeinStates = new(); // slotKey -> saved vein
-
-
-
-
 
 
 

@@ -9,8 +9,11 @@ public class CampSpecific_CSV_Loaders : MonoBehaviour
     
     private Dictionary<string, ConstructionCampModule> constructionCampModuleData;
     private Dictionary<string, VeinData> veinData;
+    private Dictionary<string, BlacksmithCampFuelData> fuelData;
+
     public TextAsset constructionmoduleCSV;
     public TextAsset miningmoduleCSV;
+    public TextAsset blacksmithmoduleCSV;
 
 
 
@@ -23,6 +26,9 @@ public class CampSpecific_CSV_Loaders : MonoBehaviour
 
         var miningData = LoadMiningModuleCSV(miningmoduleCSV);
         DataGameManager.instance.miningCampModuleData = miningData;
+
+        var blacksmithData = LoadBlacksmithModuleCSV(blacksmithmoduleCSV);
+        DataGameManager.instance.blacksmithCampModuleData= blacksmithData;
 
 
     }
@@ -95,6 +101,42 @@ public class CampSpecific_CSV_Loaders : MonoBehaviour
         }
 
         return veinData;
+    }
+
+
+    public Dictionary<string, BlacksmithCampFuelData> LoadBlacksmithModuleCSV(TextAsset CsvLoaded)
+    {
+        fuelData = new Dictionary<string, BlacksmithCampFuelData>();
+        string[] lines = CsvLoaded.text.Split('\n');
+
+        // Start from the second line to skip the header row
+        for (int i = 1; i < lines.Length; i++)
+        {
+            string line = lines[i].Trim();
+            if (string.IsNullOrWhiteSpace(line)) continue;
+
+            // Split the CSV line by commas, but handle the special case for the Produced Items field
+            string[] fields = SplitCsvLine(line);
+
+            if (fields.Length < 13) // Skip malformed rows
+
+            {
+                Debug.LogWarning("Invalid or incomplete row: ");
+                continue;
+            }
+
+            // Skip the first column (index number)
+            string itemID = TryGetString(fields, 1);
+            int fuelRequired = TryGetInt(fields, 13);
+            Debug.Log("Required fuel for" + itemID + "is" + fuelRequired);
+           
+
+            BlacksmithCampFuelData slot = new BlacksmithCampFuelData(itemID, fuelRequired);
+
+            fuelData.Add(itemID, slot);
+        }
+
+        return fuelData;
     }
 
 

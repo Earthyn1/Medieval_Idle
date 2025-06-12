@@ -17,6 +17,8 @@ public static class CampActionHandlerFactory
     private static MiningCampHandler _miningHandlerInstance;
     private static FishingCampHandler _fishingHandlerInstance;
     private static ConstructionCampHandler _constructionHandlerInstance;
+    private static BlackSmithCampHandler _blacksmithCampHandlerInstance;
+
 
     private static DefaultCampHandler _defaultHandlerInstance;
 
@@ -38,6 +40,11 @@ public static class CampActionHandlerFactory
                 if (_constructionHandlerInstance == null)
                     _constructionHandlerInstance = new ConstructionCampHandler();
                 return _constructionHandlerInstance;
+
+            case CampType.Blacksmith:
+                if (_blacksmithCampHandlerInstance == null)
+                    _blacksmithCampHandlerInstance = new BlackSmithCampHandler();
+                return _blacksmithCampHandlerInstance;
 
             // other camp types...
 
