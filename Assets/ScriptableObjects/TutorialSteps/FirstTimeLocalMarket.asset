@@ -88,31 +88,3 @@ MonoBehaviour:
     autoAdvanceDelay: 0
     ObjectiveToGive: {fileID: 0}
     flagToSetID: 0
-  - stepID: 
-    instructionText: The towns next steps are up to you.
-    NPCName: Old Man
-    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
-    focusObjectName: 
-    clickFocusedObject: 0
-    autoAdvanceDelay: 0
-    ObjectiveToGive: {fileID: 0}
-    flagToSetID: 0
-  - stepID: 
-    instructionText: I do advise aiming for the Fishing Camp next.
-    NPCName: Old Man
-    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
-    focusObjectName: 
-    clickFocusedObject: 0
-    autoAdvanceDelay: 0
-    ObjectiveToGive: {fileID: 0}
-    flagToSetID: 0
-  - stepID: 
-    instructionText: Fish makes for a good trade product and we can cook it use it
-      ourselves!
-    NPCName: Old Man
-    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
-    focusObjectName: 
-    clickFocusedObject: 0
-    autoAdvanceDelay: 0
-    ObjectiveToGive: {fileID: 11400000, guid: 106e44f11d93a244286d29167cc64a43, type: 2}
-    flagToSetID: 0

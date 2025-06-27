@@ -149,7 +149,7 @@ public class CampButtonSetup : MonoBehaviour
                 yield return StartCoroutine(DataGameManager.instance.populate_Camp_Slots.SetupCampCategorys(campType));
 
                 XPManager.campProgressBar.gameObject.SetActive(true);
-                DataGameManager.instance.tierShield.SetActive(true);
+                DataGameManager.instance.tierShield.gameObject.SetActive(true);
                 DataGameManager.instance.boostsManager.gameObject.SetActive(true);
 
                 DataGameManager.instance.topPanelManager.campNameParent.SetActive(false);
@@ -208,8 +208,26 @@ public class CampButtonSetup : MonoBehaviour
                     TutorialGroupData tutorialdialog = DataGameManager.instance.Tutorial_Lists.FindDialog("FirstTimeFishingCamp");
                     DataGameManager.instance.tutorialManager.SetupTutorial(tutorialdialog);
                     DataGameManager.instance.Tutorial_Lists.SetFlag("FirstTimeFishingCamp", true);
+                }
+                break;
 
+            case CampType.MiningCamp:
 
+                if (!DataGameManager.instance.Tutorial_Lists.GetFlag("FirstTimeMiningCamp"))
+                {
+                    TutorialGroupData tutorialdialog = DataGameManager.instance.Tutorial_Lists.FindDialog("FirstTimeMiningCamp");
+                    DataGameManager.instance.tutorialManager.SetupTutorial(tutorialdialog);
+                    DataGameManager.instance.Tutorial_Lists.SetFlag("FirstTimeMiningCamp", true);
+                }
+                break;
+
+            case CampType.Blacksmith:
+
+                if (!DataGameManager.instance.Tutorial_Lists.GetFlag("FirstTimeBlacksmith"))
+                {
+                    TutorialGroupData tutorialdialog = DataGameManager.instance.Tutorial_Lists.FindDialog("FirstTimeBlacksmith");
+                    DataGameManager.instance.tutorialManager.SetupTutorial(tutorialdialog);
+                    DataGameManager.instance.Tutorial_Lists.SetFlag("FirstTimeBlacksmith", true);
                 }
                 break;
         }
@@ -242,7 +260,7 @@ public class CampButtonSetup : MonoBehaviour
      //   TownStorageManager.storageSellManager.SetupBanner(TownStorageManager.storageSellManager.MarketBGImage);
         DataGameManager.instance.populate_Local_Market_Slots.PopulateLocalMarketSlots();
         XPManager.campProgressBar.gameObject.SetActive(false);
-        DataGameManager.instance.tierShield.SetActive(false);
+        DataGameManager.instance.tierShield.gameObject.SetActive(false);
         DataGameManager.instance.boostsManager.gameObject.SetActive(false);
 
         TownStorageManager.storageSellManager.parentBox.SetActive(false);
@@ -267,7 +285,7 @@ public class CampButtonSetup : MonoBehaviour
         DataGameManager.instance.topPanelManager.campNameParent.SetActive(true);
       //  TownStorageManager.storageSellManager.SetupBanner(TownStorageManager.storageSellManager.MarketBGImage);
         XPManager.campProgressBar.gameObject.SetActive(false);
-        DataGameManager.instance.tierShield.SetActive(false);
+        DataGameManager.instance.tierShield.gameObject.SetActive(false);
         TownStorageManager.storageSellManager.parentBox.SetActive(false);
     }
 
@@ -284,7 +302,8 @@ public class CampButtonSetup : MonoBehaviour
      //   TownStorageManager.storageSellManager.SetupBanner(TownStorageManager.storageSellManager.StorageBGImage);
         DataGameManager.instance.populate_Storage_Slots.PopulateItemSlots();
         XPManager.campProgressBar.gameObject.SetActive(false);
-        DataGameManager.instance.tierShield.SetActive(false);
+        DataGameManager.instance.tierShield.gameObject.SetActive(false);
+        
         DataGameManager.instance.boostsManager.gameObject.SetActive(false);
         TownStorageManager.storageSellManager.parentBox.SetActive(false);
         TownStorageManager.storageSellManager.itemName.text = "Nothing Selected";

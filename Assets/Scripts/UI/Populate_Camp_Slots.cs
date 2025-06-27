@@ -204,6 +204,23 @@ public class Populate_Camp_Slots : MonoBehaviour
         }
     }
 
+    public void UpdateCampSpecific_UI()
+    {
+        foreach (Transform slot in parentContainer)
+        {
+            Camp_Resource_Slot slotScript = slot.GetComponent<Camp_Resource_Slot>();
+            if (slotScript == null || slotScript.CampSpecificPrefab == null)
+                continue;
+
+            CampUISlotInterface moduleInterface = slotScript.CampSpecificPrefab.GetComponent<CampUISlotInterface>();
+            if (moduleInterface != null)
+            {
+                moduleInterface.OnUISlotUpdate("Test");
+            }
+        }
+    }
+
+
     public void UpdateRequiredVillager_Colors()
     {
         foreach (Transform slot in parentContainer)

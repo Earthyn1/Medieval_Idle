@@ -46,14 +46,23 @@ public class BlackSmithCampHandler : ICampActionHandler
 
 
     public bool HasEnoughCampSpecificResources(CampActionEntry entry)
-    {
-        return true;
-        // TODO: Implement check for camp-specific resources
+    {   
+        var data = DataGameManager.instance.blacksmithCampModuleData[entry.SlotKey];
+        return DataGameManager.instance.currentBlacksmithFuel >= data.fuelRequired; 
     }
 
     public void RemoveCampSpecificResources(CampActionEntry entry)
     {
-        // TODO: Implement removal of camp-specific resources
+        var data = DataGameManager.instance.blacksmithCampModuleData[entry.SlotKey];
+        DataGameManager.instance.currentBlacksmithFuel = Mathf.Max(0, DataGameManager.instance.currentBlacksmithFuel - data.fuelRequired);
+
+        UpperPanel_Blacksmith upperPanel_Blacksmith = DataGameManager.instance.upperPanelManager.blacksmithCamp_Buttons.GetComponent<UpperPanel_Blacksmith>();
+        upperPanel_Blacksmith.SetupFuelBar();
+
+        if (DataGameManager.instance.currentActiveCamp == CampType.Blacksmith)
+        {
+           DataGameManager.instance.populate_Camp_Slots.UpdateCampSpecific_UI();
+        }
     }
 
     public void ReturnCampSpecificResources(CampActionEntry entry)

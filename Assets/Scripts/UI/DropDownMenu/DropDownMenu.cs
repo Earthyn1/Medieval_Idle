@@ -1,4 +1,4 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -41,7 +41,7 @@ public class DropDownMenu : MonoBehaviour
         Debug.Log("Setasdefault");
         Animator.Play("IdleHere", 0, 0f);
    
-        Animator.Update(0f); // <� this is key!
+        Animator.Update(0f); // <— this is key!
     }
 
     public void CampSpecificHelperPanels()
@@ -58,7 +58,7 @@ public class DropDownMenu : MonoBehaviour
             case CampType.FishingCamp:
                 // Do something specific for Fishing
                 blacksmithHelperText.transform.gameObject.SetActive(false);
-                fishingHelperText.transform.gameObject.SetActive(true);
+                fishingHelperText.transform.gameObject.SetActive(false);
                 break;
 
         }
@@ -103,10 +103,16 @@ public class DropDownMenu : MonoBehaviour
             if (DataGameManager.instance.itemData_Array.TryGetValue(itemID, out ItemData_Struc itemdata))
             {
                 GameObject newSlot = Instantiate(slotPrefab, MenuVerticalHolder.transform);
+
+                // ✅ Set the name of the GameObject
+                newSlot.name = $"DropDownSlot_{itemID}";
+
                 var slotScript = newSlot.GetComponent<DropDownMenu_Slot>();
                 slotScript.SetupSlot(itemdata, totalQuantity, DataGameManager.instance.currentActiveCamp, parentButton);
                 slotScript.dropDownMenu = this;
                 slotScript.itemID = itemID;
+                Debug.Log($"Created: {newSlot.name}");
+
             }
         }
 

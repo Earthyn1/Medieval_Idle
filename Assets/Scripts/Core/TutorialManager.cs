@@ -26,7 +26,10 @@ public class TutorialManager : MonoBehaviour
     private int currentStepIndex = -1;
     private Coroutine autoAdvanceCoroutine;
 
-
+    private void Update()
+    {
+        
+    }
     void Start()
     {
         DataGameManager.instance.tutorialManager = this;
@@ -125,9 +128,19 @@ public class TutorialManager : MonoBehaviour
 
 
                 // When assigning:
-                UnityAction action = () => OnTutorialButtonClicked(focusButton);
+                UnityAction action = () =>
+                {
+                  //  Debug.Log($"Tutorial button clicked: {focusButton.name}");
+                    OnTutorialButtonClicked(focusButton);
+                };
+
+                // Add the listener
                 focusButton.onClick.AddListener(action);
+               // Debug.Log($"Listener added to button: {focusButton.name}");
+
+                // Store in dictionary
                 tutorialListeners[focusButton] = action;
+               // Debug.Log($"Action stored in tutorialListeners for button: {focusButton.name}");
             } 
         }
         else
@@ -177,6 +190,7 @@ public class TutorialManager : MonoBehaviour
 
         if (tutorialListeners.TryGetValue(button, out var action))
         {
+            Debug.Log("remove listener from" + button);
             button.onClick.RemoveListener(action);
             tutorialListeners.Remove(button);
         }
@@ -225,14 +239,18 @@ public class TutorialManager : MonoBehaviour
         {
             Button btn = obj.GetComponent<Button>();
             if (btn != null)
+            {
+                Debug.Log($"Found button: {btn.gameObject.name}");
                 allButtons.Add(btn);
+            }
         }
 
         // Now disable/enable
         foreach (Button btn in allButtons)
         {
             btn.interactable = (btn == allowedButton);
-          //  Debug.Log($"{btn.gameObject.name} interactable set to {btn.interactable}");
+            Debug.Log($"Button {btn.name} set to interactable = {btn.interactable}");
+            //  Debug.Log($"{btn.gameObject.name} interactable set to {btn.interactable}");
         }
     }
 

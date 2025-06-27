@@ -44,7 +44,7 @@ public class CampActionEntry
         float speedincrease = 0f;
 
         var boosts = DataGameManager.instance.boostsManager.GetMergedBoosts(campActionData.campType);
-        var boostNames = new List<string> { "Swift Fishing", "Swift Construction", "Rapid Woodcutting", "Rapid Mining" }; //Here we add the bonus speed for all camps with bonus speed
+        var boostNames = new List<string> { "Swift Fishing", "Swift Construction", "Rapid Woodcutting", "Rapid Mining", "Swift Blacksmithing" }; //Here we add the bonus speed for all camps with bonus speed
         var dropBoost = boosts.FirstOrDefault(b => boostNames.Contains(b.boostName));
         if (dropBoost != null)
             speedincrease = dropBoost.boostAmount; // we get the merged boosts for fishing camp

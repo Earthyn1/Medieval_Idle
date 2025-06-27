@@ -23,8 +23,12 @@ public class DataGameManager : MonoBehaviour
     public Game_Text_Alerts Game_Text_Alerts;
     [HideInInspector]
     public Camp_Boosts_Manager boostsManager;
-   
-    
+    [HideInInspector]
+    public Tier_Shield tierShield;
+    [HideInInspector]
+    public TierSystem tierSystem;
+
+
 
     public float DEVspeedMultiplier = 10f; // or whatever speed boost you want
 
@@ -37,8 +41,9 @@ public class DataGameManager : MonoBehaviour
     public int MaxVillagerCapacity =5;
     public int CurrentVillagerCount = 5;
     public Image BG_Banner;
+    public bool TURNOFFDIALOG = false;
     [HideInInspector]
-    public GameObject tierShield;
+   
     public int CurrentContentLevelAvailable = 30;
     [HideInInspector]
     public CampCategorys currentCampCategory;
@@ -66,6 +71,7 @@ public class DataGameManager : MonoBehaviour
     public SimpleItemData currentFishingBaitEquipped;
     [HideInInspector]
     public int currentBlacksmithFuel;
+   
  
     public int maxBlacksmithFuel;
          
@@ -132,11 +138,19 @@ public class DataGameManager : MonoBehaviour
     public ConstructionCamp_Boost_Struc ConstructionCamp_Boost = new ConstructionCamp_Boost_Struc();
     //The MiningCamp Boost Data.
     public MiningCamp_Boost_Struc MiningCamp_Boost = new MiningCamp_Boost_Struc();
+    //The Blacksmith Boost Data.
+    public Blacksmith_Boost_Struc Blacksmith_Boost = new Blacksmith_Boost_Struc();
+
+    //Camp Tier Lists
+
+    public Dictionary<string, CampTiersArray> constructionCamp_Tiers;
+    public Dictionary<string, CampTiersArray> lumberCamp_Tiers;
+    public Dictionary<string, CampTiersArray> blacksmith_Tiers;
+    public Dictionary<string, CampTiersArray> miningCamp_Tiers;
+    public Dictionary<string, CampTiersArray> fishingCamp_Tiers;
 
 
-
-
-
+    public Dictionary<CampType, Dictionary<string, CampTiersArray>> allCampTiers;
 
     public static DataGameManager instance;
 
@@ -146,6 +160,7 @@ public class DataGameManager : MonoBehaviour
         LumberCamp_Boost.InitializeSprites();
         ConstructionCamp_Boost.InitializeSprites();
         MiningCamp_Boost.InitializeSprites();
+        Blacksmith_Boost.InitializeSprites();
 
         // Check if an instance already exists
         if (instance == null)
@@ -191,13 +206,43 @@ public class DataGameManager : MonoBehaviour
             var data = BaseCSVLoader.LoadCSV(entry.csvFile); // This must return Dictionary<string, CampActionData>
             campDictionaries[entry.campType] = data;
         }
-
-      //  campBehaviorManager.AssignCampBehaviors(campDictionaries); //Assign the Camp Behaviours! // Behaviours replaced!
-
         PlayerXPManager();  // Initialize the dictionary with all camps and default XP data
+    }
+
+    public ICampBoostData GetBoostData(CampType campType)
+    {
+        return campType switch
+        {
+            CampType.FishingCamp => FishingCamp_Boost,
+            CampType.LumberCamp => LumberCamp_Boost,
+            CampType.ConstructionCamp => ConstructionCamp_Boost,
+            CampType.MiningCamp => MiningCamp_Boost,
+            CampType.Blacksmith => Blacksmith_Boost,
+            _ => null
+        };
+    }
+
+
+
+    public void InitializeCampTiers()
+    {
+        allCampTiers = new Dictionary<CampType, Dictionary<string, CampTiersArray>>();
+
+        Debug.Log("Assigning constructionCamp_Tiers to allCampTiers...");
+        Debug.Log($"constructionCamp_Tiers is null? {constructionCamp_Tiers == null}");
+
+        allCampTiers[CampType.ConstructionCamp] = constructionCamp_Tiers;
+        allCampTiers[CampType.LumberCamp] = lumberCamp_Tiers;
+        allCampTiers[CampType.Blacksmith] = blacksmith_Tiers;
+        allCampTiers[CampType.FishingCamp] = fishingCamp_Tiers;
+        allCampTiers[CampType.MiningCamp] = miningCamp_Tiers;
 
     }
 
+    public Dictionary<string, CampTiersArray> GetCampTierList(CampType campType)
+    {
+        return allCampTiers.TryGetValue(campType, out var tierList) ? tierList : null;
+    }
     public List<CampBoost_Class> GetBaseBoostsForCamp(CampType campType)
     {
         return campType switch
@@ -206,6 +251,7 @@ public class DataGameManager : MonoBehaviour
             CampType.LumberCamp => LumberCamp_Boost.GetAllBoosts(),
             CampType.ConstructionCamp => ConstructionCamp_Boost.GetAllBoosts(),
             CampType.MiningCamp => MiningCamp_Boost.GetAllBoosts(),
+            CampType.Blacksmith => Blacksmith_Boost.GetAllBoosts(),
             _ => new List<CampBoost_Class>()
         };
     }

@@ -71,7 +71,7 @@ public class ConstructionCampHandler : ICampActionHandler
 
     public bool HasEnoughCampSpecificResources(CampActionEntry entry)
     {
-        Debug.Log("Checking the land deed!");
+      //  Debug.Log("Checking the land deed!");
         var data = DataGameManager.instance.constructionCampModuleData[entry.SlotKey];
         return DataGameManager.instance.CurrentLandDeedsOwned >= data.landDeed;
         // TODO: Implement check for camp-specific resources

@@ -1,0 +1,96 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a7ac5c3e75008a440a2a59beff8ebbe6, type: 3}
+  m_Name: GameIntro_V2
+  m_EditorClassIdentifier: Assembly-CSharp::TutorialGroupData
+  groupId: GameIntro_V2
+  steps:
+  - stepID: Old Man
+    instructionText: Ah, Welcome my Lord! We are truly blessed that you decided upon
+      our small town.
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: 'We are not much, but that will change with your guidance I''m
+      sure.
+
+'
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: As you requested, we put all our efforts into building the Lumber
+      Camp. Here I will show you!
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: LumberCam_Button
+    clickFocusedObject: 1
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: ...
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0.1
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Quite "simple" for now yes. But! The workers are strong and
+      willing.
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Our tree options are limited but Maple is a strong wood to start!
+      Click on the Maple Tree Action.
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: Slot_Maple Tree
+    clickFocusedObject: 1
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: The more we use a camp the more xp it will gain!
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 3
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Thats enough information for now, lets talk more when the Lumber
+      Camp has reached level 3!
+    NPCName: Old Man
+    NPCImage: {fileID: 21300000, guid: 7e340d14f6cb08f459aa4aefe3caa2da, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 3
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0

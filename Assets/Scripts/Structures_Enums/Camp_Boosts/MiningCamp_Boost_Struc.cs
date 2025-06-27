@@ -4,13 +4,19 @@ using UnityEngine;
 using UnityEngine.U2D;
 using static UnityEngine.Rendering.DebugUI;
 
-public class MiningCamp_Boost_Struc
+public class MiningCamp_Boost_Struc : ICampBoostData
 {
     public CampBoost_Class RapidMining;
     public CampBoost_Class ExpandedVeins;
     public CampBoost_Class RuneweaversEssence;
     public CampBoost_Class ProspectorsInsight;
+    public int CurrentTier { get; set; }
 
+    private int resource1Current;
+    private int resource2Current;
+
+    public int Resource1_Current => resource1Current;
+    public int Resource2_Current => resource2Current;
     public MiningCamp_Boost_Struc()
     {
         RapidMining = new CampBoost_Class
@@ -82,6 +88,25 @@ public class MiningCamp_Boost_Struc
         RuneweaversEssence,
         ProspectorsInsight
     };
+    }
+
+    public void AddResources(string itemId, int amount, CampTiersArray tierData)
+    {
+        if (tierData.resource1.item == itemId)
+            resource1Current = Mathf.Min(resource1Current + amount, tierData.resource1.qty);
+        if (tierData.resource2.item == itemId)
+            resource2Current = Mathf.Min(resource2Current + amount, tierData.resource2.qty);
+    }
+
+    public bool IsResourceComplete(CampTiersArray tierData)
+    {
+        return resource1Current >= tierData.resource1.qty && resource2Current >= tierData.resource2.qty;
+    }
+
+    public void ResetResources()
+    {
+        resource1Current = 0;
+        resource2Current = 0;
     }
 
 }

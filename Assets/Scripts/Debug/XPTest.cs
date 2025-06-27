@@ -1,19 +1,29 @@
 using NUnit.Framework.Interfaces;
+using System.Collections.Generic;
 using UnityEngine;
+using static UnityEditor.Progress;
 
 public class XPTest : MonoBehaviour
 {
     public ObjectiveData ObjectiveData;
 
+    void OnMouseDown()
+    {
+        Debug.Log("Slot clicked: " + gameObject.name);
+    }
+    // Check if the "T" key is pressed
+
     void Update()
     {
-        // Check if the "T" key is pressed
+
+       
         if (Input.GetKeyDown(KeyCode.T))
         {
             // Add 500 XP to the Lumber Camp (you can change the camp type and amount)
-           XPManager.AddXP(CampType.ConstructionCamp, 500);
+           XPManager.AddXP(CampType.ConstructionCamp, 50);
            XPManager.AddXP(CampType.MiningCamp, 500);
             XPManager.AddXP(CampType.Blacksmith, 500);
+            DataGameManager.instance.PlayerGold = 2000;
 
 
         }
@@ -21,11 +31,13 @@ public class XPTest : MonoBehaviour
         // Check if the "F" key is pressed
         if (Input.GetKeyDown(KeyCode.F))
         {
-           // TownStorageManager.AddItem("MaplePlank", 100, CampType.ConstructionCamp);
-           // TownStorageManager.AddItem("MapleBeam", 100, CampType.ConstructionCamp);
+            TownStorageManager.AddItem("BirchPlank", 100, CampType.ConstructionCamp);
+            TownStorageManager.AddItem("BirchBeam", 100, CampType.ConstructionCamp);
             TownStorageManager.AddItem("MapleLog", 55, CampType.ConstructionCamp);
-            TownStorageManager.AddItem("CherryBlossomLog", 55, CampType.ConstructionCamp);
-          //  TownStorageManager.AddItem("CopperbackTrout", 100, CampType.ConstructionCamp);
+            TownStorageManager.AddItem("PoorlyCutStone", 55, CampType.ConstructionCamp);
+            TownStorageManager.AddItem("TinOre", 100, CampType.ConstructionCamp);
+
+
 
 
             DataGameManager.instance.CurrentLandDeedsOwned = DataGameManager.instance.CurrentLandDeedsOwned + 1;
@@ -38,10 +50,8 @@ public class XPTest : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R))
         {
           
-            TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("GameIntro");
+            TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("GameIntro_V2");
             DataGameManager.instance.tutorialManager.SetupTutorial(tutorialGroupData);
-
-
         }
 
         if (Input.GetKeyDown(KeyCode.G))
@@ -75,17 +85,20 @@ public class XPTest : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.E))
         {
-            Objective_Manager.CreateNewObjective(ObjectiveData);
-           DataGameManager.instance.boostsManager.AddToBaseBoost(CampType.MiningCamp, "Rapid Mining", 1.5f);
-            DataGameManager.instance.boostsManager.AddToBaseBoost(CampType.MiningCamp, "Expanded Veins", 10);
-            DataGameManager.instance.boostsManager.AddToBaseBoost(CampType.MiningCamp, "Prospector's Insight", 25);
-          //  DataGameManager.instance.boostsManager.SetupCampBoosts(DataGameManager.instance.currentActiveCamp);
+            var campType = CampType.ConstructionCamp;
+            var boostData = DataGameManager.instance.ConstructionCamp_Boost;
+            if (boostData == null) return;
 
+            var tierKey = (boostData.CurrentTier + 1).ToString();
+            if (!DataGameManager.instance.allCampTiers.TryGetValue(campType, out var campTiers)) return;
+            if (!campTiers.TryGetValue(tierKey, out var tierData)) return;
 
+            boostData.AddResources("MapleBeam", 5, tierData);
 
-
-
-
+            if (boostData.IsResourceComplete(tierData))
+            {
+                // Trigger tier unlock logic here
+            }
         }
     }
 }

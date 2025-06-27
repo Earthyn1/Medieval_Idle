@@ -38,7 +38,6 @@ public class Tutorial_Lists : MonoBehaviour
             case TutorialFlagID.UnlockConstructionCamp:
                 DataGameManager.instance.SetCampLockedStatus(CampType.ConstructionCamp, false);
                 DataGameManager.instance.campButtonUpdater.UpdateCampButtonAsUnlocked(CampType.ConstructionCamp);
-               // XPManager.levelUpNotification.CampUnlocked("Construction Camp");
 
                 SetFlag(tutorialFlagID.ToString(), true);
                 break;
@@ -65,7 +64,14 @@ public class Tutorial_Lists : MonoBehaviour
                 SetFlag(tutorialFlagID.ToString(), true);
                 break;
 
+            case TutorialFlagID.CanOpenTierSystem:
+                SetFlag(tutorialFlagID.ToString(), true);
+                break;
 
+            case TutorialFlagID.GivePlayerBasicBait:
+                TownStorageManager.AddItem("EmeraldMinnows", 15, CampType.NA);
+                SetFlag(tutorialFlagID.ToString(), true);
+                break;
 
 
         }

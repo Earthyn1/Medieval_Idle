@@ -29,7 +29,14 @@ public class FishingCamp_Module : MonoBehaviour , CampUISlotInterface, IPointerE
     public void OnUISlotUpdate(string campid)
     {
         CampActionData campData = DataGameManager.instance.GetCampActionData(CampType.FishingCamp, campid);
-      
+
+
+        if (campData == null)
+        {
+           // Debug.LogError($"CampActionData was null for campid: {campid} and campType: {CampType.FishingCamp}");
+            return;
+        }
+
         SimpleItemData item = campData.ProducedItems.First();
 
         float dropChanceBoost = 0f;

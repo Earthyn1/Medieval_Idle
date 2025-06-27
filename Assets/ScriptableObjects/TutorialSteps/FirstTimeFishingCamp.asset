@@ -24,9 +24,76 @@ MonoBehaviour:
     ObjectiveToGive: {fileID: 0}
     flagToSetID: 0
   - stepID: 
-    instructionText: 'Happy to help!!
-
-'
+    instructionText: We have an abundance of fish in the waters near the town, just
+      wait and see!
+    NPCName: Lily Angler
+    NPCImage: {fileID: 21300000, guid: 869f1de05e762254789ee450549c1f35, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Catching fish is not guaranteed like other actions, you can
+      see the catch chance here.
+    NPCName: Lily Angler
+    NPCImage: {fileID: 21300000, guid: 869f1de05e762254789ee450549c1f35, type: 3}
+    focusObjectName: CatchChance
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Improving the catch chance is the key to consistant catchs!
+      One way we can do that is with bait!
+    NPCName: Lily Angler
+    NPCImage: {fileID: 21300000, guid: 869f1de05e762254789ee450549c1f35, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: 'Heres some basic bait my Lord. Click the + button so we can
+      use it. '
+    NPCName: Lily Angler
+    NPCImage: {fileID: 21300000, guid: 869f1de05e762254789ee450549c1f35, type: 3}
+    focusObjectName: FishBaitButton
+    clickFocusedObject: 1
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 16
+  - stepID: 
+    instructionText: See the bait I just gave you?  You can hover over it to see
+      what it does!
+    NPCName: Lily Angler
+    NPCImage: {fileID: 21300000, guid: 869f1de05e762254789ee450549c1f35, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0.3
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: See the bait I just gave you?  You can hover over it to see
+      what it does!
+    NPCName: Lily Angler
+    NPCImage: {fileID: 21300000, guid: 869f1de05e762254789ee450549c1f35, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Okay now lets click it so we may use it!
+    NPCName: Lily Angler
+    NPCImage: {fileID: 21300000, guid: 869f1de05e762254789ee450549c1f35, type: 3}
+    focusObjectName: DropDownSlot_EmeraldMinnows
+    clickFocusedObject: 1
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Good, be sure to equip more bait as you use it!
     NPCName: Lily Angler
     NPCImage: {fileID: 21300000, guid: 869f1de05e762254789ee450549c1f35, type: 3}
     focusObjectName: 

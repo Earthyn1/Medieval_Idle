@@ -22,6 +22,11 @@ public enum TutorialFlagID
     PurchaseLandDeedUnlocked,
     FirstTimeVisitLocalMarket,
     FirstTimeFishingCamp,
-    
+    FirstTimeBlacksmith,
+    FirstTimeMiningCamp,
+    CanOpenTierSystem,
+    GivePlayerBasicBait,
+
+
     // etc.
 }

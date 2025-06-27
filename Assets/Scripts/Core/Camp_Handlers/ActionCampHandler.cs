@@ -104,6 +104,16 @@ public class ActionCampHandler : MonoBehaviour
         if (!HasEnoughVillagers(campData, slot))
             return false;
 
+        foreach (CampActionEntry campaction in DataGameManager.instance.activeCamps)
+        {
+            if (campaction.CampType == campType & campaction.IsActive)
+            {
+                DataGameManager.instance.Game_Text_Alerts.PlayAlert("Cannot have more than 1 action per camp");
+                return false; 
+            }
+
+
+        }
         var existingEntry = FindCampEntry(key, campType);
 
         if (existingEntry != null)
@@ -239,11 +249,13 @@ public class ActionCampHandler : MonoBehaviour
 
         RollForProducedItem(Key, campType);
 
+       
+
         
 
         if (campData.campSpecificLogic == null)
         {
-        Debug.Log("No campspecificLogic!!"); 
+       // Debug.Log("No campspecificLogic!!"); 
         }
         else
         {
@@ -335,6 +347,8 @@ public class ActionCampHandler : MonoBehaviour
                     Debug.LogWarning($"Could not add {producedItem.item} x{finalQty} to storage. Inventory may be full.");
                 }
 
+                AddToCampTierResource(producedItem.item, finalQty, campType);
+
                 return;
             }
         }
@@ -361,7 +375,29 @@ public class ActionCampHandler : MonoBehaviour
     }
 
 
+    public void AddToCampTierResource(string key, int qty, CampType campType)
+    {
+        Debug.Log("Are we adding!");
+        var boostData = DataGameManager.instance.GetBoostData(campType);
+        if (boostData == null) return;
 
+        var tierKey = (boostData.CurrentTier + 1).ToString();
+        if (!DataGameManager.instance.allCampTiers.TryGetValue(campType, out var campTiers)) return;
+        if (!campTiers.TryGetValue(tierKey, out var tierData)) return;
+
+        boostData.AddResources(key, qty, tierData);
+
+        if (DataGameManager.instance.tierSystem.gameObject.activeInHierarchy & DataGameManager.instance.currentActiveCamp == campType)
+        {
+
+            DataGameManager.instance.tierSystem.SetupTierPanel();
+        }
+
+        if (boostData.IsResourceComplete(tierData))
+        {
+            // Trigger tier unlock logic here
+        }
+    }
     public void RemoveRequiredCampResources(CampActionData campData)
     {
         if (campData.RequiredItems.Count > 0)

@@ -3,6 +3,7 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
+using System.Collections;
 
 public class DropDownMenu_Slot : MonoBehaviour, IPointerEnterHandler, IPointerExitHandler, IPointerDownHandler, IPointerUpHandler
 {
@@ -41,6 +42,8 @@ public class DropDownMenu_Slot : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     void Update()
     {
+        
+
         if (isHolding)
         {
             holdTimer += Time.deltaTime;
@@ -79,12 +82,15 @@ public class DropDownMenu_Slot : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     void OnHeldClick()
     {
+      
         if (!DataGameManager.instance.TryFindItemData(itemID, out var item))
             return;
 
         int currentqty = TownStorageManager.GetCurrentQuantity(itemID);
         int fuelPerItem = item.FuelAmount;
         int fuelNeeded = DataGameManager.instance.maxBlacksmithFuel - DataGameManager.instance.currentBlacksmithFuel;
+
+        Debug.Log("fuel needed is" + fuelNeeded);
 
         if (fuelNeeded <= 0 || currentqty <= 0 || fuelPerItem <= 0)
             return;
@@ -109,14 +115,19 @@ public class DropDownMenu_Slot : MonoBehaviour, IPointerEnterHandler, IPointerEx
         // UI update
         var blacksmithCampUpper_Script = DataGameManager.instance.upperPanelManager.blacksmithCamp_Buttons.GetComponent<UpperPanel_Blacksmith>();
         blacksmithCampUpper_Script.SetupFuelBar();
+
+        DataGameManager.instance.populate_Camp_Slots.UpdateCampSpecific_UI();
+        
+
         dropDownMenu.PopulateSlots();
 
         Debug.Log($"Held click triggered on {gameObject.name}, removed {itemsToRemove} items, added {actualFuelAdded} fuel");
     }
 
 
-    public void OnClicked()
+    public void OnClickedButton()
     {
+       
         if (campType_ == CampType.FishingCamp)
         {
             if (!DataGameManager.instance.activeCamps.Any(entry => entry.CampType == CampType.FishingCamp && entry.IsActive))
@@ -152,7 +163,8 @@ public class DropDownMenu_Slot : MonoBehaviour, IPointerEnterHandler, IPointerEx
                 }
 
                 TownStorageManager.RemoveItem(itemID, parsedAmount);
-                dropDownMenu.PlayAnimation_Close();
+                StartCoroutine(CloseDropdownAfterClick());
+
                 fishingCampBait_Button.SetButton(true);
             }
             else
@@ -163,7 +175,20 @@ public class DropDownMenu_Slot : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
         if (campType_ == CampType.Blacksmith)
         {
+
             DataGameManager.instance.TryFindItemData(itemID, out var item);
+
+            int currentqty = TownStorageManager.GetCurrentQuantity(itemID);
+            int fuelPerItem = item.FuelAmount;
+            int fuelNeeded = DataGameManager.instance.maxBlacksmithFuel - DataGameManager.instance.currentBlacksmithFuel;
+
+            Debug.Log("fuel needed is" + fuelNeeded);
+
+            if (fuelNeeded <= 0 || currentqty <= 0 || fuelPerItem <= 0)
+            {
+                DataGameManager.instance.Game_Text_Alerts.PlayAlert("Fuel is full!");
+                return;
+            }
 
             DataGameManager.instance.currentBlacksmithFuel = DataGameManager.instance.currentBlacksmithFuel + item.FuelAmount;
 
@@ -174,16 +199,21 @@ public class DropDownMenu_Slot : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
             dropDownMenu.PopulateSlots();
 
-
-            Debug.Log("We Clicked Blacksmith slot");
+            
+            
+            
         }
 
-
+        DataGameManager.instance.populate_Camp_Slots.UpdateCampSpecific_UI();
     }
 
-      
+    private IEnumerator CloseDropdownAfterClick()
+    {
+        yield return null; // wait one frame
+        dropDownMenu.PlayAnimation_Close();
+    }
 
- 
+
 
     public void OnPointerEnter(PointerEventData eventData)
     {

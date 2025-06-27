@@ -128,7 +128,7 @@ public class CampSpecific_CSV_Loaders : MonoBehaviour
             // Skip the first column (index number)
             string itemID = TryGetString(fields, 1);
             int fuelRequired = TryGetInt(fields, 13);
-            Debug.Log("Required fuel for" + itemID + "is" + fuelRequired);
+           
            
 
             BlacksmithCampFuelData slot = new BlacksmithCampFuelData(itemID, fuelRequired);

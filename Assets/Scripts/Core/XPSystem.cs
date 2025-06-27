@@ -2,6 +2,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 using JetBrains.Annotations;
+using static UnityEngine.EventSystems.EventTrigger;
+using System;
+using UnityEngine.InputSystem;
 
 
 public class XPSystem : MonoBehaviour
@@ -40,7 +43,7 @@ public class XPSystem : MonoBehaviour
 
 public static class XPManager
 {
-    
+
     public static CampProgressBar campProgressBar;
     public static LevelUpNotification_Manager levelUpNotification;
     public static NewUnlocks_Notifcation_Manager newUnlocksNotifcation;
@@ -136,10 +139,10 @@ public static class XPManager
             CampXPData campData = DataGameManager.instance.campXPDictionaries[campType];
 
             var boosts = DataGameManager.instance.boostsManager.GetMergedBoosts(campType);
-            float xpboost = GetBoostAmount(boosts, "Builder’s Insight", "Woodcutters Insight", "Angler's Insight", "Prospector's Insight");
-           
+            float xpboost = GetBoostAmount(boosts, "Builder’s Insight", "Woodcutters Insight", "Angler's Insight", "Prospector's Insight", "Blacksmiths Insight");
+
             // Calculate total XP to add including boost percentage
-           
+
             int bonusAdded = (int)(xpToAdd * (1f + xpboost / 100f));
             int bonusAmount = bonusAdded - xpToAdd;
 
@@ -149,7 +152,7 @@ public static class XPManager
             // Add the XP as a feed
             CampTypeData match = DataGameManager.instance.campTypeDataList.FirstOrDefault(c => c.campType == campType);
 
-            
+
 
             DataGameManager.instance.item_XP_FeedManager.AddXPFeedSlot(xpToAdd.ToString(), bonusAmount.ToString(), match.campImage, match.campType);
 
@@ -171,7 +174,12 @@ public static class XPManager
                     campData.currentLevel = newLevel;
                     newUnlocksNotifcation.CheckForNewUnlocks(campType, newLevel, oldLevel);
                     DataGameManager.instance.campButtonUpdater.UpdateCampButtonLevel(campType); //update the side button xp aswell!
-                    
+                    if (!DataGameManager.instance.TURNOFFDIALOG)
+                    {
+                        CheckForNewQuests(campType, newLevel);
+                    }
+                   
+
                     levelUpNotification.LevelUpNotificationSetup(campType);
 
                     if (campType == DataGameManager.instance.currentActiveCamp) //only refresh if we are on that camp panel.
@@ -201,4 +209,38 @@ public static class XPManager
             .Sum(b => b.boostAmount);
     }
 
+    public static void CheckForNewQuests(CampType campType, int level)
+    {
+        switch (campType)
+        {
+            case CampType.LumberCamp:
+                if (level == 3)
+                {
+                    TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("ExplainCompletedObjectivesButton_V2");
+                    DataGameManager.instance.tutorialManager.SetupTutorial(tutorialGroupData);
+                }
+
+                if (level == 5)
+                {
+                    TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("TierSystemTutorial");
+                    DataGameManager.instance.tutorialManager.SetupTutorial(tutorialGroupData);
+                }
+                break;
+
+            case CampType.ConstructionCamp:
+                if (level == 2)
+                {
+                    TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("JustBuiltSawMill");
+                    DataGameManager.instance.tutorialManager.SetupTutorial(tutorialGroupData);
+                }
+
+                if (level == 6)
+                {
+                    TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("JustCollectedMaplePlanksAndBeams");
+                    DataGameManager.instance.tutorialManager.SetupTutorial(tutorialGroupData);
+                }
+                break;
+        }
+
+    }
 }

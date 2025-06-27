@@ -84,6 +84,11 @@ public class Camp_Resource_Slot : MonoBehaviour
 
     public void DeactivateActionSlot()
     {
+        if (slotkey == "Repair Sawmill")
+        {
+            DataGameManager.instance.Game_Text_Alerts.PlayAlert("Cannot deativate this action!");
+            return;
+        }
         Transform parentTransform = progressBar.transform.parent;
         parentTransform.gameObject.SetActive(false);
         requiredResource_Parent.SetActive(true);
@@ -111,6 +116,11 @@ public class Camp_Resource_Slot : MonoBehaviour
 
     public void CheckForDialogs()
     {
+        
+    }
+
+    public void CheckForDialogs_Old()
+    {
         if (slotkey == "Maple Plank")
         {
 
@@ -123,5 +133,4 @@ public class Camp_Resource_Slot : MonoBehaviour
         }
     }
 
- 
 }

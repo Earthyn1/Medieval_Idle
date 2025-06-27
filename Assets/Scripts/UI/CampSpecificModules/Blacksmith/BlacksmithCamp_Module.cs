@@ -35,11 +35,28 @@ public class BlacksmithCamp_Module : MonoBehaviour , CampUISlotInterface
 
     void Update() //Updates any UI stuff!
     {
-        
+    
     }
 
-        public void OnUISlotUpdate(string campid)
+    public void OnUISlotUpdate(string campid)
     {
+        if (parentSlot == null)
+        {
+            return;
+        }
 
+        if (!parentSlot.isLocked)
+        {
+            if (DataGameManager.instance.currentBlacksmithFuel < fuelData.fuelRequired)
+            {
+                fuelAmount.color = Color.red;
+            }
+            else
+            {
+                fuelAmount.color = Color.green;
+            }
+        }     
     }
 }
+
+

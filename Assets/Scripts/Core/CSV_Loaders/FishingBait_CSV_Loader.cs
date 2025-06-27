@@ -16,10 +16,6 @@ public class FishingBait_CSV_Loader : MonoBehaviour
         LoadCSV();
         InitializeFishingBaitBoostSprites();  // <-- Initialize sprites here
         DataGameManager.instance.fishingBait_Item_List = FishingBait_Items_List;
-
-       
-
-       // Print();
     }
 
     void LoadCSV()

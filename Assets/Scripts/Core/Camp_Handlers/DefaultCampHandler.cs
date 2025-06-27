@@ -28,7 +28,7 @@ public class DefaultCampHandler : ICampActionHandler
     {
         if (!entry.IsActive) return;
       //  entry.Slot.progressBar.transform.parent.gameObject.SetActive(true);
-        Debug.Log("Activate Slot! PLease!!");
+       
         // Reset the start time to now to restart the timer
         entry.StartTime = System.DateTime.Now;
         entry.Progress = 0f;
