@@ -15,7 +15,7 @@ MonoBehaviour:
   groupId: FirstTimeBlacksmith
   steps:
   - stepID: 
-    instructionText: Welcome to the Blacksmith
+    instructionText: Ah, welcome to the Blacksmith, names Haldor.
     NPCName: Haldor Blackhammer
     NPCImage: {fileID: 21300000, guid: ecb141eee4a34e443a1117bf4348b359, type: 3}
     focusObjectName: 
@@ -24,13 +24,84 @@ MonoBehaviour:
     ObjectiveToGive: {fileID: 0}
     flagToSetID: 0
   - stepID: 
-    instructionText: 'Happy to help!!
-
-'
+    instructionText: We can make all kinds of weapon and armour or construction supplies!
     NPCName: Haldor Blackhammer
     NPCImage: {fileID: 21300000, guid: ecb141eee4a34e443a1117bf4348b359, type: 3}
     focusObjectName: 
     clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: But first we gotta talk about how fuel works here.
+    NPCName: Haldor Blackhammer
+    NPCImage: {fileID: 21300000, guid: ecb141eee4a34e443a1117bf4348b359, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: See the fuel bar? Most actions require some amount of fuel.
+    NPCName: Haldor Blackhammer
+    NPCImage: {fileID: 21300000, guid: ecb141eee4a34e443a1117bf4348b359, type: 3}
+    focusObjectName: FuelAmount_Text
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Here, take these old logs, should burn well. We can add them
+      by clicking the + button.
+    NPCName: Haldor Blackhammer
+    NPCImage: {fileID: 21300000, guid: ecb141eee4a34e443a1117bf4348b359, type: 3}
+    focusObjectName: FuelButton
+    clickFocusedObject: 1
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 17
+  - stepID: 
+    instructionText: You can use a single resource by clicking once.
+    NPCName: Haldor Blackhammer
+    NPCImage: {fileID: 21300000, guid: ecb141eee4a34e443a1117bf4348b359, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Or you can long click to add as many as possible!
+    NPCName: Haldor Blackhammer
+    NPCImage: {fileID: 21300000, guid: ecb141eee4a34e443a1117bf4348b359, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: See the number 12? Thats how much fuel a single unit will add.
+    NPCName: Haldor Blackhammer
+    NPCImage: {fileID: 21300000, guid: ecb141eee4a34e443a1117bf4348b359, type: 3}
+    focusObjectName: Current_Bait_Amount
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Rarer the resource the more fuel it can add.
+    NPCName: Haldor Blackhammer
+    NPCImage: {fileID: 21300000, guid: ecb141eee4a34e443a1117bf4348b359, type: 3}
+    focusObjectName: Current_Bait_Amount
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Keep an eye on the fuel bar. Lets add this log now.
+    NPCName: Haldor Blackhammer
+    NPCImage: {fileID: 21300000, guid: ecb141eee4a34e443a1117bf4348b359, type: 3}
+    focusObjectName: DropDownSlot_WillowLog
+    clickFocusedObject: 1
     autoAdvanceDelay: 0
     ObjectiveToGive: {fileID: 0}
     flagToSetID: 0

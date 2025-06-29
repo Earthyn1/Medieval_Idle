@@ -46,10 +46,32 @@ public class BlackSmithCampHandler : ICampActionHandler
 
 
     public bool HasEnoughCampSpecificResources(CampActionEntry entry)
-    {   
-        var data = DataGameManager.instance.blacksmithCampModuleData[entry.SlotKey];
-        return DataGameManager.instance.currentBlacksmithFuel >= data.fuelRequired; 
+    {
+        if (!DataGameManager.instance.blacksmithCampModuleData.TryGetValue(entry?.SlotKey, out var data))
+        {
+            return false;
+        }
+
+        int currentFuel = DataGameManager.instance.currentBlacksmithFuel;
+        bool hasEnoughFuel = currentFuel >= data.fuelRequired;
+
+        if (!hasEnoughFuel)
+        {
+            var slot = entry?.Slot;
+            var prefab = slot?.CampSpecificPrefab;
+
+            if (slot != null && prefab != null && prefab.TryGetComponent<CampUISlotInterface>(out var moduleInterface))
+            {
+                moduleInterface.OnUISlotSingleCall(); // This calls the blacksmith fuel red flasher to indicate fuel is missing
+            }
+        }
+
+        return hasEnoughFuel;
     }
+
+
+
+
 
     public void RemoveCampSpecificResources(CampActionEntry entry)
     {

@@ -26,12 +26,14 @@ public class DropDownMenu_Slot : MonoBehaviour, IPointerEnterHandler, IPointerEx
         if(DataGameManager.instance.currentActiveCamp == CampType.Blacksmith)
         {
             SlotAmount.text = (Amount * itemData.FuelAmount).ToString();
-            SlotType.text = "Fuel";
+            SlotType.text = "";
+            SlotAmount.color = new Color(1f, 0.5f, 0f); // orange
         }
         else
         {
+            SlotAmount.color = Color.yellow;
             SlotAmount.text = Amount.ToString();
-            SlotType.text = "Bait";
+            SlotType.text = "";
         }
        
         SlotName.text = itemData.ItemName;
@@ -217,12 +219,19 @@ public class DropDownMenu_Slot : MonoBehaviour, IPointerEnterHandler, IPointerEx
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        if(DataGameManager.instance.currentActiveCamp == CampType.FishingCamp)
+        if (dropDownMenu == null || dropDownMenu.MenuVerticalHolder == null)
+            return;
+
+        if (dropDownMenu.MenuVerticalHolder.activeInHierarchy)
         {
-            Bait_ToolTipUI.instance.ShowTooltipBelow_Bait(transform as RectTransform, itemID);
+            Debug.Log("Active!!");
+            if (DataGameManager.instance.currentActiveCamp == CampType.FishingCamp)
+            {
+                Bait_ToolTipUI.instance.ShowTooltipBelow_Bait(transform as RectTransform, itemID);
+            }
         }
-        
     }
+
 
     public void OnPointerExit(PointerEventData eventData)
     {

@@ -41,4 +41,6 @@ public interface CampUISlotInterface
 {
     void OnUISlotUpdate(string slotKey);
     void OnUISlotLoad(string slotKey);
+
+    void OnUISlotSingleCall();
 }

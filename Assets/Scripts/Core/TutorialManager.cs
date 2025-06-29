@@ -26,6 +26,13 @@ public class TutorialManager : MonoBehaviour
     private int currentStepIndex = -1;
     private Coroutine autoAdvanceCoroutine;
 
+    private Queue<TutorialGroupData> tutorialQueue = new Queue<TutorialGroupData>();
+    private bool isTutorialActive = false;
+    private Coroutine tutorialDelayCoroutine = null;
+
+    public static bool CanStartDialog =>
+       !DataGameManager.instance.IsTierSystemOpen && !DataGameManager.instance.IsDropDownMenuOpen;
+
     private void Update()
     {
         
@@ -34,6 +41,65 @@ public class TutorialManager : MonoBehaviour
     {
         DataGameManager.instance.tutorialManager = this;
        
+    }
+    public void EnqueueTutorial(TutorialGroupData group)
+    {
+        tutorialQueue.Enqueue(group);
+        TryStartNextTutorial(); // Try to run it immediately if nothing else is active
+    }
+    private void TryStartNextTutorial()
+    {
+        if (isTutorialActive || tutorialQueue.Count == 0 || !CanStartDialog)
+            return;
+
+        if (tutorialDelayCoroutine == null)
+            tutorialDelayCoroutine = StartCoroutine(StartTutorialWithDelay(8f));
+    }
+
+    private IEnumerator StartTutorialWithDelay(float delaySeconds)
+    {
+        float elapsed = 0f;
+
+        while (elapsed < delaySeconds)
+        {
+            Debug.Log($"Tutorial delay timer: {elapsed:F1} / {delaySeconds} seconds");
+            yield return new WaitForSeconds(1f);
+            elapsed += 1f;
+        }
+
+        // Check if it's safe to start tutorial
+        if (isTutorialActive || tutorialQueue.Count == 0 || !CanStartDialog)
+        {
+            Debug.Log("Tutorial could not start — restarting delay timer.");
+            tutorialDelayCoroutine = StartCoroutine(StartTutorialWithDelay(delaySeconds)); // restart delay
+            yield break;
+        }
+
+        var nextGroup = tutorialQueue.Dequeue();
+        SetupTutorial(nextGroup);
+        tutorialDelayCoroutine = null; // clear coroutine reference now that it’s done
+    }
+
+
+
+    public void StartTutorialImmediately(TutorialGroupData group)
+    {
+        if (tutorialDelayCoroutine != null)
+        {
+            StopCoroutine(tutorialDelayCoroutine);
+            tutorialDelayCoroutine = null;
+        }
+
+        if (!isTutorialActive && CanStartDialog)
+        {
+            SetupTutorial(group);
+        }
+        else
+        {
+            tutorialQueue.Enqueue(group);
+            if (tutorialDelayCoroutine == null)
+                tutorialDelayCoroutine = StartCoroutine(StartTutorialWithDelay(5f));
+        }
     }
 
     public void NextStep()
@@ -221,12 +287,23 @@ public class TutorialManager : MonoBehaviour
             StopCoroutine(autoAdvanceCoroutine);
             autoAdvanceCoroutine = null;
         }
+        if (tutorialDelayCoroutine != null)
+        {
+            StopCoroutine(tutorialDelayCoroutine);
+            tutorialDelayCoroutine = null;
+        }
+
         EnableAllTutorialButtons();
         textBoxParent.SetActive(false);
         dimBackgroundPanel.SetActive(false);
         highlightPanel.SetActive(false);
         instructionText.text = "";
         currentStepIndex = -1;
+
+        isTutorialActive = false;
+        TownStorageManager.ClearTutorialSlots();
+      
+        TryStartNextTutorial();
     }
 
     public void DisableAllButtonsExcept(Button allowedButton)
@@ -240,7 +317,7 @@ public class TutorialManager : MonoBehaviour
             Button btn = obj.GetComponent<Button>();
             if (btn != null)
             {
-                Debug.Log($"Found button: {btn.gameObject.name}");
+               // Debug.Log($"Found button: {btn.gameObject.name}");
                 allButtons.Add(btn);
             }
         }
@@ -248,9 +325,7 @@ public class TutorialManager : MonoBehaviour
         // Now disable/enable
         foreach (Button btn in allButtons)
         {
-            btn.interactable = (btn == allowedButton);
-            Debug.Log($"Button {btn.name} set to interactable = {btn.interactable}");
-            //  Debug.Log($"{btn.gameObject.name} interactable set to {btn.interactable}");
+            btn.interactable = (btn == allowedButton); 
         }
     }
 
@@ -287,6 +362,7 @@ public class TutorialManager : MonoBehaviour
         currentStepIndex = -1;
         tutorialSteps = tutorialGroupData.steps;
         textBoxParent.SetActive(true);
+        isTutorialActive = true;
         NextStep();
     }
 

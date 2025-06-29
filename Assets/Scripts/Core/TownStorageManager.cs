@@ -28,6 +28,7 @@ public static class TownStorageManager
         for (int i = 0; i < DataGameManager.instance.TownStorage_List.Count; i++)
         {
             var slot = DataGameManager.instance.TownStorage_List[i];
+            if (slot.IsTutorialSlot) continue;
 
             if (slot.ItemID == itemID && slot.Quantity < item.MaxStack)
             {
@@ -53,6 +54,7 @@ public static class TownStorageManager
         for (int i = 0; i < DataGameManager.instance.TownStorage_List.Count && remaining > 0; i++)
         {
             var slot = DataGameManager.instance.TownStorage_List[i];
+            if (slot.IsTutorialSlot) continue ;
 
             if (string.IsNullOrEmpty(slot.ItemID) || slot.Quantity == 0)
             {
@@ -61,6 +63,7 @@ public static class TownStorageManager
                 slot.Quantity = toAdd;
                 DataGameManager.instance.TownStorage_List[i] = slot;
                 remaining -= toAdd;
+                
             }
         }
 
@@ -79,6 +82,44 @@ public static class TownStorageManager
         return success;
     }
 
+    public static bool Tutorial_AddItem(string itemID, int amount, CampType campType)
+    {
+        if (!DataGameManager.instance.itemData_Array.TryGetValue(itemID, out ItemData_Struc item))
+        {
+            Debug.LogWarning("Item ID not found: " + itemID);
+            return false;
+        }
+
+        // Create a new tutorial slot
+        StorageSlot tutorialSlot = default;
+        tutorialSlot.ItemID = itemID;
+        tutorialSlot.Quantity = amount;
+        tutorialSlot.IsTutorialSlot = true;
+
+        DataGameManager.instance.TownStorage_List.Add(tutorialSlot);
+
+        // Log or update systems
+        DataGameManager.instance.item_XP_FeedManager.AddItemFeedSlot(itemID, amount, campType);
+        RefreshAllSlotsUI();
+        Objective_Manager.UpdateObjectives(itemID, amount);
+     
+
+
+        return true;
+    }
+
+    public static void ClearTutorialSlots()
+    {
+        var storage = DataGameManager.instance.TownStorage_List;
+        int beforeCount = storage.Count;
+
+        storage.RemoveAll(slot => slot.IsTutorialSlot);
+
+        int afterCount = storage.Count;
+        Debug.Log($"[Tutorial] Cleared {beforeCount - afterCount} tutorial slot(s) from inventory.");
+
+        RefreshAllSlotsUI(); // If your UI reflects storage, refresh it
+    }
 
 
     public static void RemoveItem(string itemID, int amountToRemove)

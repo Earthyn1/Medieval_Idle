@@ -14,6 +14,7 @@ public class ItemData_Struc
     public int FuelAmount;
     public int ItemSellPrice;
     public int StoredQty;
+    public ItemUse ItemUse;
     public int MaxStack;
 
 
@@ -33,13 +34,14 @@ public class ItemData_Struc
         ItemSellPrice = 0;
         StoredQty = 0;
         MaxStack = 1;
+        ItemUse = ItemUse.NA;
     }
 
 
     public ItemData_Struc(
         string itemID, string itemName, string description, Sprite itemImage,
         ItemType itemType, string itemCategory, string itemReplaces, int storageSpace,
-        int restoreHealthAmount, int fuelAmount, int itemSellPrice, int storedQty, int maxStack)
+        int restoreHealthAmount, int fuelAmount, int itemSellPrice, int storedQty, int maxStack, ItemUse itemUse)
 
     {
         ItemID = itemID;
@@ -55,6 +57,7 @@ public class ItemData_Struc
         ItemSellPrice = itemSellPrice;
         StoredQty = storedQty;
         MaxStack = maxStack;
+        ItemUse = itemUse;
     }
 
 }

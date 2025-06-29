@@ -217,13 +217,13 @@ public static class XPManager
                 if (level == 3)
                 {
                     TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("ExplainCompletedObjectivesButton_V2");
-                    DataGameManager.instance.tutorialManager.SetupTutorial(tutorialGroupData);
+                    DataGameManager.instance.tutorialManager.StartTutorialImmediately(tutorialGroupData);
                 }
 
                 if (level == 5)
                 {
                     TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("TierSystemTutorial");
-                    DataGameManager.instance.tutorialManager.SetupTutorial(tutorialGroupData);
+                    DataGameManager.instance.tutorialManager.StartTutorialImmediately(tutorialGroupData);
                 }
                 break;
 
@@ -231,13 +231,13 @@ public static class XPManager
                 if (level == 2)
                 {
                     TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("JustBuiltSawMill");
-                    DataGameManager.instance.tutorialManager.SetupTutorial(tutorialGroupData);
+                    DataGameManager.instance.tutorialManager.StartTutorialImmediately(tutorialGroupData);
                 }
 
                 if (level == 6)
                 {
                     TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("JustCollectedMaplePlanksAndBeams");
-                    DataGameManager.instance.tutorialManager.SetupTutorial(tutorialGroupData);
+                    DataGameManager.instance.tutorialManager.StartTutorialImmediately(tutorialGroupData);
                 }
                 break;
         }

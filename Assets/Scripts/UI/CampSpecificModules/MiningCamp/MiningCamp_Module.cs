@@ -131,4 +131,7 @@ public class MiningCamp_Module : MonoBehaviour , CampUISlotInterface, IPointerEn
         TooltipUI.instance.Hide();
     }
 
+    public void OnUISlotSingleCall()
+    { }
+
 }

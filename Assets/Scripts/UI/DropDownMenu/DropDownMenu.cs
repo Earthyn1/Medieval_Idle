@@ -20,14 +20,15 @@ public class DropDownMenu : MonoBehaviour
 
     public void PlayAnimation_Open()
     {
+        DataGameManager.instance.IsDropDownMenuOpen = true;
         Animator.Play("IdleState", 0, 0f);
         Animator.ResetTrigger("PlayAnimation_Open");
         Animator.SetTrigger("PlayAnimation_Open");
         MenuVerticalHolder.SetActive(true);
-
     }
     public void PlayAnimation_Close()
     {
+        DataGameManager.instance.IsDropDownMenuOpen = false;
         Animator.Play("IdleState", 0, 0f);
         Animator.ResetTrigger("PlayAnimation_Close");
         Animator.SetTrigger("PlayAnimation_Close");
@@ -71,7 +72,7 @@ public class DropDownMenu : MonoBehaviour
             Destroy(child.gameObject);
 
         // Get the item type filter for the current camp
-        ItemType? filterType = GetFilterTypeForCamp(DataGameManager.instance.currentActiveCamp);
+        ItemUse? filterType = GetFilterTypeForCamp(DataGameManager.instance.currentActiveCamp);
         if (filterType == null)
             return;
 
@@ -84,7 +85,7 @@ public class DropDownMenu : MonoBehaviour
 
             if (DataGameManager.instance.itemData_Array.TryGetValue(storageslot.ItemID, out ItemData_Struc itemdata))
             {
-                if (itemdata.ItemType == filterType)
+                if (itemdata.ItemUse == filterType)
                 {
                     if (combinedItems.ContainsKey(storageslot.ItemID))
                         combinedItems[storageslot.ItemID] += storageslot.Quantity;
@@ -119,12 +120,12 @@ public class DropDownMenu : MonoBehaviour
         BGDimmer.SetActive(true);
     }
 
-    private ItemType? GetFilterTypeForCamp(CampType camp)
+    private ItemUse? GetFilterTypeForCamp(CampType camp)
     {
         return camp switch
         {
-            CampType.FishingCamp => ItemType.Bait,
-            CampType.Blacksmith => ItemType.Logs,
+            CampType.FishingCamp => ItemUse.Bait,
+            CampType.Blacksmith => ItemUse.Fuel,
             _ => null
         };
     }

@@ -43,6 +43,7 @@ public class TierSystem : MonoBehaviour
         animator.Play("IdleState", 0, 0f);
         animator.ResetTrigger("Open");
         animator.SetTrigger("Open");
+        DataGameManager.instance.IsTierSystemOpen = true;
         SetupTierPanel();
        
     }
@@ -60,6 +61,8 @@ public class TierSystem : MonoBehaviour
             animator.Play("IdleState", 0, 0f);
             animator.ResetTrigger("Close");
             animator.SetTrigger("Close");
+            DataGameManager.instance.IsTierSystemOpen = false;
+
         }
     }
 
@@ -207,8 +210,8 @@ public class TierSystem : MonoBehaviour
     }
     public void OnUpgradeClicked_2()
     {
-        upgradeButton.CanUpgrade = true;
-        hasEnoughGold = true;
+      //  upgradeButton.CanUpgrade = true;
+      //  hasEnoughGold = true;
 
         if (upgradeButton.CanUpgrade & hasEnoughGold)
         {

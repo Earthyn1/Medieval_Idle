@@ -29,8 +29,6 @@ public class FishingCampBait_Button : MonoBehaviour, IPointerEnterHandler, IPoin
                 {
                     if (itemdata.ItemType == ItemType.Bait)
                     {
-
-
                         havebait = true;
                     }
                 }
@@ -41,6 +39,11 @@ public class FishingCampBait_Button : MonoBehaviour, IPointerEnterHandler, IPoin
         {
             DropDownPanel.PlayAnimation_Open();
             DropDownPanel.PopulateSlots();
+            Button myButton = DropDownPanel.BGDimmer.GetComponentInChildren<Button>();
+            if (myButton != null) //Making sure the bgdimmer is interable after tutorial!
+            {
+                myButton.interactable = true;
+            }
         }
         else
         {

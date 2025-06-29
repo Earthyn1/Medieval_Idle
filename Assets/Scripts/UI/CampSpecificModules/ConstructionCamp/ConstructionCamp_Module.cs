@@ -66,6 +66,9 @@ public class ConstructionCamp_Module : MonoBehaviour , CampUISlotInterface
 
     }
 
+    public void OnUISlotSingleCall()
+    { }
 
 
-}
+
+    }

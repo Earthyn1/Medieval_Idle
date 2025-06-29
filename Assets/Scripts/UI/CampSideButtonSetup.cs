@@ -206,7 +206,7 @@ public class CampButtonSetup : MonoBehaviour
                 if(!DataGameManager.instance.Tutorial_Lists.GetFlag("FirstTimeFishingCamp"))
                 {
                     TutorialGroupData tutorialdialog = DataGameManager.instance.Tutorial_Lists.FindDialog("FirstTimeFishingCamp");
-                    DataGameManager.instance.tutorialManager.SetupTutorial(tutorialdialog);
+                    DataGameManager.instance.tutorialManager.StartTutorialImmediately(tutorialdialog);
                     DataGameManager.instance.Tutorial_Lists.SetFlag("FirstTimeFishingCamp", true);
                 }
                 break;
@@ -216,7 +216,7 @@ public class CampButtonSetup : MonoBehaviour
                 if (!DataGameManager.instance.Tutorial_Lists.GetFlag("FirstTimeMiningCamp"))
                 {
                     TutorialGroupData tutorialdialog = DataGameManager.instance.Tutorial_Lists.FindDialog("FirstTimeMiningCamp");
-                    DataGameManager.instance.tutorialManager.SetupTutorial(tutorialdialog);
+                    DataGameManager.instance.tutorialManager.StartTutorialImmediately(tutorialdialog);
                     DataGameManager.instance.Tutorial_Lists.SetFlag("FirstTimeMiningCamp", true);
                 }
                 break;
@@ -226,7 +226,7 @@ public class CampButtonSetup : MonoBehaviour
                 if (!DataGameManager.instance.Tutorial_Lists.GetFlag("FirstTimeBlacksmith"))
                 {
                     TutorialGroupData tutorialdialog = DataGameManager.instance.Tutorial_Lists.FindDialog("FirstTimeBlacksmith");
-                    DataGameManager.instance.tutorialManager.SetupTutorial(tutorialdialog);
+                    DataGameManager.instance.tutorialManager.StartTutorialImmediately(tutorialdialog);
                     DataGameManager.instance.Tutorial_Lists.SetFlag("FirstTimeBlacksmith", true);
                 }
                 break;

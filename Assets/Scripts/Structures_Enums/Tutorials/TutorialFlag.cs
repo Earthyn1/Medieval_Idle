@@ -26,6 +26,8 @@ public enum TutorialFlagID
     FirstTimeMiningCamp,
     CanOpenTierSystem,
     GivePlayerBasicBait,
+    GivePlayerBasicFuel,
+
 
 
     // etc.

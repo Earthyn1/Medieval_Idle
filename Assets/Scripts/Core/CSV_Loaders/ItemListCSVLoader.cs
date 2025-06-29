@@ -61,12 +61,13 @@ public class ItemListCSVLoader : MonoBehaviour
             int itemSellPrice = TryGetInt(fields, 11);
             int storedQty = TryGetInt(fields, 12);
             int maxstack = TryGetInt(fields, 13);
+            ItemUse itemUse = TryGetEnum<ItemUse>(fields, 14);
 
             // Load images from the entire Resources folder
             Sprite image2D = LoadImageFromResources(itemImage);
 
             // Create IdleSlot with the complete data
-            ItemData_Struc slot = new ItemData_Struc(itemID, itemName, description, image2D, itemType, itemCategory, itemReplaces, storageSpace, restoreHealthAmount, fuelAmount, itemSellPrice, storedQty, maxstack);
+            ItemData_Struc slot = new ItemData_Struc(itemID, itemName, description, image2D, itemType, itemCategory, itemReplaces, storageSpace, restoreHealthAmount, fuelAmount, itemSellPrice, storedQty, maxstack, itemUse);
 
             if (SafeAddItem(itemData_Array, slot))
             {       

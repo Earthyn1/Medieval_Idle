@@ -12,3 +12,10 @@ public enum ItemType
     Other,
     NA
 }
+
+public enum ItemUse
+{
+    Fuel,
+    Bait,
+    NA
+}

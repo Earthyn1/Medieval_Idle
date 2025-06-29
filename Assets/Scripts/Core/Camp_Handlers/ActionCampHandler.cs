@@ -29,21 +29,32 @@ public class ActionCampHandler : MonoBehaviour
                 {
                     CompleteCampAction(entry.SlotKey, entry.CampType);
                     CampActionData campActionData = DataGameManager.instance.campDictionaries[entry.CampType][entry.SlotKey];
-                    entry.CampTypeHandler.CompleteAction(entry); //Camp specific Complete
+                    entry.CampTypeHandler.CompleteAction(entry); // Camp specific Complete
 
                     entry.Slot.CheckForDialogs();
 
-                    if (HasEnoughResources(campActionData) && HasEnoughCampSpecificResources(entry))
+                    // Check if we can restart (resources + inventory space)
+                    bool hasResources = HasEnoughResources(campActionData) && HasEnoughCampSpecificResources(entry);
+                    bool hasInventorySpace = campActionData.ProducedItems.All(item => TownStorageManager.CanAddItem(item.item, item.qty));
+
+                    if (hasResources && hasInventorySpace)
                     {
                         RemoveRequiredCampResources(campActionData);
                         RemoveRequiredSpecificCampResources(entry);
-                      
+
                         entry.CampTypeHandler.RestartTimer(entry);
                     }
                     else
                     {
+                        if (!hasInventorySpace)
+                        {
+                            DataGameManager.instance.Game_Text_Alerts.PlayAlert("Not enough storage space!");
+                        }
+                        else
+                        {
+                            Debug.Log("Not enough resource to restart action");
+                        }
 
-                        Debug.Log("Not enough resource to restart action");
                         RemoveCampAction(entry.SlotKey, entry.CampType);
 
                         if (entry.Slot != null)
@@ -53,7 +64,7 @@ public class ActionCampHandler : MonoBehaviour
                         }
                     }
                 }
-            }            
+            }
         }
     }
 
@@ -104,6 +115,14 @@ public class ActionCampHandler : MonoBehaviour
         if (!HasEnoughVillagers(campData, slot))
             return false;
 
+    
+
+        if (campData.ProducedItems.Any(item => !TownStorageManager.CanAddItem(item.item, item.qty)))
+        {
+            DataGameManager.instance.Game_Text_Alerts.PlayAlert("Not enough storage space!");
+            return false;
+        }
+
         foreach (CampActionEntry campaction in DataGameManager.instance.activeCamps)
         {
             if (campaction.CampType == campType & campaction.IsActive)
@@ -138,6 +157,7 @@ public class ActionCampHandler : MonoBehaviour
 
     private bool HasRequiredResources(CampActionData data, Camp_Resource_Slot slot, CampActionEntry entry)
     {
+        entry.Slot = slot;
         if (!HasEnoughResources(data) || !HasEnoughCampSpecificResources(entry))
         {
             slot.NotEnoughResourceFlash();

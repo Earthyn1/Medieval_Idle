@@ -3,6 +3,7 @@ using System.Reflection;
 using UnityEngine;
 using UnityEngine.UI;
 using static UnityEngine.GraphicsBuffer;
+using System;
 
 public class BlacksmithCamp_Module : MonoBehaviour , CampUISlotInterface
 {
@@ -11,6 +12,7 @@ public class BlacksmithCamp_Module : MonoBehaviour , CampUISlotInterface
     public string campid;
     public Text fuelAmount;
     private Camp_Resource_Slot parentSlot;
+    public Animator animator;
 
 
 
@@ -56,6 +58,16 @@ public class BlacksmithCamp_Module : MonoBehaviour , CampUISlotInterface
                 fuelAmount.color = Color.green;
             }
         }     
+    }
+
+    public void OnUISlotSingleCall()
+    {
+        Debug.Log(Environment.StackTrace); // or System.Diagnostics.StackTrace for fine control
+       
+        animator.Play("IdleState", 0, 0f);
+        animator.ResetTrigger("PlayAnimation");
+        animator.SetTrigger("PlayAnimation");
+
     }
 }
 

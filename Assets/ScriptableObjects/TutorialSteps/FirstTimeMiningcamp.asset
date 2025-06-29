@@ -15,7 +15,7 @@ MonoBehaviour:
   groupId: FirstTimeMiningCamp
   steps:
   - stepID: 
-    instructionText: Welcome to the Mining Camp my Lord!
+    instructionText: Aha! My Lords! Names is Grumbol!
     NPCName: Grumbol Blightlode
     NPCImage: {fileID: 21300000, guid: 4fa8eacc94b279947b7632e832c23117, type: 3}
     focusObjectName: 
@@ -24,9 +24,26 @@ MonoBehaviour:
     ObjectiveToGive: {fileID: 0}
     flagToSetID: 0
   - stepID: 
-    instructionText: 'Happy to help!!
-
-'
+    instructionText: This's the Mining Camps! We can gets shiny rocks from heres!
+    NPCName: Grumbol Blightlode
+    NPCImage: {fileID: 21300000, guid: 4fa8eacc94b279947b7632e832c23117, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: We's only have one caves dug right nows! But the rocks are still
+      shinys!
+    NPCName: Grumbol Blightlode
+    NPCImage: {fileID: 21300000, guid: 4fa8eacc94b279947b7632e832c23117, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Good lucks my lords!!
     NPCName: Grumbol Blightlode
     NPCImage: {fileID: 21300000, guid: 4fa8eacc94b279947b7632e832c23117, type: 3}
     focusObjectName: 

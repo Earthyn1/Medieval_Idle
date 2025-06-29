@@ -152,6 +152,10 @@ public class DataGameManager : MonoBehaviour
 
     public Dictionary<CampType, Dictionary<string, CampTiersArray>> allCampTiers;
 
+    //UI Checks
+    public bool IsTierSystemOpen { get; set; }
+    public bool IsDropDownMenuOpen { get; set; }
+
     public static DataGameManager instance;
 
     public void Awake()

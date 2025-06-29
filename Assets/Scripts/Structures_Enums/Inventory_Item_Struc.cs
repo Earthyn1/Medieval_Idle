@@ -5,11 +5,14 @@ using UnityEngine;
     {
         public string ItemID;
         public int Quantity;
+        public bool IsTutorialSlot;
+
 
         public StorageSlot(string id, int qty)
         {
             ItemID = id;
             Quantity = qty;
+            IsTutorialSlot = false;
         }
     }
 

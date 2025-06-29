@@ -92,4 +92,7 @@ public class FishingCamp_Module : MonoBehaviour , CampUISlotInterface, IPointerE
         TooltipUI.instance.Hide();
     }
 
+    public void OnUISlotSingleCall()
+    { }
+
 }

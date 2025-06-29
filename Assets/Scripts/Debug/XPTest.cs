@@ -21,8 +21,8 @@ public class XPTest : MonoBehaviour
         {
             // Add 500 XP to the Lumber Camp (you can change the camp type and amount)
            XPManager.AddXP(CampType.ConstructionCamp, 50);
-           XPManager.AddXP(CampType.MiningCamp, 500);
-            XPManager.AddXP(CampType.Blacksmith, 500);
+         //  XPManager.AddXP(CampType.MiningCamp, 500);
+            XPManager.AddXP(CampType.LumberCamp, 100);
             DataGameManager.instance.PlayerGold = 2000;
 
 
@@ -31,11 +31,11 @@ public class XPTest : MonoBehaviour
         // Check if the "F" key is pressed
         if (Input.GetKeyDown(KeyCode.F))
         {
-            TownStorageManager.AddItem("BirchPlank", 100, CampType.ConstructionCamp);
-            TownStorageManager.AddItem("BirchBeam", 100, CampType.ConstructionCamp);
+            TownStorageManager.AddItem("CopperOre", 100, CampType.ConstructionCamp);
+            TownStorageManager.AddItem("TinOre", 100, CampType.ConstructionCamp);
             TownStorageManager.AddItem("MapleLog", 55, CampType.ConstructionCamp);
             TownStorageManager.AddItem("PoorlyCutStone", 55, CampType.ConstructionCamp);
-            TownStorageManager.AddItem("TinOre", 100, CampType.ConstructionCamp);
+            TownStorageManager.AddItem("CoalOre", 100, CampType.ConstructionCamp);
 
 
 
@@ -49,9 +49,10 @@ public class XPTest : MonoBehaviour
         // Check if the "R" key is pressed
         if (Input.GetKeyDown(KeyCode.R))
         {
-          
-            TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("GameIntro_V2");
-            DataGameManager.instance.tutorialManager.SetupTutorial(tutorialGroupData);
+            
+            //  TownStorageManager.Tutorial_AddItem("EmeraldMinnows", 13, CampType.ConstructionCamp);
+            //  TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("GameIntro_V2");
+            // DataGameManager.instance.tutorialManager.SetupTutorial(tutorialGroupData);
         }
 
         if (Input.GetKeyDown(KeyCode.G))
@@ -59,6 +60,7 @@ public class XPTest : MonoBehaviour
            
 
             DataGameManager.instance.SetCampLockedStatus(CampType.LocalMarket, false);
+            DataGameManager.instance.Tutorial_Lists.SetFlag("CanOpenTierSystem", true);
 
         }
 

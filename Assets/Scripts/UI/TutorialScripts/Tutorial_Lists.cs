@@ -69,7 +69,12 @@ public class Tutorial_Lists : MonoBehaviour
                 break;
 
             case TutorialFlagID.GivePlayerBasicBait:
-                TownStorageManager.AddItem("EmeraldMinnows", 15, CampType.NA);
+                TownStorageManager.Tutorial_AddItem("EmeraldMinnows", 15, CampType.NA);
+                SetFlag(tutorialFlagID.ToString(), true);
+                break;
+
+            case TutorialFlagID.GivePlayerBasicFuel:
+                TownStorageManager.Tutorial_AddItem("WillowLog",1, CampType.NA);
                 SetFlag(tutorialFlagID.ToString(), true);
                 break;
 
