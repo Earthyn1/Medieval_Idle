@@ -151,7 +151,7 @@ public static class TownStorageManager
                 slot.Quantity = 0;
                 slot.ItemID = null; // Clear the item ID for empty slot
                 DataGameManager.instance.TownStorage_List[entry.Index] = slot;
-                Debug.Log($"Removed full stack from slot {entry.Index}");
+               // Debug.Log($"Removed full stack from slot {entry.Index}");
             }
             else
             {
@@ -159,7 +159,7 @@ public static class TownStorageManager
                 slot.Quantity -= remainingToRemove;
                 remainingToRemove = 0;
                 DataGameManager.instance.TownStorage_List[entry.Index] = slot;
-                Debug.Log($"Removed {amountToRemove} from slot {entry.Index}, remaining: {slot.Quantity}");
+               // Debug.Log($"Removed {amountToRemove} from slot {entry.Index}, remaining: {slot.Quantity}");
             }
         }
 

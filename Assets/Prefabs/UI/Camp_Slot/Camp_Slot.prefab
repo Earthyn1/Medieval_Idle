@@ -1122,6 +1122,7 @@ MonoBehaviour:
   isActive: 0
   isLocked: 1
   animator: {fileID: 4963771376774431332}
+  populationBox: {fileID: 8811324034211315762}
 --- !u!1 &8241702410674821716
 GameObject:
   m_ObjectHideFlags: 0

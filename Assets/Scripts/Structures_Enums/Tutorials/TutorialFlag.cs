@@ -27,6 +27,7 @@ public enum TutorialFlagID
     CanOpenTierSystem,
     GivePlayerBasicBait,
     GivePlayerBasicFuel,
+    SimpleCabinGuide,
 
 
 

@@ -104,4 +104,16 @@ public class CampButtonUpdater : MonoBehaviour
 
         }
     }
+
+    public void LoadCampsFromSave(CampType campType)
+    {
+        foreach (Transform child in campsVerticalLayout.transform)
+        {
+            CampButtonSetup childscript = child.GetComponent<CampButtonSetup>();
+            if (childscript.campData.campType == campType)
+            {
+                childscript.SetSlotAsUnlocked();
+            }
+        }
+    }
 }

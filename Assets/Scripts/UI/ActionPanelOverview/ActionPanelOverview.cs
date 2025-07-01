@@ -2,18 +2,28 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Objective_Tracker_UI : MonoBehaviour
+public class ActionPanelOverview : MonoBehaviour
 {
     public bool IsOpen;
     public Animator animator;
     public GameObject ObjectivesList;
     public GameObject objectiveSlot;
     public GameObject objectiveTaskSlot;
+    public GameObject sideActionSlot;
+    public Transform gridParent;
     public Text new_Update_Text;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
         Objective_Manager.objectivesTracker = this;
+        DataGameManager.instance.actionPanelOverview = this;
+
+        foreach (Transform child in gridParent)
+        {
+            Destroy(child.gameObject);
+        }
+
+
     }
 
     public void ToggleObjectiveTracker_State()
@@ -124,5 +134,15 @@ public class Objective_Tracker_UI : MonoBehaviour
                 animator.SetTrigger("FlashUpdate");
             }
         }
+    }
+
+    public SideActionSlot AddSideActionPanel(CampActionData slot, string key)
+    {
+        GameObject newSlot = Instantiate(sideActionSlot, ObjectivesList.transform);
+        SideActionSlot newslotScript = newSlot.GetComponent<SideActionSlot>();
+
+        newslotScript.SetupSlot(slot, key);
+
+        return newslotScript;
     }
 }

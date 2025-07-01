@@ -71,7 +71,7 @@ public class MiningCamp_Module : MonoBehaviour , CampUISlotInterface, IPointerEn
                 mainProgressParent.gameObject.SetActive(false);
                 veinProgressBar_Parent.SetActive(true);
                 veinProgressBar.fillAmount = Mathf.Clamp01(searchProgress);
-                float elapsedTime = (float)(DateTime.Now - miningEntry.SearchStartTime).TotalSeconds;
+                float elapsedTime = (float)(DateTime.UtcNow - miningEntry.SearchStartTime).TotalSeconds;
                 float timeRemaining = Mathf.Max(0f, miningEntry.SearchDuration - elapsedTime);
                 searchingText.text = $"Finding Veins...  {timeRemaining:F1}s";
 

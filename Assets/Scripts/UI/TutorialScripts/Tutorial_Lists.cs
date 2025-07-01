@@ -57,6 +57,8 @@ public class Tutorial_Lists : MonoBehaviour
 
             case TutorialFlagID.GivePlayerCopperNails:
                 TownStorageManager.AddItem("CopperNails", 200, CampType.NA);
+                DataGameManager.instance.PlayerGold = DataGameManager.instance.PlayerGold + 200;
+                DataGameManager.instance.topPanelManager.UpdateGold();
                 SetFlag(tutorialFlagID.ToString(), true);
                 break;
 

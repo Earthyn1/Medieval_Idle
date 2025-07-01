@@ -210,8 +210,8 @@ public class TierSystem : MonoBehaviour
     }
     public void OnUpgradeClicked_2()
     {
-      //  upgradeButton.CanUpgrade = true;
-      //  hasEnoughGold = true;
+        //upgradeButton.CanUpgrade = true;
+       // hasEnoughGold = true;
 
         if (upgradeButton.CanUpgrade & hasEnoughGold)
         {
@@ -228,52 +228,45 @@ public class TierSystem : MonoBehaviour
                 animator.SetTrigger("Upgrade");
             }
         }
-    }
-
-    public void UpgradeCampTier()
-    {
-       
-          
-        if (upgradeButton.CanUpgrade & hasEnoughGold)
-        {
-            CampType campType = DataGameManager.instance.currentActiveCamp;
-
-            var boost_data = DataGameManager.instance.GetBoostData(campType);
-
-            if (boost_data == null)
-            {
-                Debug.LogWarning($"No boost data found for {campType}");
-                return;
-            }
-
-            string tierKey = (boost_data.CurrentTier + 1).ToString();
-
-            if (DataGameManager.instance.allCampTiers.TryGetValue(campType, out var campTierDict))
-            {
-                if (campTierDict.TryGetValue(tierKey, out var tierData))
-                {
-
-                    UpgradeBoostsToNextTier(boost_data.GetAllBoosts(), tierData);
-                }
-
-                boost_data.CurrentTier++;
-               
-                DataGameManager.instance.PlayerGold = DataGameManager.instance.PlayerGold - tierData.goldCost;
-                DataGameManager.instance.topPanelManager.UpdateGold();
-
-                boost_data.ResetResources();
-
-                SetupTierPanel();
-
-                DataGameManager.instance.boostsManager.SetupCampBoosts(campType);
-            }
-        }
         else
         {
             DataGameManager.instance.Game_Text_Alerts.PlayAlert("Missing upgrade requirements!");
         }
-       
+    }
 
+    public void UpgradeCampTier()
+    {
+        CampType campType = DataGameManager.instance.currentActiveCamp;
+
+        var boost_data = DataGameManager.instance.GetBoostData(campType);
+
+        if (boost_data == null)
+        {
+            Debug.LogWarning($"No boost data found for {campType}");
+            return;
+        }
+
+        string tierKey = (boost_data.CurrentTier + 1).ToString();
+
+        if (DataGameManager.instance.allCampTiers.TryGetValue(campType, out var campTierDict))
+        {
+            if (campTierDict.TryGetValue(tierKey, out var tierData))
+            {
+
+                UpgradeBoostsToNextTier(boost_data.GetAllBoosts(), tierData);
+            }
+
+            boost_data.CurrentTier++;
+
+            DataGameManager.instance.PlayerGold = DataGameManager.instance.PlayerGold - tierData.goldCost;
+            DataGameManager.instance.topPanelManager.UpdateGold();
+
+            boost_data.ResetResources();
+
+            SetupTierPanel();
+
+            DataGameManager.instance.boostsManager.SetupCampBoosts(campType);
+        }
     }
 
    

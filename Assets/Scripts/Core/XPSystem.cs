@@ -174,7 +174,7 @@ public static class XPManager
                     campData.currentLevel = newLevel;
                     newUnlocksNotifcation.CheckForNewUnlocks(campType, newLevel, oldLevel);
                     DataGameManager.instance.campButtonUpdater.UpdateCampButtonLevel(campType); //update the side button xp aswell!
-                    if (!DataGameManager.instance.TURNOFFDIALOG)
+                    if (!DataGameManager.instance.TurnOffDialog)
                     {
                         CheckForNewQuests(campType, newLevel);
                     }
@@ -237,6 +237,13 @@ public static class XPManager
                 if (level == 6)
                 {
                     TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("JustCollectedMaplePlanksAndBeams");
+                    DataGameManager.instance.tutorialManager.StartTutorialImmediately(tutorialGroupData);
+                }
+                
+
+                if (level == 19)
+                {
+                    TutorialGroupData tutorialGroupData = DataGameManager.instance.Tutorial_Lists.FindDialog("SimpleCabinGuide");
                     DataGameManager.instance.tutorialManager.StartTutorialImmediately(tutorialGroupData);
                 }
                 break;

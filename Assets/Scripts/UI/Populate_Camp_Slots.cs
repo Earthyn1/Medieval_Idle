@@ -128,18 +128,20 @@ public class Populate_Camp_Slots : MonoBehaviour
     {
         if (entry != null)
         {
-            Debug.Log($"Found active entry for {key}");
+         //   Debug.Log($"Found active entry for {key}");
             entry.SetSlot(slot);
             entry.IsActive = true;
+            entry.SideActionSlot.camp_Resource_Slot = slot;
 
             slot.UpdateProgressBar(entry.GetProgress());
             slot.isActive = true;
             slot.requiredResource_Parent.SetActive(false);
             slot.progressBar.transform.parent.gameObject.SetActive(true);
+            slot.populationBox.SetActive(false);
         }
         else
         {
-            Debug.Log($"No active entry found for {key}");
+          //  Debug.Log($"No active entry found for {key}");
             slot.UpdateProgressBar(0f);
             slot.isActive = false;
             slot.requiredResource_Parent.SetActive(true);

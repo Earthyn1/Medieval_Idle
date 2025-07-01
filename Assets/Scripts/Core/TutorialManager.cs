@@ -27,7 +27,7 @@ public class TutorialManager : MonoBehaviour
     private Coroutine autoAdvanceCoroutine;
 
     private Queue<TutorialGroupData> tutorialQueue = new Queue<TutorialGroupData>();
-    private bool isTutorialActive = false;
+    public bool isTutorialActive = false;
     private Coroutine tutorialDelayCoroutine = null;
 
     public static bool CanStartDialog =>

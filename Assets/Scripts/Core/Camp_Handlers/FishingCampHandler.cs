@@ -19,6 +19,7 @@ public class FishingCampHandler : ICampActionHandler
         }
         float progress = entry.GetProgress();
         entry.Slot.UpdateProgressBar(progress);
+
     }
 
     public bool IsCompleted(CampActionEntry entry)
@@ -30,7 +31,7 @@ public class FishingCampHandler : ICampActionHandler
     public void RestartTimer(CampActionEntry entry)
     {
         if (!entry.IsActive) return;
-        entry.StartTime = DateTime.Now;
+        entry.StartTime = DateTime.UtcNow;
         entry.Progress = 0f;
         CampActionData data = DataGameManager.instance.campDictionaries[entry.CampType][entry.SlotKey];
         float duration = data.completeTime;

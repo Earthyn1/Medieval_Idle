@@ -289,7 +289,7 @@ public class CampButtonSetup : MonoBehaviour
         TownStorageManager.storageSellManager.parentBox.SetActive(false);
     }
 
-    private void HandleTownStorage()
+    public void HandleTownStorage()
     {
         DataGameManager.instance.topPanelManager.campNameParent.SetActive(true);
 

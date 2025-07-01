@@ -10,7 +10,6 @@ using static UnityEngine.EventSystems.EventTrigger;
 
 public class ActionCampHandler : MonoBehaviour
 {
-
     private void Start()
     {
         DataGameManager.instance.actionCampHandler = this;
@@ -25,13 +24,15 @@ public class ActionCampHandler : MonoBehaviour
                 // Let the handler update the progress bar however it wants
                 entry.CampTypeHandler.UpdateProgress(entry);
 
+                entry.SideActionSlot.UpdateProgressBar(entry.GetProgress());
+
                 if (entry.CampTypeHandler.IsCompleted(entry))
                 {
                     CompleteCampAction(entry.SlotKey, entry.CampType);
                     CampActionData campActionData = DataGameManager.instance.campDictionaries[entry.CampType][entry.SlotKey];
                     entry.CampTypeHandler.CompleteAction(entry); // Camp specific Complete
 
-                    entry.Slot.CheckForDialogs();
+                   // entry.Slot.CheckForDialogs();
 
                     // Check if we can restart (resources + inventory space)
                     bool hasResources = HasEnoughResources(campActionData) && HasEnoughCampSpecificResources(entry);
@@ -94,11 +95,21 @@ public class ActionCampHandler : MonoBehaviour
         var entry = DataGameManager.instance.activeCamps
             .FirstOrDefault(c => c.SlotKey == key && c.CampType == campType); // ← Added campType check
 
+        if (entry == null || !entry.IsActive)
+        {
+            Debug.LogWarning($"Attempted to remove inactive or non-existent camp: {key}");
+            return;
+        }
+
+
+        entry.SideActionSlot.DestroySelf();
+
         if (entry != null)
         {
             // Refund villagers
             DataGameManager.instance.CurrentVillagerCount += campData.populationCost;
             DataGameManager.instance.topPanelManager.UpdateTownPopulation();
+
 
             // Update UI
             DataGameManager.instance.campButtonUpdater.UpdateCampUsageGreenDots(campType, -campData.populationCost);
@@ -190,10 +201,13 @@ public class ActionCampHandler : MonoBehaviour
         if (entry.CampTypeHandler == null)
             entry.CampTypeHandler = CampActionHandlerFactory.GetHandler(entry.CampType);
 
-        entry.StartTime = DateTime.Now;
+        entry.StartTime = DateTime.UtcNow;
         entry.Progress = 0f;
         entry.CampTypeHandler.RestartTimer(entry);
         entry.IsActive = true;
+
+        entry.SideActionSlot = DataGameManager.instance.actionPanelOverview.AddSideActionPanel(data, entry.SlotKey); //Adds the side action panel
+        entry.SideActionSlot.camp_Resource_Slot = slot;
 
         UpdateSlotVisuals(slot);
         UpdateTownState(data);
@@ -201,7 +215,7 @@ public class ActionCampHandler : MonoBehaviour
         return true;
     }
 
-    private bool TryCreateNewEntry(string key, CampType campType, CampActionData data, Camp_Resource_Slot slot)
+    public bool TryCreateNewEntry(string key, CampType campType, CampActionData data, Camp_Resource_Slot slot)
     {
         var newEntry = CreateCampActionEntry(key, campType);
 
@@ -211,11 +225,14 @@ public class ActionCampHandler : MonoBehaviour
         ConsumeResources(data, newEntry);
 
         
-        newEntry.StartTime = DateTime.Now;
+        newEntry.StartTime = DateTime.UtcNow;
         newEntry.Progress = 0f;
         newEntry.Slot = slot;
         newEntry.CampTypeHandler = CampActionHandlerFactory.GetHandler(campType);
         newEntry.IsActive = true;
+        newEntry.SideActionSlot = DataGameManager.instance.actionPanelOverview.AddSideActionPanel(data, key); //Adds the side action panel
+        newEntry.SideActionSlot.camp_Resource_Slot = slot;
+
 
         DataGameManager.instance.activeCamps.Add(newEntry);
 
@@ -224,6 +241,36 @@ public class ActionCampHandler : MonoBehaviour
 
         return true;
     }
+
+    public bool CreateEntryFromSave(string key, CampType campType, CampActionData data, Camp_Resource_Slot slot, DateTime starttime)
+    {
+        var newEntry = CreateCampActionEntry(key, campType);
+
+        newEntry.StartTime = starttime;
+   
+        newEntry.CampTypeHandler = CampActionHandlerFactory.GetHandler(campType);
+        newEntry.IsActive = true;
+        newEntry.SideActionSlot = DataGameManager.instance.actionPanelOverview.AddSideActionPanel(data, key); //Adds the side action panel
+        if (slot != null)
+        {
+            newEntry.SideActionSlot.camp_Resource_Slot = slot;
+        }
+
+        DataGameManager.instance.activeCamps.Add(newEntry);
+
+        if (slot != null)
+        {
+            UpdateSlotVisuals(slot);
+        }
+       
+        UpdateTownState(data);
+
+        Debug.Log($"Loaded camp {key} with restored time {starttime}, progress: {newEntry.GetProgress()}");
+
+
+        return true;
+    }
+
 
     private void ConsumeResources(CampActionData data, CampActionEntry entry)
     {
@@ -292,16 +339,16 @@ public class ActionCampHandler : MonoBehaviour
             case CampType.MiningCamp:
                 if (DataGameManager.instance.miningCampModuleData.TryGetValue(key, out VeinData veindata))
                 {
-                    var miningEntry = new MiningActionEntry(key, campType, DateTime.Now, 0f, veindata)
+                    var miningEntry = new MiningActionEntry(key, campType, DateTime.UtcNow, 0f, veindata)
                     {
                         IsSearching = true,
-                        SearchStartTime = DateTime.Now
+                        SearchStartTime = DateTime.UtcNow
                     };
                     entry = miningEntry;
                 }
                 else
                 {
-                    entry = new CampActionEntry(key, campType, DateTime.Now, 0f);
+                    entry = new CampActionEntry(key, campType, DateTime.UtcNow, 0f);
                 }
                 break;
 
@@ -310,7 +357,7 @@ public class ActionCampHandler : MonoBehaviour
                 if (DataGameManager.instance.blacksmithCampModuleData.TryGetValue(key, out BlacksmithCampFuelData fueldata))
                 {
                     Debug.Log("Adding blacksmith camp entry");
-                    var BlacksmithEntry = new BlacksmithActionEntry(key, campType, DateTime.Now, 0f, fueldata)
+                    var BlacksmithEntry = new BlacksmithActionEntry(key, campType, DateTime.UtcNow, 0f, fueldata)
                     {
                 
                     };
@@ -318,13 +365,13 @@ public class ActionCampHandler : MonoBehaviour
                 }
                 else
                 {
-                    entry = new CampActionEntry(key, campType, DateTime.Now, 0f);
+                    entry = new CampActionEntry(key, campType, DateTime.UtcNow, 0f);
                 }
 
                 break;
 
             default:
-                entry = new CampActionEntry(key, campType, DateTime.Now, 0f);
+                entry = new CampActionEntry(key, campType, DateTime.UtcNow, 0f);
                 break;
         }
 
@@ -397,7 +444,7 @@ public class ActionCampHandler : MonoBehaviour
 
     public void AddToCampTierResource(string key, int qty, CampType campType)
     {
-        Debug.Log("Are we adding!");
+       
         var boostData = DataGameManager.instance.GetBoostData(campType);
         if (boostData == null) return;
 

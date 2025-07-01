@@ -32,7 +32,7 @@ public class MiningActionEntry : CampActionEntry
     public float GetSearchProgress()
     {
         if (!IsSearching) return 0f;
-        return Mathf.Clamp01((float)(DateTime.Now - SearchStartTime).TotalSeconds / SearchDuration);
+        return Mathf.Clamp01((float)(DateTime.UtcNow - SearchStartTime).TotalSeconds / SearchDuration);
     }
 
     public void GenerateNewVein()
@@ -51,7 +51,7 @@ public class MiningActionEntry : CampActionEntry
         int max = finalVeinSize + 1; // +1 because Random.Range is exclusive on the upper bound
 
         VeinRemaining = UnityEngine.Random.Range(min, max) + 1;
-        InitialVeinSize = VeinRemaining - 1;
+        InitialVeinSize = VeinRemaining ;
     }
 
 

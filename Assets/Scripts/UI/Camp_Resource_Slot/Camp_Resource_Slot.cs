@@ -26,6 +26,7 @@ public class Camp_Resource_Slot : MonoBehaviour
     public bool isActive = false;
     public bool isLocked = true;
     public Animator animator;
+    public GameObject populationBox;
  
     public void OnClicked()
     {
@@ -84,14 +85,41 @@ public class Camp_Resource_Slot : MonoBehaviour
 
     public void DeactivateActionSlot()
     {
+        Debug.Log("Deactivate slot" + slotkey);
         if (slotkey == "Repair Sawmill")
         {
             DataGameManager.instance.Game_Text_Alerts.PlayAlert("Cannot deativate this action!");
             return;
         }
-        Transform parentTransform = progressBar.transform.parent;
-        parentTransform.gameObject.SetActive(false);
-        requiredResource_Parent.SetActive(true);
+        if (progressBar != null)
+        {
+            Transform parentTransform = progressBar.transform.parent;
+            parentTransform.gameObject.SetActive(false);
+            // Continue using it safely...
+        }
+        else
+        {
+            Debug.LogWarning("progressBar was destroyed or is null");
+        }
+
+        if (requiredResource_Parent != null)
+        {
+            requiredResource_Parent.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("requiredResource_Parent was destroyed or is missing.");
+        }
+        if (populationBox!= null)
+        {
+            populationBox.SetActive(true);
+        }
+        else
+        {
+            Debug.LogWarning("populationBox was destroyed or is missing.");
+
+        }
+
         DataGameManager.instance.actionCampHandler.ReturnResources(slotkey, campType);
         DataGameManager.instance.actionCampHandler.RemoveCampAction(slotkey,campType);
         isActive = false;
@@ -103,13 +131,16 @@ public class Camp_Resource_Slot : MonoBehaviour
         parentTransform.gameObject.SetActive(false);
         requiredResource_Parent.SetActive(true);
         isActive = false;
+        populationBox.SetActive(true);
     }
 
 
     public void ActivateActionSlot()
     {
       Transform parentTransform = progressBar.transform.parent;
-      parentTransform.gameObject.SetActive(true);
+        populationBox.SetActive(false);
+
+        parentTransform.gameObject.SetActive(true);
       requiredResource_Parent.SetActive(false);
       isActive = true;
     }

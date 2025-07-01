@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngine.UI;
+using System.Linq;
 
 public class StorageSellManager : MonoBehaviour
 {
@@ -56,18 +57,26 @@ public class StorageSellManager : MonoBehaviour
                 if(DataGameManager.instance.PlayerGold >= int.Parse(finalPrice.text)) //Buying stuff from market
                 {
                     Item_Slot_Base itemscript = TownStorageManager.currentlySelectedInventorySlot.GetComponent<Item_Slot_Base>();
-                    bool added = TownStorageManager.AddItem(itemscript.LocalMarketItemData.itemID, int.Parse(currentQtySelected.text), CampType.LocalMarket); //If selling from storage code
-                    if (!added)
-                    {
-                        Debug.LogWarning("Failed to add equipped bait due to full inventory.");
-                        // Optionally: trigger a UI message, fallback storage, etc.
-                    }
-                    DataGameManager.instance.PlayerGold -= int.Parse(finalPrice.text);
-                    DataGameManager.instance.topPanelManager.UpdateGold();
-                    DataGameManager.instance.topPanelManager.AddedRemovedGoldAnim(false, int.Parse(finalPrice.text));
 
-                    UpdateUI();
-                    Debug.Log("updatedGold");
+                    if (!TownStorageManager.CanAddItem(itemscript.LocalMarketItemData.itemID, int.Parse(currentQtySelected.text)))
+                    {
+                        DataGameManager.instance.Game_Text_Alerts.PlayAlert("Not enough storage space!");             
+                    }
+                    else
+                    {
+                        bool added = TownStorageManager.AddItem(itemscript.LocalMarketItemData.itemID, int.Parse(currentQtySelected.text), CampType.LocalMarket); //If selling from storage code
+                        if (!added)
+                        {
+                            Debug.LogWarning("Failed to add equipped bait due to full inventory.");
+                            // Optionally: trigger a UI message, fallback storage, etc.
+                        }
+                        DataGameManager.instance.PlayerGold -= int.Parse(finalPrice.text);
+                        DataGameManager.instance.topPanelManager.UpdateGold();
+                        DataGameManager.instance.topPanelManager.AddedRemovedGoldAnim(false, int.Parse(finalPrice.text));
+
+                        UpdateUI();
+                        Debug.Log("updatedGold");
+                    } 
                 }
                 else
                 {

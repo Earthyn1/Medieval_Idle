@@ -41,7 +41,13 @@ public class DataGameManager : MonoBehaviour
     public int MaxVillagerCapacity =5;
     public int CurrentVillagerCount = 5;
     public Image BG_Banner;
-    public bool TURNOFFDIALOG = false;
+    public bool TurnOffDialog = false;
+    public bool TurnOffAutoSave = false;
+    public int maxBlacksmithFuel;
+
+    public GameObject MainMenuCanvas;
+    public GameObject GameCanvas;
+        
     [HideInInspector]
    
     public int CurrentContentLevelAvailable = 30;
@@ -71,9 +77,11 @@ public class DataGameManager : MonoBehaviour
     public SimpleItemData currentFishingBaitEquipped;
     [HideInInspector]
     public int currentBlacksmithFuel;
+    [HideInInspector]
+    public ActionPanelOverview actionPanelOverview;
    
  
-    public int maxBlacksmithFuel;
+  
          
     public Dictionary<int, int> levelXp; //levelXp is the 1-99 xp amounts
     public Dictionary<CampType, CampXPData> campXPDictionaries = new Dictionary<CampType, CampXPData>();
@@ -100,7 +108,7 @@ public class DataGameManager : MonoBehaviour
     public Dictionary<string, VeinData> miningCampModuleData;
     public Dictionary<string, BlacksmithCampFuelData> blacksmithCampModuleData;
 
-    public Dictionary<string, OneSlotUseActions_Struc> OneSlotUseActions = new();
+    public Dictionary<string, OneSlotUseActions_Struc> OneSlotUseActions = new(); // One time use actions! like buildings
 
     //combined into 1 dictionary by Camp Type
     public Dictionary<CampType, Dictionary<string, CampActionData>> campDictionaries = new Dictionary<CampType, Dictionary<string, CampActionData>>();
@@ -213,7 +221,7 @@ public class DataGameManager : MonoBehaviour
         PlayerXPManager();  // Initialize the dictionary with all camps and default XP data
     }
 
-    public ICampBoostData GetBoostData(CampType campType)
+    public ICampBoostData GetBoostData(CampType campType) //This is for tier system aswell
     {
         return campType switch
         {
@@ -310,9 +318,6 @@ public class DataGameManager : MonoBehaviour
             campLockedDict.Add(campType, isLocked);
         }
     }
-
-
-
 
 
 }

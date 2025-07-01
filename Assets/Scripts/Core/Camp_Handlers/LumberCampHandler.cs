@@ -19,7 +19,7 @@ public class LumberCampHandler : ICampActionHandler
     {
         if (entry.Slot == null) return;
 
-        float elapsed = (float)(DateTime.Now - entry.StartTime).TotalSeconds;
+        float elapsed = (float)(DateTime.UtcNow - entry.StartTime).TotalSeconds;
 
         // Calculate true continuous progress (0 to 1)
         float trueProgress = Mathf.Clamp01(elapsed / delayTimer);
@@ -39,7 +39,7 @@ public class LumberCampHandler : ICampActionHandler
 
     public bool IsCompleted(CampActionEntry entry)
     {
-        float elapsed = (float)(DateTime.Now - entry.StartTime).TotalSeconds;
+        float elapsed = (float)(DateTime.UtcNow - entry.StartTime).TotalSeconds;
         return elapsed >= delayTimer;
     }
 

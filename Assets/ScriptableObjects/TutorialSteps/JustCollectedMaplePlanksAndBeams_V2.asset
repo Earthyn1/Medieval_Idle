@@ -126,9 +126,28 @@ MonoBehaviour:
     ObjectiveToGive: {fileID: 0}
     flagToSetID: 0
   - stepID: 
-    instructionText: 'Good! Build the market when you can.
+    instructionText: 'Good! Now before building the Market I want to show you the
+      Actions Overview!
 
 '
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: ObjectiveButton
+    clickFocusedObject: 1
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 4
+  - stepID: 
+    instructionText: This will show all actions and allows you quickly to end them!
+    NPCName: Cedric
+    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    focusObjectName: 
+    clickFocusedObject: 0
+    autoAdvanceDelay: 0
+    ObjectiveToGive: {fileID: 0}
+    flagToSetID: 0
+  - stepID: 
+    instructionText: Keep in mind town population! Now go build that Market!
     NPCName: Cedric
     NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
     focusObjectName: 

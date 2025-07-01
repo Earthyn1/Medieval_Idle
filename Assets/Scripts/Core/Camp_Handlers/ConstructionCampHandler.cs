@@ -3,6 +3,7 @@ using System;
 using UnityEngine;
 using static UnityEngine.EventSystems.EventTrigger;
 using System.Globalization;
+using UnityEngine.Rendering.Universal;
 
 public class ConstructionCampHandler : ICampActionHandler
 {
@@ -15,11 +16,12 @@ public class ConstructionCampHandler : ICampActionHandler
         {
            
             entry.Slot.UpdateProgressBar(1f);
-            CompleteAction(entry);
+          //  CompleteAction(entry);
             return; // Don't increase progress or call complete again
         }
         float progress = entry.GetProgress();
         entry.Slot.UpdateProgressBar(progress);
+       
     }
 
     public bool IsCompleted(CampActionEntry entry)
@@ -31,7 +33,7 @@ public class ConstructionCampHandler : ICampActionHandler
     public void RestartTimer(CampActionEntry entry)
     {
         if (!entry.IsActive) return;
-        entry.StartTime = DateTime.Now;
+        entry.StartTime = DateTime.UtcNow;
         entry.Progress = 0f;
         CampActionData data = DataGameManager.instance.campDictionaries[entry.CampType][entry.SlotKey];
         float duration = data.completeTime;
@@ -43,6 +45,7 @@ public class ConstructionCampHandler : ICampActionHandler
 
     public void CompleteAction(CampActionEntry entry)
     {
+       
         string slotKey = entry.SlotKey;
         var data = DataGameManager.instance.constructionCampModuleData[slotKey];
         
@@ -55,8 +58,11 @@ public class ConstructionCampHandler : ICampActionHandler
                 DataGameManager.instance.campButtonUpdater.UpdateCampButtonAsUnlocked(campType); //Sets side button as unlocked
             }
 
+            MoreBuilds(data.BuildingIDUnlocked);
+
             if (data.SingleUseSlot && DataGameManager.instance.constructionCampModuleData.TryGetValue(slotKey, out var module)) //Sets oneSlotUse as hidden
             {
+             
                 DataGameManager.instance.OneSlotUseActions.Add(slotKey, new OneSlotUseActions_Struc(slotKey)); //Add this slot to the OneSlotUse!
                 DataGameManager.instance.actionCampHandler.RemoveCampAction(slotKey, CampType.ConstructionCamp);
 
@@ -66,6 +72,54 @@ public class ConstructionCampHandler : ICampActionHandler
                     DataGameManager.instance.populate_Camp_Slots.PopulateSlots(campDataDict);
                 }
             }
+        }
+    }
+
+    public void MoreBuilds(string BuildingID)
+    {
+        if (BuildingID == "Simple Cabin")
+        {
+            Debug.Log("Made log cabin");
+            DataGameManager.instance.MaxVillagerCapacity += 2;
+            DataGameManager.instance.CurrentVillagerCount += 2;
+
+            DataGameManager.instance.topPanelManager.UpdateTownPopulation();
+            XPManager.levelUpNotification.IncreasedPop("+2");
+        }
+
+        if (BuildingID == "Storage Upgrade 1")
+        {
+            for (int i = 0; i < 6; i++)
+            {
+                DataGameManager.instance.TownStorage_List.Add(new StorageSlot
+                {
+                    ItemID = "",
+                    Quantity = 0,
+                    IsTutorialSlot = false,
+                });
+            }
+
+          
+
+            if (DataGameManager.instance.currentActiveCamp == CampType.TownStorage)
+            {
+                foreach (Transform child in DataGameManager.instance.campButtonUpdater.campsVerticalLayout.transform)
+                {
+                    CampButtonSetup childscript = child.GetComponent<CampButtonSetup>();
+                    if (childscript.campData.campType == CampType.TownStorage)
+                    {
+                        childscript.HandleTownStorage();
+                       
+                    }
+                }
+            }
+
+            DataGameManager.instance.MaxInventorySlots += 6;
+            TownStorageManager.UpdateTownStorage_Count();
+            XPManager.levelUpNotification.IncreasedStorage("Storage +6!");
+
+          
+
         }
     }
 

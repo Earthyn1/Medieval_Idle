@@ -61,4 +61,32 @@ public class LevelUpNotification_Manager : MonoBehaviour
         animator.SetTrigger("PlayAnim");
     }
 
+    public void IncreasedPop(string objectiveName)
+    {
+        eventType.text = "Populated Increased!";
+        camp_Name.text = objectiveName;
+        camp_Name_2.text = camp_Name.text;
+
+        camp_level.text = "Population!";
+        camp_level_2.text = camp_level.text;
+
+        levelUp_Parent.SetActive(true);
+        animator.Play("IdleState");
+        animator.SetTrigger("PlayAnim");
+    }
+
+    public void IncreasedStorage(string objectiveName)
+    {
+        eventType.text = "Storage Increased!";
+        camp_Name.text = objectiveName;
+        camp_Name_2.text = camp_Name.text;
+
+        camp_level.text = "";
+        camp_level_2.text = camp_level.text;
+
+        levelUp_Parent.SetActive(true);
+        animator.Play("IdleState");
+        animator.SetTrigger("PlayAnim");
+    }
+
 }

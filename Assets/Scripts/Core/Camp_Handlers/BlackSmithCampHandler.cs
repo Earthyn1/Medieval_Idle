@@ -16,7 +16,8 @@ public class BlackSmithCampHandler : ICampActionHandler
        // Debug.Log("Are we tracking??");
         float progress = entry.GetProgress();
         entry.Slot.UpdateProgressBar(progress);
-       
+      
+
 
     }
 
@@ -30,12 +31,13 @@ public class BlackSmithCampHandler : ICampActionHandler
       //  entry.Slot.progressBar.transform.parent.gameObject.SetActive(true);
         Debug.Log("Activate Slot! PLease!!");
         // Reset the start time to now to restart the timer
-        entry.StartTime = System.DateTime.Now;
+        entry.StartTime = System.DateTime.UtcNow;
         entry.Progress = 0f;
 
         // Optionally update the UI progress immediately on restart
         if (entry.Slot != null)
             entry.Slot.UpdateProgressBar(0f);
+
     }
 
     public void CompleteAction(CampActionEntry entry)

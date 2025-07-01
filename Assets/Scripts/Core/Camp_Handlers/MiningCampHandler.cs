@@ -25,13 +25,15 @@ public class MiningCampHandler : ICampActionHandler
 
         // Only tracks data — UI is updated elsewhere (in the Module).
         float progress = miningEntry.GetProgress();
+      
     }
 
     private void StartNewVein(MiningActionEntry miningEntry)
     {
+        miningEntry.RestartTimer();
         miningEntry.GenerateNewVein();
      
-       // RestartTimer(miningEntry);
+     
     }
 
     public void RestartTimer(CampActionEntry baseEntry)
@@ -48,10 +50,10 @@ public class MiningCampHandler : ICampActionHandler
         {
             Debug.Log($"[RestartTimer] Starting search for new vein in slot {miningEntry.Slot.slotkey}");
             miningEntry.IsSearching = true;
-            miningEntry.SearchStartTime = DateTime.Now;
+            miningEntry.SearchStartTime = DateTime.UtcNow;
         }
 
-        miningEntry.StartTime = DateTime.Now;
+        miningEntry.StartTime = DateTime.UtcNow;
     }
 
 
@@ -75,7 +77,7 @@ public class MiningCampHandler : ICampActionHandler
             else
             {
                 miningEntry.IsSearching = true;
-                miningEntry.SearchStartTime = DateTime.Now;
+                miningEntry.SearchStartTime = DateTime.UtcNow;
                 miningEntry.Slot.UpdateProgressBar(0f);
               
             }

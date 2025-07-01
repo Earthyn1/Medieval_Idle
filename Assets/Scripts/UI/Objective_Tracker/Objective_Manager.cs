@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class Objective_Manager
 {
-    public static Objective_Tracker_UI objectivesTracker;
+    public static ActionPanelOverview objectivesTracker;
     public static GameObject objectiveslot;
     public static Objective_Update_Feed_Parent Objective_Update_Feed_Parent;
 

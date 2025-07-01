@@ -17,6 +17,8 @@ public class DefaultCampHandler : ICampActionHandler
         float progress = entry.GetProgress();
         entry.Slot.UpdateProgressBar(progress);
        
+       
+       
 
     }
 
@@ -30,7 +32,7 @@ public class DefaultCampHandler : ICampActionHandler
       //  entry.Slot.progressBar.transform.parent.gameObject.SetActive(true);
        
         // Reset the start time to now to restart the timer
-        entry.StartTime = System.DateTime.Now;
+        entry.StartTime = System.DateTime.UtcNow;
         entry.Progress = 0f;
 
         // Optionally update the UI progress immediately on restart

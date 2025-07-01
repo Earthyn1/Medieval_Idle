@@ -56,8 +56,8 @@ public class CampTiers_CSV_Loader : MonoBehaviour
             string res1 = tier.resource1 != null ? $"{tier.resource1.item} // {tier.resource1.qty}" : "None";
             string res2 = tier.resource2 != null ? $"{tier.resource2.item} // {tier.resource2.qty}" : "None";
 
-            Debug.Log($"Tier Key: {tierKey}, Boost1: {tier.boost_1.boostAmount}, Boost1Type: {tier.boost_1.boostUnit} GoldCost: {tier.goldCost}, " +
-                      $"Required Resource 1: {res1}, Required Resource 2: {res2}");
+           // Debug.Log($"Tier Key: {tierKey}, Boost1: {tier.boost_1.boostAmount}, Boost1Type: {tier.boost_1.boostUnit} GoldCost: {tier.goldCost}, " +
+           //           $"Required Resource 1: {res1}, Required Resource 2: {res2}");
         }
 
     }

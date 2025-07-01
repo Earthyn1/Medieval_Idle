@@ -15,37 +15,37 @@ MonoBehaviour:
   groupId: TierSystemTutorial
   steps:
   - stepID: 
-    instructionText: My Lord, have you been introduced to the Tier System within
-      Camps?
-    NPCName: Cedric
-    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    instructionText: My Lord, names Rowana, head of Lumber, been told to introduce
+      you to the Tier System.
+    NPCName: Rowana
+    NPCImage: {fileID: 8711783470141398374, guid: c70d4c13f142f8943b5e35aacc857d06, type: 3}
     focusObjectName: 
     clickFocusedObject: 0
     autoAdvanceDelay: 0
     ObjectiveToGive: {fileID: 0}
     flagToSetID: 15
   - stepID: 
-    instructionText: Okay let me show you, first lets head to the Lumber Camp!
+    instructionText: First lets head to the Lumber Camp.
     NPCName: Cedric
-    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    NPCImage: {fileID: 8711783470141398374, guid: c70d4c13f142f8943b5e35aacc857d06, type: 3}
     focusObjectName: LumberCam_Button
     clickFocusedObject: 1
     autoAdvanceDelay: 0
     ObjectiveToGive: {fileID: 0}
     flagToSetID: 0
   - stepID: 
-    instructionText: See the shield near the top? Click on that!
+    instructionText: See the shield near the top? Click on that.
     NPCName: Cedric
-    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    NPCImage: {fileID: 8711783470141398374, guid: c70d4c13f142f8943b5e35aacc857d06, type: 3}
     focusObjectName: Tier_Shield
     clickFocusedObject: 1
     autoAdvanceDelay: 0
     ObjectiveToGive: {fileID: 0}
     flagToSetID: 0
   - stepID: 
-    instructionText: Currently each camp will sit at Tier 0, but that can change!
+    instructionText: Currently each camp will sit at Tier 0, but that can change.
     NPCName: Cedric
-    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    NPCImage: {fileID: 8711783470141398374, guid: c70d4c13f142f8943b5e35aacc857d06, type: 3}
     focusObjectName: 
     clickFocusedObject: 0
     autoAdvanceDelay: 0
@@ -55,7 +55,7 @@ MonoBehaviour:
     instructionText: 'Camps can be upgraded to the next tier after extensive experience
       and a flat gold cost. '
     NPCName: Cedric
-    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    NPCImage: {fileID: 8711783470141398374, guid: c70d4c13f142f8943b5e35aacc857d06, type: 3}
     focusObjectName: 
     clickFocusedObject: 0
     autoAdvanceDelay: 0
@@ -64,7 +64,7 @@ MonoBehaviour:
   - stepID: 
     instructionText: See both resources?
     NPCName: Cedric
-    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    NPCImage: {fileID: 8711783470141398374, guid: c70d4c13f142f8943b5e35aacc857d06, type: 3}
     focusObjectName: Resource_Amount_1
     clickFocusedObject: 0
     autoAdvanceDelay: 0
@@ -73,7 +73,7 @@ MonoBehaviour:
   - stepID: 
     instructionText: See both resources?
     NPCName: Cedric
-    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    NPCImage: {fileID: 8711783470141398374, guid: c70d4c13f142f8943b5e35aacc857d06, type: 3}
     focusObjectName: Resource_Amount_2_Tier
     clickFocusedObject: 0
     autoAdvanceDelay: 0
@@ -82,7 +82,7 @@ MonoBehaviour:
   - stepID: 
     instructionText: The gold cost is here too.
     NPCName: Cedric
-    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    NPCImage: {fileID: 8711783470141398374, guid: c70d4c13f142f8943b5e35aacc857d06, type: 3}
     focusObjectName: Gold_Parent_Tier
     clickFocusedObject: 0
     autoAdvanceDelay: 0
@@ -92,7 +92,7 @@ MonoBehaviour:
     instructionText: Utilizing the tier system will be essential for the camps to
       reach their true potential.
     NPCName: Cedric
-    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    NPCImage: {fileID: 8711783470141398374, guid: c70d4c13f142f8943b5e35aacc857d06, type: 3}
     focusObjectName: 
     clickFocusedObject: 0
     autoAdvanceDelay: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
   - stepID: 
     instructionText: Good luck my Lord!
     NPCName: Cedric
-    NPCImage: {fileID: 21300000, guid: 228a1d173a65eec41bf9232763d5c793, type: 3}
+    NPCImage: {fileID: 8711783470141398374, guid: c70d4c13f142f8943b5e35aacc857d06, type: 3}
     focusObjectName: 
     clickFocusedObject: 0
     autoAdvanceDelay: 0
